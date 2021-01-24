@@ -1,5 +1,26 @@
 using NamedTupleTools
 using Test
+
+#=
+    types and realized values
+    for use with testing only
+
+                    | Type       | value
+        ------------|------------|------------
+        NamedTuple  | TestNT     | test_nt
+        struct      | TestStruct | test_struct   
+=#
+include("testvalues.jl")
+
+
+#=
+   testing the field operations
+
+   op(x::T)      ⟣  fieldvalues(x)
+   op(::Type{T}) ⟣  fieldcount(T), fieldnames(T), fieldtypes(T)
+=#
+include("fieldops.jl")
+
 using OrderedCollections: OrderedDict, LittleDict
 
 namesofvalues  = (:instrument, :madeby)
