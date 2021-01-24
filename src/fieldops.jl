@@ -1,9 +1,9 @@
 #=
+    field ops for NamedTuples and struts
 
-    field functions for NamedTuples and struts
-
+    op(x::T)      ⟣  fieldvalues(x)
+    op(::Type{T}) ⟣  fieldcount(T), fieldnames(T), fieldtypes(T)
 =#
-
 
 Base.@pure get_parameters(::Type{T}) where {T} = (T).parameters
 
