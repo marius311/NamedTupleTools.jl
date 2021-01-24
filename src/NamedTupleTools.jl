@@ -10,7 +10,8 @@ see [`namedtuple`](@ref), [`isprototype`](@ref), [`issame`](@ref),
 """
 module NamedTupleTools
 
-export @namedtuple,
+export fieldvalues,
+    @namedtuple,
        issame,  ≅,
        namedtuple, isprototype, prototype,
        fieldvalues, fieldvalues_fast,

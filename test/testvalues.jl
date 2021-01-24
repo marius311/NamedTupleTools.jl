@@ -2,10 +2,10 @@
     types and realized values
     for use with testing only
 
-                    | Type       | value
-        ------------|------------|------------
-        NamedTuple  | TestNT     | test_nt
-        struct      | TestStruct | test_struct   
+    Julia type     local type     value
+    ----------     --------------------------
+    NamedTuple     TestNT         test_nt
+    struct         TestStruct     test_struct   
 =#
 
 test_nt = (a=1, two='2', datatype=NamedTuple)
