@@ -15,8 +15,5 @@ Base.fieldtypes(::Type{NamedTuple{N,T}}) where {N,T} =
 fieldvalues(nt::NamedTuple{N,T}) where {N,T} = Tuple(nt)
 
 fieldvalues(x::T) where {T} = isstructtype(T) &&
-    map(field->getfield(x, field), fieldnames(T))
-
-fieldvalues(x::T) where {T} = isstructtype(T) &&
     getfield.((x,), fieldnames(T))
 
