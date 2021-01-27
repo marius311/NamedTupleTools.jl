@@ -72,7 +72,7 @@ prototype(xs...) = NamedTuple{xs}
 prototype(x) = prototype(namedtuple(x))
 
 macro prototype(xs...)
-	:(NamedTuple{$xs})
+    :(NamedTuple{$xs})
 end
 
 """
