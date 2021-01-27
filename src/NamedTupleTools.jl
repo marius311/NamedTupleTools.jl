@@ -3,7 +3,9 @@
 
 This module provides some useful NamedTuple tooling.
 
-see [`namedtuple`](@ref), [`prototype`](@ref), [`isprototype`](@ref),
+see [`namedtuple`](@ref),
+    [`prototype`](@ref), [`isprototype`](@ref),
+    [`rename`](@ref), [`retype`](@ref),
     [`sorted`](@ref), [`issame`](@ref),
 
     [`fieldvalues`](@ref), [`fieldvalues_fast`](@ref),
@@ -87,6 +89,28 @@ isprototype(@nospecialize x) = false
 isprototype(@nospecialize T::UnionAll) = T <: NamedTuple
 
 """
+    rename(<NamedTuple>, (<Symbols>))
+
+Construct a prototype with names from (<Symbols>) and types from <NamedTuple>
+- convenience function
+"""
+function rename(x::NamedTuple{N,T}, symbols::NTuple{M,Symbol}) where {N,T,M}
+    length(N) === M || throw(ErrorException("lengths must be the same"))
+    return NamedTuple{symbols, T}
+end
+
+"""
+    retype(<NamedTuple>, (<Types>))
+
+Construct a prototype with names from <NamedTuple> and types from (<Types>)
+- convenience function
+"""
+function retype(x::NamedTuple{N,T}, types::NTuple{M,<:Type}) where {N,T,M}
+    length(N) === M || throw(ErrorException("lengths must be the same"))
+    return NamedTuple{N, Tuple{types...}}
+end
+
+"""
      sorted(::NamedTuple)
      sorted(::Type{NamedTuple})
 
@@ -123,6 +147,7 @@ function issame(x::NamedTuple{N,T}, y::NamedTuple{N1,T1}) where {N,T,N1,T1}
 end
 
 const ≅ = issame
+
 
 
 fieldvalues,
