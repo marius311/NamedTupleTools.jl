@@ -10,7 +10,65 @@ see [`namedtuple`](@ref), [`isprototype`](@ref), [`issame`](@ref),
 """
 module NamedTupleTools
 
-export fieldvalues,
+export namedtuple,
+    prototype, isprototype,
+    issame, ≅,
+
+"""
+    namedtuple
+
+Construct a NamedTuple (avoiding type piracy)
+
+- namedtuple(symbols)
+- namedtuple(symbols, types)
+- namedtuple(symbols, values)
+symbols, types, values are tuples 
+
+- namedtuple(::LittleDict)
+- namedtuple(::AbstractDict)
+- namedtuple(struct)
+
+""" namedtuple
+
+namedtuple(x::NamedTuple) = x
+namedtuple(x::Type{<:NamedTuple}) = x
+
+namedtuple(names::NTuple{N,Symbol}) where N =
+   NamedTuple{names, T} where T<:Tuple
+namedtuple(names::NTuple{N,Symbol}, types::NTuple{N,Type}) where N =
+   NamedTuple{names,Tuple{types...}}
+namedtuple(names::NTuple{N,Symbol}, values::NTuple{N,Any}) where N =
+   NamedTuple{names}(values)
+
+namedtuple(x::LittleDict) = NamedTuple{x.keys}(x.vals)
+namedtuple(x::AbstractDict) = NamedTuple{Tuple(keys(x))}(values(x))
+
+function namedtuple(x::T) where {T}
+   symbols = fieldnames(T)
+   return NamedTuple{symbols}(getfield.((x,), symbols))
+end
+
+
+"""
+     issame(nt1, nt2)
+     nt ≊ nt2
+
+field order independent equality
+
+- issame((a=1, b=2), (b=2, a=1))
+- (a=1, b=2) ≅ (b=2, a=1)
+""" issame, ≅
+
+function issame(x::NamedTuple{N,T}, y::NamedTuple{N1,T1}) where {N,T,N1,T1}
+    length(N) === length(N1) &&
+    foldl(&, foldl(.|, ((n .== N) for n=N1))) &&
+    foldl(&, (getfield(x,k) === getfield(y,k) for k=N))
+end
+
+const ≅ = issame
+
+
+fieldvalues,
     @namedtuple,
        issame,  ≅,
        namedtuple, isprototype, prototype,
