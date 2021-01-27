@@ -48,6 +48,25 @@ function namedtuple(x::T) where {T}
    return NamedTuple{symbols}(getfield.((x,), symbols))
 end
 
+"""
+    prototype
+
+ Constructs the type-free form of a NamedTuple
+
+- prototype(::NamedTuple)
+- prototype(::NTuple{N, Symbols})
+- prototype(::Varargs{Symbols})
+"""
+
+prototype(x::Type{NamedTuple{N,<:Tuple}}) where {N} = x
+prototype(x::Type{NamedTuple{N,T}}) where {N,T} =
+   NamedTuple{N,T} where T<:Tuple
+prototype(x::NamedTuple{N,T}) where {N,T} = 
+   NamedTuple{N,T} where T<:Tuple
+
+prototype(xs::NTuple{N,Symbol}) where {N} = NamedTuple{xs}
+prototype(xs...) = NamedTuple{xs}
+prototype(x) = prototype(namedtuple(x))
 
 """
      issame(nt1, nt2)
