@@ -24,7 +24,7 @@ Construct a NamedTuple (avoiding type piracy)
 - namedtuple(symbols)
 - namedtuple(symbols, types)
 - namedtuple(symbols, values)
-symbols, types, values are tuples 
+> where symbols, types, values are tuples 
 
 - namedtuple(::LittleDict)
 - namedtuple(::AbstractDict)
