@@ -448,6 +448,12 @@ function select(nt::NamedTuple, keys::Tuple{Vararg{Symbol}})
     syms = filter(x->x !== :__, map(k->ifelse(haskey(nt,k), k, :__) , keys))
     return NamedTuple{syms}(nt)
 end
+
+function deselect(nt::NamedTuple, omitkeys::Tuple{Vararg{Symbol}})
+    syms = filter(x->x !== :__, map(k->ifelse(any(k.==omitkeys), :__, k) , keys(nt)))
+    return NamedTuple{syms}(nt)
+end
+
 # from a discourse post by Jeff Bezanson
 select(nt::NamedTuple, keys::Tuple{Vararg{Symbol}}) = NamedTuple{keys}(nt)
 # developed therefrom
