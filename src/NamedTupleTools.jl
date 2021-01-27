@@ -3,7 +3,9 @@
 
 This module provides some useful NamedTuple tooling.
 
-see [`namedtuple`](@ref), [`isprototype`](@ref), [`issame`](@ref),
+see [`namedtuple`](@ref), [`prototype`](@ref), [`isprototype`](@ref),
+    [`sorted`](@ref), [`issame`](@ref),
+
     [`fieldvalues`](@ref), [`fieldvalues_fast`](@ref),
     [`separate`](@ref), [`select`](@ref),
     [`delete`](@ref), [`merge_recursive`](@ref)
@@ -12,7 +14,7 @@ module NamedTupleTools
 
 export namedtuple,
     prototype, isprototype,
-    issame, ≅,
+    sorted, issame, ≅,
 
 """
     namedtuple
@@ -59,7 +61,7 @@ end
 - prototype(::Varargs{Symbols})
 
 - @prototype(a, b, c) === NamedTuple{(:a, :b, :c)}
-""" prototype, @prototype
+""" prototype
 
 prototype(x::Type{NamedTuple{N,<:Tuple}}) where {N} = x
 prototype(x::Type{NamedTuple{N,T}}) where {N,T} =
@@ -83,6 +85,26 @@ is a NamedTuple given type-free.
 
 isprototype(@nospecialize x) = false
 isprototype(@nospecialize T::UnionAll) = T <: NamedTuple
+
+"""
+     sorted(::NamedTuple)
+     sorted(::Type{NamedTuple})
+
+Provides a canonical order, sorting over the field names
+""" sorted
+
+function sorted(x::NamedTuple{N,T}) where {N,T}
+	syms = [N...]
+	sort!(syms)
+	return NamedTuple{Tuple(syms)}(x)
+end
+
+function sorted(x::Type{NamedTuple{N,T}}) where {N,T}
+	idxs = collect(1:length(N))
+	sortperm!(idxs, [N...])
+	typs = Tuple{T.parameters[idxs]...}
+	return NamedTuple{N[idxs],typs}
+end
 
 """
      issame(nt1, nt2)
