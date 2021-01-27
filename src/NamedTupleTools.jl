@@ -50,13 +50,16 @@ end
 
 """
     prototype
+    @prototype
 
  Constructs the type-free form of a NamedTuple
 
 - prototype(::NamedTuple)
 - prototype(::NTuple{N, Symbols})
 - prototype(::Varargs{Symbols})
-"""
+
+- @prototype(a, b, c) === NamedTuple{(:a, :b, :c)}
+""" prototype, @prototype
 
 prototype(x::Type{NamedTuple{N,<:Tuple}}) where {N} = x
 prototype(x::Type{NamedTuple{N,T}}) where {N,T} =
@@ -67,6 +70,19 @@ prototype(x::NamedTuple{N,T}) where {N,T} =
 prototype(xs::NTuple{N,Symbol}) where {N} = NamedTuple{xs}
 prototype(xs...) = NamedTuple{xs}
 prototype(x) = prototype(namedtuple(x))
+
+macro prototype(xs...)
+	:(NamedTuple{$xs})
+end
+
+"""
+    isprototype
+
+is a NamedTuple given type-free.
+""" isprototype
+
+isprototype(@nospecialize x) = false
+isprototype(@nospecialize T::UnionAll) = T <: NamedTuple
 
 """
      issame(nt1, nt2)
