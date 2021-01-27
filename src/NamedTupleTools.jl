@@ -118,16 +118,16 @@ Provides a canonical order, sorting over the field names
 """ sorted
 
 function sorted(x::NamedTuple{N,T}) where {N,T}
-	syms = [N...]
-	sort!(syms)
-	return NamedTuple{Tuple(syms)}(x)
+    syms = [N...]
+    sort!(syms)
+    return NamedTuple{Tuple(syms)}(x)
 end
 
 function sorted(x::Type{NamedTuple{N,T}}) where {N,T}
-	idxs = collect(1:length(N))
-	sortperm!(idxs, [N...])
-	typs = Tuple{T.parameters[idxs]...}
-	return NamedTuple{N[idxs],typs}
+    idxs = collect(1:length(N))
+    sortperm!(idxs, [N...])
+    typs = Tuple{T.parameters[idxs]...}
+    return NamedTuple{N[idxs],typs}
 end
 
 """
