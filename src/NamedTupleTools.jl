@@ -6,7 +6,7 @@ This module provides some useful NamedTuple tooling.
 see [`namedtuple`](@ref),
     [`prototype`](@ref), [`isprototype`](@ref),
     [`rename`](@ref), [`retype`](@ref),
-    [`sorted`](@ref), [`issame`](@ref),
+    [`issame`](@ref), [`≅`](@ref), [`canonical`](@ref),
     [`select`](@ref), [`delete`](@ref), [`separate`](@ref)
     
     [`fieldvalues`](@ref), [`fieldvalues_fast`](@ref),
@@ -14,9 +14,14 @@ see [`namedtuple`](@ref),
 """
 module NamedTupleTools
 
-export namedtuple,
+export namedtuple, @namedtuple,
     prototype, isprototype,
-    sorted, issame, ≅,
+    issame, ≅, canonical, 
+    select, delete, separate,
+    merge_recursive
+    
+const Named  = Union{NamedTuple{N}, Type{NamedTuple{N}} where {N}
+const NamedT = Union{NamedTuple{N,T}, Type{NamedTuple{N,T}}} where {N,T}
 
 """
     namedtuple
@@ -111,13 +116,13 @@ function retype(x::NamedTuple{N,T}, types::NTuple{M,<:Type}) where {N,T,M}
 end
 
 """
-     sorted(::NamedTuple)
-     sorted(::Type{NamedTuple})
+     canonical(::NamedTuple)
+     canonical(::Type{NamedTuple})
 
 Provides a canonical order, sorting over the field names
-""" sorted
+""" canonical
 
-function sorted(x::NamedTuple{N,T}) where {N,T}
+function canonical(x::NamedTuple{N,T}) where {N,T}
     syms = [N...]
     sort!(syms)
     return NamedTuple{Tuple(syms)}(x)
