@@ -263,6 +263,19 @@ separate(nt::NamedTuple, sepkeys::Tuple{Vararg{String}}) = separate(nt, Symbol.(
 separate(nt::NamedTuple, sepkeys::Vector{String}) = separate(nt, Tuple(sepkeys))
 separate(nt::NamedTuple, sepkeys::Vararg{String}) = separate(nt, sepkeys)
 
+
+
+
+
+
+
+
+
+
+
+
+
+old
 fieldvalues,
     @namedtuple,
        issame,  ≅,
