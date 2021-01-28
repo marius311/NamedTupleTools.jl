@@ -22,7 +22,7 @@ export namedtuple, @namedtuple,
     select, delete, separate,
     merge_recursive,
     field_count, field_names, field_types, field_values,
-    @newstruct, construct
+    construct #, @newstruct
 
 using OrderedCollections
 
@@ -309,14 +309,15 @@ construct(T::DataType, x::NamedTuple) = T(field_values(x)...)
 
 Construct an instance of the struct using the values from the NamedTuple.
 - unchecked precondition: field types mutually conform
-""" @newstruct
+""" newstruct
 
 macro newstruct(sname, x)
   quote 
     begin
-        local fnames = field_names($x)
-        local ftypes = field_types($x)
-        local result = newstruct($sname, fnames, ftypes)
+	local structname = $sname
+        local fnames = NamedTupleTools.field_names($x)
+        local ftypes = NamedTupleTools.field_types($x)
+        local result = NamedTupleTools.newstruct(structname, fnames, ftypes)
         return eval(result)
     end
   end
