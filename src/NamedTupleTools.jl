@@ -283,6 +283,7 @@ Base.convert(::Type{LittleDict}, x::NamedTuple) =
 Base.convert(::Type{T}, x::NamedTuple) where {T<:AbstractDict} =
     T(convert(Vector{Pair}, x))
 
+Base.convert(T::DataType, x::NamedTuple) = T(field_values(x)...)
 
 end  # NamedTupleTools
 
