@@ -11,7 +11,7 @@ see [`namedtuple`](@ref),
     [`merge_recursive`](@ref),
     [`field_count`](@ref), [`field_names`](@ref), [`field_types`](@ref),
     [`field_values`](@ref),
-    [`newstruct`](@ref), [`construct`](@ref)
+    [`@newstruct`](@ref), [`construct`](@ref)
 """ NamedTupleTools
 
 module NamedTupleTools
@@ -310,6 +310,10 @@ construct(T::DataType, x::NamedTuple) = T(field_values(x)...)
 Construct an instance of the struct using the values from the NamedTuple.
 - unchecked precondition: field types mutually conform
 """
+macro newstruct(sname, x)
+   :(eval(newstruct(sname, x)))
+end
+
 function newstruct(sname::Symbol, x::Type{NamedTuple{N,T}}) where {N,T}
      newstruct(sname, field_names(x), field_types(x))
 end
@@ -322,7 +326,7 @@ newstruct(sname::Symbol, names::NTuple{N,Symbol}, types::NTuple{N,Type}) where N
 =#
 function newstruct(sname::Symbol, names::NTuple{N,Symbol}, types::NTuple{N,Type}) where N
     parsed = Meta.parse(parseable_struct(sname, names, types))
-    return eval(eval(parsed))
+    return eval(parsed)
 end
 
 parsedstruct(sname, names, types) =
