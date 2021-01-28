@@ -155,6 +155,11 @@ function select(nt::NamedTuple, keepkeys::Tuple{Vararg{Symbol}})
     syms = filter(x->x!==:_,map(k->in(k,keepkeys) ? k : :_ ,keys(nt)))
     return NamedTuple{syms}(nt)
 end
+select(nt::NamedTuple, keepkeys::Vector{Symbol}) = select(nt, Tuple(keepkeys))
+select(nt::NamedTuple, keepkeys::Vararg{Symbol}) = select(nt, keepkeys)
+select(nt::NamedTuple, keepkeys::Tuple{Vararg{String}}) = select(nt, Symbol.(keepkeys))
+select(nt::NamedTuple, keepkeys::Vector{String}) = select(nt, Tuple(keepkeys))
+select(nt::NamedTuple, keepkeys::Vararg{String}) = select(nt, keepkeys)
 
 """
      delete
@@ -163,13 +168,27 @@ function delete(nt::NamedTuple, omitkeys::Tuple{Vararg{Symbol}})
     syms = filter(x->x!==:_,map(k->in(k,omitkeys) ? (:_) : k ,keys(nt)))
     return NamedTuple{syms}(nt)
 end
+delete(nt::NamedTuple, omitkeys::Vector{Symbol}) = delete(nt, Tuple(omitkeys))
+delete(nt::NamedTuple, omitkeys::Vararg{Symbol}) = delete(nt, omitkeys)
+delete(nt::NamedTuple, omitkeys::Tuple{Vararg{String}}) = delete(nt, Symbol.(omitkeys))
+delete(nt::NamedTuple, omitkeys::Vector{String}) = delete(nt, Tuple(omitkeys))
+delete(nt::NamedTuple, omitkeys::Vararg{String}) = delete(nt, omitkeys)
 
 """
-    separate
+    separate(namedtuple, symbol(s)|Tuple)
+
+Generate two namedtuples, the first with only the fields in the second arg, the
+second with all but the fields in the second arg, such that
+`merge(separate(nt, ks)...) == nt` when `ks` contains the first fields of `nt`.
 """
 function separate(nt::NamedTuple, sepkeys::Tuple{Vararg{Symbol}})
     return select(nt, sepkeys), delete(nt, sepkeys)
 end
+separate(nt::NamedTuple, sepkeys::Vector{Symbol}) = separate(nt, Tuple(sepkeys))
+separate(nt::NamedTuple, sepkeys::Vararg{Symbol}) = separate(nt, sepkeys)
+separate(nt::NamedTuple, sepkeys::Tuple{Vararg{String}}) = separate(nt, Symbol.(sepkeys))
+separate(nt::NamedTuple, sepkeys::Vector{String}) = separate(nt, Tuple(sepkeys))
+separate(nt::NamedTuple, sepkeys::Vararg{String}) = separate(nt, sepkeys)
 
 fieldvalues,
     @namedtuple,
