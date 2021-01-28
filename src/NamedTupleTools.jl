@@ -265,11 +265,6 @@ separate(nt::NamedTuple, sepkeys::Tuple{Vararg{String}}) = separate(nt, Symbol.(
 separate(nt::NamedTuple, sepkeys::Vector{String}) = separate(nt, Tuple(sepkeys))
 separate(nt::NamedTuple, sepkeys::Vararg{String}) = separate(nt, sepkeys)
 
-
-
-
-
-
 # convert NamedTuple into Vector{Pair}, LittleDict, Dict, struct
 # note: supplying conversions is not considered type piracy
 #       altering conversions would be improper
@@ -291,8 +286,8 @@ structify(sname::Symbol, x::NamedTuple) = structify(sname, typeof(x))
 
 structify(T::DataType, x::NamedTuple) = T(field_values(x)...)
 
-genstruct(sname::Symbol, names::NTuple{N,Symbol}, types::NTuple{N,Type}) = 
-    eval(eval(parsedstruct(structname, names, types))))
+genstruct(sname::Symbol, names::NTuple{N,Symbol}, types::NTuple{N,Type}) where N = 
+    eval(eval(parsedstruct(structname, names, types)))
 
 parsedstruct(sname, names, types) =
      Meta.parse(parseable_struct(sname, names, types))
