@@ -26,6 +26,27 @@ export namedtuple, @namedtuple,
    and are helpful with NamedTuples and structs
 =#
 
+"""
+    field_count
+
+tally the number of fields in a NamedTuple or struct
+- works with Types and instances both
+""" field_count
+
+"""
+    field_names
+
+obtains the names of the fields in a NamedTuple or struct
+- works with Types and instances both
+""" field_names
+
+"""
+    field_types
+
+obtains the types of the fields in a NamedTuple or struct
+- works with Types and instances both
+""" field_types
+
 field_count(x::DataType)  = fieldcount(x)
 field_count(x::T) where T = fieldcount(T)
 field_names(x::DataType)  = fieldnames(x)
