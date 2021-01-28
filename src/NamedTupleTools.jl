@@ -442,13 +442,13 @@ function structfromnt(::Type{S}, x::NT) where {S, N, T, NT<:NamedTuple{N,T}}
 end
 
 # the Struct itself
-function structfromnt(structname::Union{Symbol, String}, nt::NamedTuple{N,T}) where {N,T}
+function struct_from(structname::Union{Symbol, String}, nt::NamedTuple{N,T}) where {N,T}
     sname = Symbol(structname)
     names = N
     types = detuple(T)
-    tostruct = Meta.parse(NamedTupleTools.struct_from(sname, names, types))
-    eval(tostruct) # generate Struct
-    return nothing
+    tostruct = Meta.parse(struct_from(sname, names, types))
+    result = eval(tostruct) # generate Struct
+    return result
 end
 
 macro structfromnt(sname, nt)
