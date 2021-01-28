@@ -7,7 +7,7 @@ see [`namedtuple`](@ref),
     [`prototype`](@ref), [`isprototype`](@ref),
     [`rename`](@ref), [`retype`](@ref),
     [`sorted`](@ref), [`issame`](@ref),
-    [`select`](@ref), [`remove`](@ref), [`separate`](@ref)
+    [`select`](@ref), [`delete`](@ref), [`separate`](@ref)
     
     [`fieldvalues`](@ref), [`fieldvalues_fast`](@ref),
     [`merge_recursive`](@ref)
@@ -157,9 +157,9 @@ function select(nt::NamedTuple, keepkeys::Tuple{Vararg{Symbol}})
 end
 
 """
-     remove
+     delete
 """
-function remove(nt::NamedTuple, omitkeys::Tuple{Vararg{Symbol}})
+function delete(nt::NamedTuple, omitkeys::Tuple{Vararg{Symbol}})
     syms = filter(x->x!==:_,map(k->in(k,omitkeys) ? (:_) : k ,keys(nt)))
     return NamedTuple{syms}(nt)
 end
@@ -168,7 +168,7 @@ end
     separate
 """
 function separate(nt::NamedTuple, sepkeys::Tuple{Vararg{Symbol}})
-    return select(nt, sepkeys), remove(nt, sepkeys)
+    return select(nt, sepkeys), delete(nt, sepkeys)
 end
 
 fieldvalues,
