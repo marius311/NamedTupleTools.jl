@@ -433,6 +433,23 @@ Retrieve the types that are internal to the `Tuple` as a (_).
 """
 detuple(::Type{T}) where {T<:Tuple} = Tuple(T.parameters)
 
+structfrom(structname::Symbol, nt::Type{NamedTuple}) =
+         structfrom(structname, field_names(nt), field_types(nt))
+
+# Expr part from Fredrik Ekre
+struct_from(structname, names, types) =
+    "Expr(:struct,
+        false,
+        Expr(:curly,
+             :$structname
+        ),
+        Expr(:block,
+             map((x,y) -> Expr(:(::), x, y), $names, $types)...
+        )
+   )"
+
+
+
 # an instance of type S, a Struct
 function structfromnt(::Type{S}, x::NT) where {S, N, T, NT<:NamedTuple{N,T}}
      names = N
@@ -457,17 +474,7 @@ macro structfromnt(sname, nt)
     :( eval(structfromnt($(esc(sname)), $(esc(nt)))) )
 end
 
-# Expr part from Fredrik Ekre
-struct_from(structname, names, types) =
-	"Expr(:struct,
-		false,
-		Expr(:curly,
-			 :$structname
-		),
-		Expr(:block,
-			map((x,y) -> Expr(:(::), x, y), $names, $types)...
-		)
-	)"
+function structfrom(
 
 structfrom(structname, names, types) = eval(eval(Meta.parse(struct_from(structname, names, types))))
 
