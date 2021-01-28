@@ -22,7 +22,7 @@ export namedtuple, @namedtuple,
     select, delete, separate,
     merge_recursive,
     field_count, field_names, field_types, field_values,
-    newstruct, construct
+    @newstruct, construct
 
 using OrderedCollections
 
@@ -309,9 +309,10 @@ construct(T::DataType, x::NamedTuple) = T(field_values(x)...)
 
 Construct an instance of the struct using the values from the NamedTuple.
 - unchecked precondition: field types mutually conform
-"""
+""" newstruct
+
 macro newstruct(sname, x)
-   :(eval(newstruct(sname, x)))
+   :(eval(newstruct($sname, $x)))
 end
 
 function newstruct(sname::Symbol, x::Type{NamedTuple{N,T}}) where {N,T}
