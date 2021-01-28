@@ -11,7 +11,7 @@ see [`namedtuple`](@ref),
     [`merge_recursive`](@ref),
     [`field_count`](@ref), [`field_names`](@ref), [`field_types`](@ref),
     [`field_values`](@ref),
-    [`newstruct`](@ref), [`construct`](@ref)
+    [`@newstruct`](@ref), [`construct`](@ref)
 """ NamedTupleTools
 
 module NamedTupleTools
@@ -305,11 +305,11 @@ Construct an instance of the struct using the values from the NamedTuple.
 construct(T::DataType, x::NamedTuple) = T(field_values(x)...)
 
 """
-    newstruct(Symbol|String, Type{NamedTuple}|NamedTuple)
+    @newstruct(Symbol|String, Type{NamedTuple}|NamedTuple)
 
 Construct an instance of the struct using the values from the NamedTuple.
 - unchecked precondition: field types mutually conform
-""" newstruct
+""" @newstruct
 
 macro newstruct(sname, x)
   quote 
