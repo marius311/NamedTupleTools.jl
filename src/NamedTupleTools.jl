@@ -18,13 +18,19 @@ export namedtuple, @namedtuple,
     prototype, isprototype,
     issame, ≅, canonical, 
     select, delete, separate,
-    merge_recursive
-    
+    merge_recursive,
+    fieldcount_nt, fieldnames_nt, fieldtypes_nt
+
+#=
+   renaming avoids typed-method piracy
+   Base: fieldcount, fieldnames, fieldtypes work with types only
+   these work with types and instances both
+=#
 const NamedT = Union{NamedTuple{N,T}, Type{NamedTuple{N,T}}} where {N,T}
 
-Base.@pure nsymbols(x::NamedT{N,T}) where {N,T} = length(N)
-Base.@pure symbols(x::NamedT{N,T}) where {N,T} = N
-Base.@pure types(x::NamedT{N,T}) where {N,T} = (T.parameters...,)
+Base.@pure fieldcount_nt(x::NamedT{N,T}) where {N,T} = length(N)
+Base.@pure fieldnames_nt(x::NamedT{N,T}) where {N,T} = N
+Base.@pure fieldtypes_nt(x::NamedT{N,T}) where {N,T} = (T.parameters...,)
 
 """
     namedtuple
