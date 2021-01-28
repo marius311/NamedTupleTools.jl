@@ -85,6 +85,7 @@ Construct a NamedTuple (avoiding type piracy)
 - namedtuple(struct)
 - namedtuple(::LittleDict)
 - namedtuple(::AbstractDict)
+- namedtuple(::Vector{Pair})
 """ namedtuple
 
 namedtuple(x::NamedTuple) = x
@@ -104,6 +105,17 @@ namedtuple(x::T) where T =
 
 namedtuple(x::LittleDict) = NamedTuple{x.keys}(x.vals)
 namedtuple(x::AbstractDict) = NamedTuple{Tuple(keys(x))}(values(x))
+
+# from PR by pdeffebach (Vector of Pairs becomes NamedTuple)
+function namedtuple(v::Vector{<:Pair{<:Symbol}})
+    N = length(v)
+    NamedTuple{ntuple(i -> v[i][1], N)}(ntuple(i -> v[i][2], N))
+end
+# with names as strings
+function namedtuple(v::Vector{<:Pair{String}})
+    N = length(v)
+    NamedTuple{ntuple(i -> Symbol(v[i][1]), N)}(ntuple(i -> v[i][2], N))
+end
 
 """
     prototype
