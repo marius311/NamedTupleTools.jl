@@ -23,12 +23,15 @@ export namedtuple, @namedtuple,
    renaming avoids typed-method piracy
    Base: fieldcount, fieldnames, fieldtypes work with types only
    these work with types and instances both
+   and are helpful with NamedTuples and structs
 =#
-const NamedT = Union{NamedTuple{N,T}, Type{NamedTuple{N,T}}} where {N,T}
 
-Base.@pure field_count(x::NamedT{N,T}) where {N,T} = length(N)
-Base.@pure field_names(x::NamedT{N,T}) where {N,T} = N
-Base.@pure field_types(x::NamedT{N,T}) where {N,T} = (T.parameters...,)
+field_count(x::DataType)  = fieldcount(x)
+field_count(x::T) where T = fieldcount(T)
+field_names(x::DataType)  = fieldnames(x)
+field_names(x::T) where T = fieldnames(T)
+field_types(x::DataType)  = fieldtypes(x)
+field_types(x::T) where T = fieldtypes(T)
 
 """
     namedtuple
