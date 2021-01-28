@@ -444,13 +444,14 @@ Generate a namedtuple [ntprototype] from the first arg, including only fields pr
 
 see: [`merge`](@ref)
 """
-function select(nt::NamedTuple, keys::Tuple{Vararg{Symbol}})
-    syms = filter(x->x !== :__, map(k->ifelse(haskey(nt,k), k, :__) , keys))
+
+function select(nt::NamedTuple, keepkeys::Tuple{Vararg{Symbol}})
+    syms = filter(x->x!==:_,map(k->in(k,keepkeys) ? k : :_ ,keys(nt)))
     return NamedTuple{syms}(nt)
 end
 
 function deselect(nt::NamedTuple, omitkeys::Tuple{Vararg{Symbol}})
-    syms = filter(x->x !== :__, map(k->ifelse(any(k.==omitkeys), :__, k) , keys(nt)))
+    syms = filter(x->x!==:_,map(k->in(k,omitkeys) ? (:_) : k ,keys(nt)))
     return NamedTuple{syms}(nt)
 end
 
