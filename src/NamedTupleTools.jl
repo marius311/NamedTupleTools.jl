@@ -331,20 +331,6 @@ end
 
 # internal support for low level manipulation
 
-"""
-    detuple( Tuple{_} )
-
-Retrieve the types that are internal to the `Tuple` as a (_).
-"""
-detuple(::Type{T}) where {T<:Tuple} = Tuple(T.parameters)
-
-"""
-    retuple( (_) )
-
-Generate a `Tuple` with the given internal types as a `Tuple{_}`.
-"""
-retuple(x::Tuple) = Tuple{x...,}
-
 # accept comma delimited values
 NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
 
@@ -427,6 +413,23 @@ function ntfromstruct(x::T) where {T}
     values = getfield.((x,), names)
     return NamedTuple{names}(values)
 end
+
+
+
+"""
+    retuple( (_) )
+
+Generate a `Tuple` with the given internal types as a `Tuple{_}`.
+"""
+retuple(x::Tuple) = Tuple{x...,}
+
+
+"""
+    detuple( Tuple{_} )
+
+Retrieve the types that are internal to the `Tuple` as a (_).
+"""
+detuple(::Type{T}) where {T<:Tuple} = Tuple(T.parameters)
 
 # an instance of type S, a Struct
 function structfromnt(::Type{S}, x::NT) where {S, N, T, NT<:NamedTuple{N,T}}
