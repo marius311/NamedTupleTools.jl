@@ -11,7 +11,7 @@ see [`namedtuple`](@ref),
     [`merge_recursive`](@ref),
     [`field_count`](@ref), [`field_names`](@ref), [`field_types`](@ref),
     [`field_values`](@ref),
-    [`@newstruct`](@ref), [`construct`](@ref)
+    [`newstruct`](@ref), [`construct`](@ref)
 """ NamedTupleTools
 
 module NamedTupleTools
@@ -312,12 +312,14 @@ Construct an instance of the struct using the values from the NamedTuple.
 """ newstruct
 
 macro newstruct(sname, x)
-   quote begin
-       local fnames = field_names($x)
-       local ftypes = field_types($x)
-       local result = newstruct($sname, fnames, ftypes)
-       return eval(result)
-   end
+  quote 
+    begin
+        local fnames = field_names($x)
+        local ftypes = field_types($x)
+        local result = newstruct($sname, fnames, ftypes)
+        return eval(result)
+    end
+  end
 end
 
 function newstruct(sname::Symbol, x::Type{NamedTuple{N,T}}) where {N,T}
