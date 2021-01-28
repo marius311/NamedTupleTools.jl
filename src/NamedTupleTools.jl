@@ -20,8 +20,11 @@ export namedtuple, @namedtuple,
     select, delete, separate,
     merge_recursive
     
-const Named  = Union{NamedTuple{N}, Type{NamedTuple{N}}} where {N}
 const NamedT = Union{NamedTuple{N,T}, Type{NamedTuple{N,T}}} where {N,T}
+
+Base.@pure nsymbols(x::NamedT{N,T}) where {N,T} = length(N)
+Base.@pure symbols(x::NamedT{N,T}) where {N,T} = N
+Base.@pure types(x::NamedT{N,T}) where {N,T} = (T.parameters...,)
 
 """
     namedtuple
@@ -128,7 +131,7 @@ function canonical(x::NamedTuple{N,T}) where {N,T}
     return NamedTuple{Tuple(syms)}(x)
 end
 
-function sorted(x::Type{NamedTuple{N,T}}) where {N,T}
+function canonical(x::Type{NamedTuple{N,T}}) where {N,T}
     idxs = collect(1:length(N))
     sortperm!(idxs, [N...])
     typs = Tuple{T.parameters[idxs]...}
