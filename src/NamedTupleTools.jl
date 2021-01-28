@@ -1,7 +1,7 @@
 """
      NamedTupleTools
 
-This module provides some useful NamedTuple tooling.
+This module provides useful NamedTuple tooling.
 
 see [`namedtuple`](@ref),
     [`prototype`](@ref), [`isprototype`](@ref),
@@ -10,8 +10,8 @@ see [`namedtuple`](@ref),
     [`select`](@ref), [`delete`](@ref), [`separate`](@ref)
     [`merge_recursive`](@ref),
     [`field_count`](@ref), [`field_names`](@ref), [`field_types`](@ref)
-    
-"""
+""" NamedTupleTools
+
 module NamedTupleTools
 
 export namedtuple, @namedtuple,
