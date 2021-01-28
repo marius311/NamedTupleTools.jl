@@ -317,8 +317,8 @@ macro newstruct(sname, x)
 	local structname = $(esc(sname))
         local fnames = NamedTupleTools.field_names($(esc(x)))
         local ftypes = NamedTupleTools.field_types($(esc(x)))
-        local result = NamedTupleTools.newstruct(structname, fnames, ftypes)
-        return @eval(Main, result)
+	local result = NamedTupleTools.newstruct(structname, fnames, ftypes)
+        return eval(result)
     end
   end
 end
