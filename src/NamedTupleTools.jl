@@ -22,6 +22,8 @@ export namedtuple, @namedtuple,
     merge_recursive,
     field_count, field_names, field_types, field_values
 
+using OrderedCollections
+
 #=
    renaming avoids typed-method piracy
    Base: fieldcount, fieldnames, fieldtypes work with types only
