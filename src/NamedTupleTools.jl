@@ -7,10 +7,10 @@ see [`namedtuple`](@ref),
     [`prototype`](@ref), [`isprototype`](@ref),
     [`rename`](@ref), [`retype`](@ref),
     [`sorted`](@ref), [`issame`](@ref),
-
+    [`select`](@ref), [`remove`](@ref), [`separate`](@ref)
+    
     [`fieldvalues`](@ref), [`fieldvalues_fast`](@ref),
-    [`separate`](@ref), [`select`](@ref),
-    [`delete`](@ref), [`merge_recursive`](@ref)
+    [`merge_recursive`](@ref)
 """
 module NamedTupleTools
 
@@ -148,7 +148,28 @@ end
 
 const ≅ = issame
 
+"""
+     select
+"""
+function select(nt::NamedTuple, keepkeys::Tuple{Vararg{Symbol}})
+    syms = filter(x->x!==:_,map(k->in(k,keepkeys) ? k : :_ ,keys(nt)))
+    return NamedTuple{syms}(nt)
+end
 
+"""
+     remove
+"""
+function remove(nt::NamedTuple, omitkeys::Tuple{Vararg{Symbol}})
+    syms = filter(x->x!==:_,map(k->in(k,omitkeys) ? (:_) : k ,keys(nt)))
+    return NamedTuple{syms}(nt)
+end
+
+"""
+    separate
+"""
+function separate(nt::NamedTuple, sepkeys::Tuple{Vararg{Symbol}})
+    return select(nt, sepkeys), remove(nt, sepkeys)
+end
 
 fieldvalues,
     @namedtuple,
@@ -450,7 +471,7 @@ function select(nt::NamedTuple, keepkeys::Tuple{Vararg{Symbol}})
     return NamedTuple{syms}(nt)
 end
 
-function deselect(nt::NamedTuple, omitkeys::Tuple{Vararg{Symbol}})
+function remove(nt::NamedTuple, omitkeys::Tuple{Vararg{Symbol}})
     syms = filter(x->x!==:_,map(k->in(k,omitkeys) ? (:_) : k ,keys(nt)))
     return NamedTuple{syms}(nt)
 end
