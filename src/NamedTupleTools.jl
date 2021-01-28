@@ -316,8 +316,14 @@ end
 newstruct(sname::Symbol, x::NamedTuple) = newstruct(sname, typeof(x))
 newstruct(sname::String, x) = newstruct(Symbol(sname), x)
 
+#=
 newstruct(sname::Symbol, names::NTuple{N,Symbol}, types::NTuple{N,Type}) where N = 
     eval(eval(parsedstruct(sname, names, types)))
+=#
+function newstruct(sname::Symbol, names::NTuple{N,Symbol}, types::NTuple{N,Type}) where N
+    parsed = Meta.parse(parseable_struct(sname, names, types))
+    return eval(eval(parsed))
+end
 
 parsedstruct(sname, names, types) =
      Meta.parse(parseable_struct(sname, names, types))
