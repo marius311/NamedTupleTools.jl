@@ -111,7 +111,14 @@ function namedtuple(v::Vector{<:Pair{<:Symbol}})
     N = length(v)
     NamedTuple{ntuple(i -> v[i][1], N)}(ntuple(i -> v[i][2], N))
 end
+
 # with names as strings
+namedtuple(names::NTuple{N,String}) where N =
+   namedtuple(Symbol.(names))
+namedtuple(names::NTuple{N,String}, types::NTuple{N,Type}) where N =
+   namedtuple(Symbol.(names), types)
+namedtuple(names::NTuple{N,String}, values::NTuple{N,Any}) where N =
+   namedtuple(Symbol.(names), values)
 function namedtuple(v::Vector{<:Pair{String}})
     N = length(v)
     NamedTuple{ntuple(i -> Symbol(v[i][1]), N)}(ntuple(i -> v[i][2], N))
@@ -124,8 +131,8 @@ end
  Constructs the type-free form of a NamedTuple
 
 - prototype(::NamedTuple)
-- prototype(::NTuple{N, Symbols})
-- prototype(::Varargs{Symbols})
+- prototype(::NTuple{N, Symbols|Strings})
+- prototype(::Varargs{Symbols|Strings})
 
 - @prototype(a, b, c) === NamedTuple{(:a, :b, :c)}
 """ prototype
@@ -137,7 +144,8 @@ prototype(x::NamedTuple{N,T}) where {N,T} =
    NamedTuple{N,T} where T<:Tuple
 
 prototype(xs::NTuple{N,Symbol}) where {N} = NamedTuple{xs}
-prototype(xs...) = NamedTuple{xs}
+prototype(xs::NTuple{N,String}) where {N} = prototype(Symbol.(xs))
+prototype(xs...) = prototype(xs)
 prototype(x) = prototype(namedtuple(x))
 
 macro prototype(xs...)
