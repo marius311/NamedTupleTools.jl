@@ -280,8 +280,9 @@ Base.convert(::Type{T}, x::NamedTuple) where {T<:AbstractDict} =
 
 # conversion to a struct type and conversion to a struct instance
 
-newstruct(sname::Symbol, x::Type{NamedTuple{N,T}}) where {N,T} =
+function newstruct(sname::Symbol, x::Type{NamedTuple{N,T}}) where {N,T}
      newstruct(sname, field_names(x), field_types(x))
+end
 
 newstruct(sname::Symbol, x::NamedTuple) = newstruct(sname, typeof(x))
 
