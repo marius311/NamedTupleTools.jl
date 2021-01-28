@@ -268,13 +268,18 @@ separate(nt::NamedTuple, sepkeys::Vararg{String}) = separate(nt, sepkeys)
 
 
 
-# convert NamedTuple into struct, LittleDict, Dict, Vector{Pair}
+# convert NamedTuple into Vector{Pair}, LittleDict, Dict, struct
 # note: supplying conversions is not considered type piracy
 #       altering conversions would be improper
 
-# NamedTuple becomes a Vector of Pairs
 Base.convert(::Type{Vector{Pair}}, x::NamedTuple) =
-    [map(Pair, field_names(nt), field_values(nt))...]
+    [map(Pair, field_names(x), field_values(x))...]
+
+Base.convert(::Type{LittleDict}, x::NamedTuple) =
+    LittleDict(field_names(x), field_values(x))
+
+Base.convert(::Type{T}, x::NamedTuple) where {T<:AbstractDict} =
+    T(convert(Vector{Pair}, x))
 
 
 end  # NamedTupleTools
