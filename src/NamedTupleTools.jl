@@ -283,8 +283,33 @@ Base.convert(::Type{LittleDict}, x::NamedTuple) =
 Base.convert(::Type{T}, x::NamedTuple) where {T<:AbstractDict} =
     T(convert(Vector{Pair}, x))
 
-Base.convert(T::DataType, x::NamedTuple) = T(field_values(x)...)
+# conversion to a struct type and conversion to a struct instance
 
+structify(sname::Symbol, x::Type{NamedTuple{N,T}) where {N,T} =
+     genstruct(sname, field_names(x), field_types(x))
+structify(sname::Symbol, x::NamedTuple) = structify(sname, typeof(x))
+
+structify(T::DataType, x::NamedTuple) = T(field_values(x)...)
+
+genstruct(sname::Symbol, names::NTuple{N,Symbol}, types::NTuple{N,Type}) = 
+    eval(eval(parsedstruct(structname, names, types))))
+
+parsedstruct(sname, names, types) =
+     Meta.parse(parseable_struct(sname, names, types))
+	
+# Expr part from Fredrik Ekre
+parseable_struct(structname, names, types) =
+    "Expr(:struct,
+        false,
+        Expr(:curly,
+             :$structname
+        ),
+        Expr(:block,
+             map((x,y) -> Expr(:(::), x, y), $names, $types)...
+        )
+   )"
+
+	
 end  # NamedTupleTools
 
 
@@ -432,10 +457,13 @@ retuple(x::Tuple) = Tuple{x...,}
 
 Retrieve the types that are internal to the `Tuple` as a (_).
 """
-detuple(::Type{T}) where {T<:Tuple} = Tuple(T.parameters)
 
-structfrom(structname::Symbol, nt::Type{NamedTuple}) =
-         structfrom(structname, field_names(nt), field_types(nt))
+
+structfrom(structname::Symbol, x::Type{NamedTuple{N,T}) where {N,T} =
+     structfrom(structname, field_names(nt), field_types(nt))
+
+structfrom(structname::Symbol, names::NTuple{N,Symbol}, types::NTuple{N,Type}) = 
+    eval(eval(Meta.parse(struct_from(structname, names, types))))
 
 # Expr part from Fredrik Ekre
 struct_from(structname, names, types) =
@@ -450,7 +478,8 @@ struct_from(structname, names, types) =
    )"
 
 
-
+detuple(::Type{T}) where {T<:Tuple} = Tuple(T.parameters)
+	
 # an instance of type S, a Struct
 function structfromnt(::Type{S}, x::NT) where {S, N, T, NT<:NamedTuple{N,T}}
      names = N
