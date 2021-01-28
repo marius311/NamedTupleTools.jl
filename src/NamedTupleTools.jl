@@ -280,14 +280,15 @@ Base.convert(::Type{T}, x::NamedTuple) where {T<:AbstractDict} =
 
 # conversion to a struct type and conversion to a struct instance
 
-structify(sname::Symbol, x::Type{NamedTuple{N,T}) where {N,T} =
+structify(sname::Symbol, x::Type{NamedTuple{N,T}}) where {N,T} =
      genstruct(sname, field_names(x), field_types(x))
+
 structify(sname::Symbol, x::NamedTuple) = structify(sname, typeof(x))
 
 structify(T::DataType, x::NamedTuple) = T(field_values(x)...)
 
 genstruct(sname::Symbol, names::NTuple{N,Symbol}, types::NTuple{N,Type}) where N = 
-    eval(eval(parsedstruct(structname, names, types)))
+    eval(eval(parsedstruct(sname, names, types)))
 
 parsedstruct(sname, names, types) =
      Meta.parse(parseable_struct(sname, names, types))
