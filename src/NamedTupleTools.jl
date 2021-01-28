@@ -9,7 +9,8 @@ see [`namedtuple`](@ref),
     [`issame`](@ref), [`≅`](@ref), [`canonical`](@ref),
     [`select`](@ref), [`delete`](@ref), [`separate`](@ref)
     [`merge_recursive`](@ref),
-    [`field_count`](@ref), [`field_names`](@ref), [`field_types`](@ref)
+    [`field_count`](@ref), [`field_names`](@ref), [`field_types`](@ref),
+    [`field_values`](@ref)
 """ NamedTupleTools
 
 module NamedTupleTools
@@ -19,42 +20,57 @@ export namedtuple, @namedtuple,
     issame, ≅, canonical, 
     select, delete, separate,
     merge_recursive,
-    field_count, field_names, field_types
+    field_count, field_names, field_types, field_values
 
 #=
    renaming avoids typed-method piracy
    Base: fieldcount, fieldnames, fieldtypes work with types only
    these work with types and instances both
-   and are helpful with NamedTuples and structs
+   and are helpful with NamedTuples, structs, LittleDicts
 =#
 
 """
     field_count
 
-tally the number of fields in a NamedTuple or struct
+tally the number of fields in a NamedTuple, LittleDict, struct
 - works with Types and instances both
 """ field_count
 
 """
     field_names
 
-obtains the names of the fields in a NamedTuple or struct
+obtains the names of the fields in a NamedTuple, LittleDict, struct
 - works with Types and instances both
 """ field_names
 
 """
     field_types
 
-obtains the types of the fields in a NamedTuple or struct
+obtains the types of the fields in a NamedTuple, LittleDict, struct
 - works with Types and instances both
 """ field_types
 
+"""
+    field_values
+
+obtains the values of the fields in a NamedTuple, LittleDict, struct
+""" field_values
+
 field_count(x::DataType)  = fieldcount(x)
 field_count(x::T) where T = fieldcount(T)
+field_count(x::LittleDict) = length(x.keys)
+
 field_names(x::DataType)  = fieldnames(x)
 field_names(x::T) where T = fieldnames(T)
+field_names(x::LittleDict) = x.keys
+
 field_types(x::DataType)  = fieldtypes(x)
 field_types(x::T) where T = fieldtypes(T)
+field_types(x::LittleDict) = (typeof(x.vals).parameters...,)
+
+field_values(x::NamedTuple) = values(x)
+field_values(x::T) where T = getfield.((x,), field_names(x))
+field_values(x::LittleDict) = x.vals
 
 """
     namedtuple
@@ -66,10 +82,9 @@ Construct a NamedTuple (avoiding type piracy)
 - namedtuple(symbols, values)
 > where symbols, types, values are tuples 
 
+- namedtuple(struct)
 - namedtuple(::LittleDict)
 - namedtuple(::AbstractDict)
-- namedtuple(struct)
-
 """ namedtuple
 
 namedtuple(x::NamedTuple) = x
@@ -82,13 +97,13 @@ namedtuple(names::NTuple{N,Symbol}, types::NTuple{N,Type}) where N =
 namedtuple(names::NTuple{N,Symbol}, values::NTuple{N,Any}) where N =
    NamedTuple{names}(values)
 
+namedtuple(x::DataType) =
+    NamedTuple{field_names(x), Tuple{field_types(x)...}}
+namedtuple(x::T) where T =
+    namedtuple(T)(field_values(x))
+
 namedtuple(x::LittleDict) = NamedTuple{x.keys}(x.vals)
 namedtuple(x::AbstractDict) = NamedTuple{Tuple(keys(x))}(values(x))
-
-function namedtuple(x::T) where {T}
-   symbols = fieldnames(T)
-   return NamedTuple{symbols}(getfield.((x,), symbols))
-end
 
 """
     prototype
