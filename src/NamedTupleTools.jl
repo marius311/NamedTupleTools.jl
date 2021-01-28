@@ -22,7 +22,7 @@ export namedtuple, @namedtuple,
     select, delete, separate,
     merge_recursive,
     field_count, field_names, field_types, field_values,
-    construct #, @newstruct
+    construct, @newstruct
 
 using OrderedCollections
 
@@ -314,9 +314,9 @@ Construct an instance of the struct using the values from the NamedTuple.
 macro newstruct(sname, x)
   quote 
     begin
-	local structname = $sname
-        local fnames = NamedTupleTools.field_names($x)
-        local ftypes = NamedTupleTools.field_types($x)
+	local structname = $(esc(sname))
+        local fnames = NamedTupleTools.field_names($(esc(x)))
+        local ftypes = NamedTupleTools.field_types($(esc(x)))
         local result = NamedTupleTools.newstruct(structname, fnames, ftypes)
         return eval(result)
     end
