@@ -8,7 +8,9 @@ see [`namedtuple`](@ref),
     [`rename`](@ref), [`retype`](@ref),
     [`issame`](@ref), [`≅`](@ref), [`canonical`](@ref),
     [`select`](@ref), [`delete`](@ref), [`separate`](@ref)
-    [`merge_recursive`](@ref)
+    [`merge_recursive`](@ref),
+    [`field_count`](@ref), [`field_names`](@ref), [`field_types`](@ref)
+    
 """
 module NamedTupleTools
 
