@@ -20,7 +20,7 @@ export namedtuple, @namedtuple,
     select, delete, separate,
     merge_recursive
     
-const Named  = Union{NamedTuple{N}, Type{NamedTuple{N}} where {N}
+const Named  = Union{NamedTuple{N}, Type{NamedTuple{N}}} where {N}
 const NamedT = Union{NamedTuple{N,T}, Type{NamedTuple{N,T}}} where {N,T}
 
 """
