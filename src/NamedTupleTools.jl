@@ -22,7 +22,7 @@ export namedtuple, @namedtuple,
     select, delete, separate,
     merge_recursive,
     field_count, field_names, field_types, field_values,
-    construct, newstruct, @newstruct
+    construct #, newstruct, @newstruct
 
 using OrderedCollections
 
