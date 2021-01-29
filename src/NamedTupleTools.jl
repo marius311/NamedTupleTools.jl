@@ -323,14 +323,8 @@ macro newstruct(sname, x)
   end
 end
 
-function newstruct1(sname::Symbol, x::Type{NamedTuple{N,T}}) where {N,T}
-     return @eval(Main, newstruct(sname, N, (T.parameters...,))
-end
-function newstruct2(sname::Symbol, x::Type{NamedTuple{N,T}}) where {N,T}
-     return @eval(Main, newstruct($sname, N, (T.parameters...,))
-end
-function newstruct3(sname::Symbol, x::Type{NamedTuple{N,T}}) where {N,T}
-     return @eval(Main, newstruct(esc($sname), N, (T.parameters...,))
+function newstruct(sname::Symbol, x::Type{NamedTuple{N,T}}) where {N,T}
+     return newstruct(sname, N, (T.parameters...,))
 end
 
 newstruct(sname::Symbol, x::NamedTuple{N,T}) where {N,T} = newstruct(sname, NamedTuple{N,T})
@@ -359,17 +353,6 @@ parseable_struct(structname, names, types) =
              map((x,y) -> Expr(:(::), x, y), $names, $types)...
         )
    )"
-
-structstr = """
-       struct StructName
-          field1name::Int8
-          field2name::Int16
-          field3name::String
-       end
-       """
-mpstructstr = Meta.parse(structstr)
-evstructstr = eval(mpstructstr)
-structure() = eval(evstructstr)
 
 """
     merge(namedtuple1, namedtuple2)
