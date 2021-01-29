@@ -324,7 +324,7 @@ macro newstruct(sname, x)
 end
 
 function newstruct(sname::Symbol, x::Type{NamedTuple{N,T}}) where {N,T}
-     return @eval(Main, newstruct($sname, field_names($x), field_types($x)))
+     return @eval(Main, newstruct(sname, field_names($x), field_types($x)))
 end
 newstruct(sname::Symbol, x::NamedTuple) = newstruct(sname, typeof(x))
 newstruct(sname::String, x) = newstruct(Symbol(sname), x)
