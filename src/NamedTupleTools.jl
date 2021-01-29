@@ -309,11 +309,11 @@ function metaparsed1(sname, fnames, ftypes)
     Meta.parse(strstruct(sname, fnames, ftypes))
 end
 
-evalparsed(sname, fnames, ftypes) = eval(metaparsed(sname, fnames, ftypes)
-evalparsed1(sname, fnames, ftypes) = eval(metaparsed1(sname, fnames, ftypes)
+evalparsed(sname, fnames, ftypes) = eval(metaparsed(sname, fnames, ftypes))
+evalparsed1(sname, fnames, ftypes) = eval(metaparsed1(sname, fnames, ftypes))
 
-eval2parsed(sname, fnames, ftypes) = eval(evalparsed(sname, fnames, ftypes)
-eval2parsed1(sname, fnames, ftypes) = eval(evalparsed1(sname, fnames, ftypes)
+eval2parsed(sname, fnames, ftypes) = eval(evalparsed(sname, fnames, ftypes))
+eval2parsed1(sname, fnames, ftypes) = eval(evalparsed1(sname, fnames, ftypes))
 
 macro evalparsed(sname, fnames, ftypes)
     :(evalparsed($sname, $fnames, $ftypes))
