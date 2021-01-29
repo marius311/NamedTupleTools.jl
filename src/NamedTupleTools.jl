@@ -22,7 +22,7 @@ export namedtuple, @namedtuple,
     select, delete, separate,
     merge_recursive,
     field_count, field_names, field_types, field_values,
-    construct, @newstruct
+    construct, newstruct, @newstruct
 
 using OrderedCollections
 
@@ -318,13 +318,13 @@ macro newstruct(sname, x)
         local fnames = NamedTupleTools.field_names($(esc(x)))
         local ftypes = NamedTupleTools.field_types($(esc(x)))
 	local result = NamedTupleTools.newstruct(structname, fnames, ftypes)
-        return eval(result)
+        return eval(eval(result))
     end
   end
 end
 
 function newstruct(sname::Symbol, x::Type{NamedTuple{N,T}}) where {N,T}
-     newstruct(sname, field_names(x), field_types(x))
+     return @eval(Main, newstruct(sname, field_names(x), field_types(x)))
 end
 newstruct(sname::Symbol, x::NamedTuple) = newstruct(sname, typeof(x))
 newstruct(sname::String, x) = newstruct(Symbol(sname), x)
