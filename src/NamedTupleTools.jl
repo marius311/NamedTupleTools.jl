@@ -302,27 +302,56 @@ Base.convert(::Type{T}, x::NamedTuple) where {T<:AbstractDict} =
 Construct an instance of the struct using the values from the NamedTuple.
 - unchecked precondition: field types mutually conform
 """
-construct(T::DataType, x::NamedTuple) = T(field_values(x)...)
-
-"""
-    @newstruct(Symbol|String, Type{NamedTuple}|NamedTuple)
-
-Construct an instance of the struct using the values from the NamedTuple.
-- unchecked precondition: field types mutually conform
-""" newstruct
-
-macro newstruct(sname, x)
-  quote 
-    begin
-	local structname = $(esc(sname))
-        local fnames = NamedTupleTools.field_names($(esc(x)))
-        local ftypes = NamedTupleTools.field_types($(esc(x)))
-	local result = NamedTupleTools.newstruct(structname, fnames, ftypes)
-        return eval(eval(result))
-    end
-  end
+function metaparsed(sname, fnames, ftypes)
+	Meta.parse(strstruct(sname, fnames, ftypes)
+end
+function metaparsed1(sname, fnames, ftypes)
+	Meta.parse(strstruct(sname, fnames, ftypes)
 end
 
+evalparsed(sname, fnames, ftypes) = eval(metaparsed(sname, fnames, ftypes)
+evalparsed1(sname, fnames, ftypes) = eval(metaparsed1(sname, fnames, ftypes)
+
+eval2parsed(sname, fnames, ftypes) = eval(evalparsed(sname, fnames, ftypes)
+eval2parsed1(sname, fnames, ftypes) = eval(evalparsed1(sname, fnames, ftypes)
+
+macro evalparsed(sname, fnames, ftypes)
+	:(evalparsed($sname, $fnames, $ftypes))
+end
+macro evalparsed1(sname, fnames, ftypes)
+	:(evalparsed1($sname, $fnames, $ftypes))
+end
+macro eval2parsed(sname, fnames, ftypes)
+	:(eval2parsed($sname, $fnames, $ftypes))
+end
+macro eval2parsed1(sname, fnames, ftypes)
+	:(eval2parsed1($sname, $fnames, $ftypes))
+end
+						
+				
+const prestruct = ":(\$(Expr(:toplevel, quote begin struct "
+const supstruct = " <: "
+const poststruct = " end; end; end)))"
+const prestruct1 = "(Expr(:toplevel, quote begin struct "
+const poststruct1 = " end; end; end))"
+	
+function strstruct(sname, fnames, ftypes; abstract=Any)
+	string(prestruct, sname, abstype(abstract), midstruct(fnames, ftypes), poststruct)
+end
+function strstruct1(sname, fnames, ftypes; abstract=Any)
+	string(prestruct1, sname, abstype(abstract), midstruct(fnames, ftypes), poststruct1)
+end
+
+abstype(abstract)	= string(supstruct, abstract, ' ')
+function midstruct(names,types)
+    strs = map((n,t)->string(n,"::",t,"; "),names,types)
+    return join(strs)
+end
+
+
+construct(T::DataType, x::NamedTuple) = T(field_values(x)...)
+
+#=
 function newstruct(sname::Symbol, x::Type{NamedTuple{N,T}}) where {N,T}
      return newstruct(sname, N, (T.parameters...,))
 end
@@ -330,18 +359,18 @@ end
 newstruct(sname::Symbol, x::NamedTuple{N,T}) where {N,T} = newstruct(sname, NamedTuple{N,T})
 newstruct(sname::String, x) = newstruct(Symbol(sname), x)
 
-#=
 newstruct(sname::Symbol, names::NTuple{N,Symbol}, types::NTuple{N,Type}) where N = 
     eval(eval(parsedstruct(sname, names, types)))
-=#
-function newstruct(sname::Symbol, names::NTuple{N,Symbol}, types::NTuple{N,Type}) where N
+
+						function newstruct(sname::Symbol, names::NTuple{N,Symbol}, types::NTuple{N,Type}) where N
     parsed = Meta.parse(parseable_struct(sname, names, types))
     return eval(parsed)
 end
 
 parsedstruct(sname, names, types) =
      Meta.parse(parseable_struct(sname, names, types))
-	
+=#
+
 # Expr part from Fredrik Ekre
 parseable_struct(structname, names, types) =
     "Expr(:struct,
