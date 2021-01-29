@@ -316,16 +316,16 @@ eval2parsed(sname, fnames, ftypes) = eval(evalparsed(sname, fnames, ftypes))
 eval2parsed1(sname, fnames, ftypes) = eval(evalparsed1(sname, fnames, ftypes))
 
 macro evalparsed(sname, fnames, ftypes)
-    :(evalparsed($sname, $fnames, $ftypes))
+    :(evalparsed($sname, esc($fnames), esc($ftypes)))
 end
 macro evalparsed1(sname, fnames, ftypes)
-    :(evalparsed1($sname, $fnames, $ftypes))
+    :(evalparsed1($sname, esc($fnames), esc($ftypes)))
 end
 macro eval2parsed(sname, fnames, ftypes)
-    :(eval2parsed($sname, $fnames, $ftypes))
+    :(eval2parsed($sname, esc($fnames), esc($ftypes)))
 end
 macro eval2parsed1(sname, fnames, ftypes)
-    :(eval2parsed1($sname, $fnames, $ftypes))
+    :(eval2parsed1($sname, esc($fnames), esc($ftypes)))
 end
 						
 			
