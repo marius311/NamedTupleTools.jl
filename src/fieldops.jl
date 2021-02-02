@@ -13,22 +13,59 @@
     The fourth method is field-focused, as it is applies to values with these same types.
     
     `fieldcount(_)`, `fieldnames(_)`, and `fieldtypes(_)` accept type-valued variables.
-    `fieldvalues(_)` applies to variables with assigned values rather than their types.
-
-
-    
-
+    `fieldvalues(_)` applies to variables with assigned values rather than their types
 =#
 
-Base.@pure get_parameters(::Type{T}) where {T} = (T).parameters
+#=
+   renaming avoids typed-method piracy
+   Base: fieldcount, fieldnames, fieldtypes work with types only
+   these work with types and instances both
+   and are helpful with NamedTuples, structs, LittleDicts
+=#
 
-Base.@pure Base.fieldnames(::Type{NamedTuple{N,T}}) where {N,T} = (N)
-Base.fieldcount(::Type{NamedTuple{N,T}}) where {N,T} = nfields(N)
-Base.fieldtypes(::Type{NamedTuple{N,T}}) where {N,T} =
-    Tuple(get_parameters(T))
+"""
+    field_count
 
-fieldvalues(nt::NamedTuple{N,T}) where {N,T} = Tuple(nt)
+tally the number of fields in a NamedTuple, LittleDict, struct
+- works with types and instances
+""" field_count
 
-fieldvalues(x::T) where {T} = isstructtype(T) &&
-    getfield.((x,), fieldnames(T))
+field_count(::Type{T}) where {T<:NamedTuple} = fieldcount(N)
+field_count(x::DataType)  = fieldcount(x)
+field_count(x::T) where T = fieldcount(T)
+field_count(x::LittleDict) = length(x.keys)
 
+"""
+    field_names
+
+obtains the names of the fields in a NamedTuple, LittleDict, struct
+- works with types and instances
+""" field_names
+
+Base.@pure field_names(::Type{NamedTuple{N,T}}) where {N,T} = (N)
+field_names(x::DataType)  = fieldnames(x)
+field_names(x::T) where T = fieldnames(T)
+field_names(x::LittleDict) = (x.keys...,)
+
+"""
+    field_types
+
+obtains the types of the fields in a NamedTuple, LittleDict, struct
+- works with types and instances
+""" field_types
+
+field_types(::Type{NamedTuple{N,T}}) where {N,T} = Tuple(T.parameters)
+field_types(x::DataType)  = fieldtypes(x)
+field_types(x::T) where T = fieldtypes(T)
+field_types(x::LittleDict) = (typeof(x.vals).parameters...,)
+
+"""
+    field_values
+
+obtains the values of the fields in a NamedTuple, LittleDict, struct
+- works with instances
+""" field_values
+
+field_values(x::NamedTuple) = values(x)
+field_values(x::T) where T = getfield.((x,), field_names(x))
+field_values(x::LittleDict) = typeof.(Tuple(x.vals))
