@@ -26,55 +26,8 @@ export namedtuple, @namedtuple,
 
 using OrderedCollections
 
-#=
-   renaming avoids typed-method piracy
-   Base: fieldcount, fieldnames, fieldtypes work with types only
-   these work with types and instances both
-   and are helpful with NamedTuples, structs, LittleDicts
-=#
-
-"""
-    field_count
-
-tally the number of fields in a NamedTuple, LittleDict, struct
-- works with Types and instances both
-""" field_count
-
-"""
-    field_names
-
-obtains the names of the fields in a NamedTuple, LittleDict, struct
-- works with Types and instances both
-""" field_names
-
-"""
-    field_types
-
-obtains the types of the fields in a NamedTuple, LittleDict, struct
-- works with Types and instances both
-""" field_types
-
-"""
-    field_values
-
-obtains the values of the fields in a NamedTuple, LittleDict, struct
-""" field_values
-
-field_count(x::DataType)  = fieldcount(x)
-field_count(x::T) where T = fieldcount(T)
-field_count(x::LittleDict) = length(x.keys)
-
-field_names(x::DataType)  = fieldnames(x)
-field_names(x::T) where T = fieldnames(T)
-field_names(x::LittleDict) = (x.keys...,)
-
-field_types(x::DataType)  = fieldtypes(x)
-field_types(x::T) where T = fieldtypes(T)
-field_types(x::LittleDict) = (typeof(x.vals).parameters...,)
-
-field_values(x::NamedTuple) = values(x)
-field_values(x::T) where T = getfield.((x,), field_names(x))
-field_values(x::LittleDict) = typeof.(Tuple(x.vals))
+# field_count, field_names, field_types, field_vals
+include("fieldops.jl")
 
 """
     namedtuple
