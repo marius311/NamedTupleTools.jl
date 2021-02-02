@@ -60,7 +60,7 @@ obtains the types of the fields in a NamedTuple, LittleDict, struct
 field_types(::Type{NamedTuple{N,T}}) where {N,T} = Tuple(T.parameters)
 field_types(x::DataType)  = fieldtypes(x)
 field_types(x::T) where T = fieldtypes(T)
-field_types(x::LittleDict) = (typeof(x.vals).parameters...,)
+field_types(x::LittleDict) = (typeof.(x.vals).parameters...,)
 
 """
     field_values
@@ -71,4 +71,4 @@ obtains the values of the fields in a NamedTuple, LittleDict, struct
 
 field_values(x::NamedTuple) = values(x)
 field_values(x::T) where T = getfield.((x,), field_names(x))
-field_values(x::LittleDict) = typeof.(Tuple(x.vals))
+field_values(x::LittleDict) = Tuple(x.vals)
