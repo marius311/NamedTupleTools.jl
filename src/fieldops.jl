@@ -27,7 +27,8 @@
     field_count
 
 tally the number of fields in a NamedTuple, LittleDict, struct
-- works with types and instances
+- works with NamedTuple, struct types
+- works with NamedTuple, struct, LittleDict instances
 """ field_count
 
 field_count(::Type{T}) where {T<:NamedTuple} = fieldcount(N)
@@ -38,8 +39,9 @@ field_count(x::LittleDict) = length(x.keys)
 """
     field_names
 
-obtains the names of the fields in a NamedTuple, LittleDict, struct
-- works with types and instances
+obtains the names of the fields in a NamedTuple, struct, LittleDict
+- works with NamedTuple, struct types
+- works with NamedTuple, struct, LittleDict instances
 """ field_names
 
 Base.@pure field_names(::Type{NamedTuple{N,T}}) where {N,T} = (N)
@@ -51,7 +53,8 @@ field_names(x::LittleDict) = (x.keys...,)
     field_types
 
 obtains the types of the fields in a NamedTuple, LittleDict, struct
-- works with types and instances
+- works with NamedTuple, struct types
+- works with NamedTuple, struct, LittleDict instances
 """ field_types
 
 field_types(::Type{NamedTuple{N,T}}) where {N,T} = Tuple(T.parameters)
@@ -63,7 +66,7 @@ field_types(x::LittleDict) = (typeof(x.vals).parameters...,)
     field_values
 
 obtains the values of the fields in a NamedTuple, LittleDict, struct
-- works with instances
+- works with NamedTuple, struct, LittleDict instances
 """ field_values
 
 field_values(x::NamedTuple) = values(x)
