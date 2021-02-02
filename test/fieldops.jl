@@ -25,3 +25,13 @@ end
     @test field_values(t) == (1, '2', TestStruct)
 end
 
+@testset "field ops (LittleDict)" begin
+    T = TestLDict
+    t = test_ldict
+
+    @test field_count(T)  == 3
+    @test field_names(T)  == (:a, :two, :datatype)
+    @test field_types(T)  == (Int, Char, UnionAll)
+    @test field_values(t) == (1, '2', LittleDict)
+end
+
