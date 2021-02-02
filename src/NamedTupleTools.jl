@@ -66,7 +66,7 @@ field_count(x::LittleDict) = length(x.keys)
 
 field_names(x::DataType)  = fieldnames(x)
 field_names(x::T) where T = fieldnames(T)
-field_names(x::LittleDict) = x.keys
+field_names(x::LittleDict) = (x.keys...,)
 
 field_types(x::DataType)  = fieldtypes(x)
 field_types(x::T) where T = fieldtypes(T)
@@ -74,7 +74,7 @@ field_types(x::LittleDict) = (typeof(x.vals).parameters...,)
 
 field_values(x::NamedTuple) = values(x)
 field_values(x::T) where T = getfield.((x,), field_names(x))
-field_values(x::LittleDict) = x.vals
+field_values(x::LittleDict) = (x.vals...,)
 
 """
     namedtuple
