@@ -156,8 +156,8 @@ function retype(x::NamedTuple{N,T}, types::NTuple{M,<:Type}) where {N,T,M}
 end
 
 """
-     canonical(::NamedTuple)
-     canonical(::Type{NamedTuple})
+    canonical(::NamedTuple)
+    canonical(::Type{NamedTuple})
 
 Provides a canonical order, sorting over the field names
 """ canonical
