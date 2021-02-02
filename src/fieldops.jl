@@ -31,7 +31,7 @@ tally the number of fields in a NamedTuple, LittleDict, struct
 - works with NamedTuple, struct, LittleDict instances
 """ field_count
 
-field_count(::Type{T}) where {T<:NamedTuple} = fieldcount(N)
+field_count(::Type{T}) where {T<:NamedTuple} = fieldcount(T)
 field_count(x::DataType)  = fieldcount(x)
 field_count(x::T) where T = fieldcount(T)
 field_count(x::LittleDict) = length(x.keys)
