@@ -1,8 +1,14 @@
 #=
    testing the field operations
 
-   op(x::T)      ⟣  fieldvalues(x)
+   T a NamedTuple or a struct
    op(::Type{T}) ⟣  fieldcount(T), fieldnames(T), fieldtypes(T)
+   op(x::T)      ⟣  fieldcount(x), fieldnames(x), fieldtypes(x)
+   op(x::T)      ⟣  fieldvalues(x)
+
+   T a LittleDict
+   op(x::T)      ⟣  fieldcount(x), fieldnames(x), fieldtypes(x)
+   op(x::T)      ⟣  fieldvalues(x)
 =#
 
 @testset "field ops (NamedTuple())" begin
