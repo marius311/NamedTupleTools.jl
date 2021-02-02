@@ -4,7 +4,7 @@
 This module provides useful NamedTuple tooling.
 
 see [`namedtuple`](@ref),
-    [`prototype`](@ref), [`isprototype`](@ref),
+    [`namedproto`](@ref), [`isnamedproto`](@ref),
     [`rename`](@ref), [`retype`](@ref),
     [`issame`](@ref), [`≅`](@ref), [`canonical`](@ref),
     [`select`](@ref), [`delete`](@ref), [`separate`](@ref)
@@ -17,7 +17,7 @@ see [`namedtuple`](@ref),
 module NamedTupleTools
 
 export namedtuple, @namedtuple,
-    prototype, isprototype,
+    namedproto, isnamedproto,
     issame, ≅, canonical, 
     select, delete, separate,
     merge_recursive,
@@ -97,46 +97,46 @@ macro namedtuple(vars...)
 end
 
 """
-    prototype
-    @prototype
+    namedproto
+    @namedproto
 
  Constructs the type-free form of a NamedTuple
 
-- prototype(::NamedTuple)
-- prototype(::NTuple{N, Symbols|Strings})
-- prototype(::Varargs{Symbols|Strings})
+- namedproto(::NamedTuple)
+- namedproto(::NTuple{N, Symbols|Strings})
+- namedproto(::Varargs{Symbols|Strings})
 
-- @prototype(a, b, c) === NamedTuple{(:a, :b, :c)}
-""" prototype
+- @namedproto(a, b, c) === NamedTuple{(:a, :b, :c)}
+""" namedproto
 
-prototype(x::Type{NamedTuple{N,<:Tuple}}) where {N} = x
-prototype(x::Type{NamedTuple{N,T}}) where {N,T} =
+namedproto(x::Type{NamedTuple{N,<:Tuple}}) where {N} = x
+namedproto(x::Type{NamedTuple{N,T}}) where {N,T} =
    NamedTuple{N,T} where T<:Tuple
-prototype(x::NamedTuple{N,T}) where {N,T} = 
+namedproto(x::NamedTuple{N,T}) where {N,T} = 
    NamedTuple{N,T} where T<:Tuple
 
-prototype(xs::NTuple{N,Symbol}) where {N} = NamedTuple{xs}
-prototype(xs::NTuple{N,String}) where {N} = prototype(Symbol.(xs))
-prototype(xs...) = prototype(xs)
-prototype(x) = prototype(namedtuple(x))
+namedproto(xs::NTuple{N,Symbol}) where {N} = NamedTuple{xs}
+namedproto(xs::NTuple{N,String}) where {N} = namedproto(Symbol.(xs))
+namedproto(xs...) = namedproto(xs)
+namedproto(x) = namedproto(namedtuple(x))
 
-macro prototype(xs...)
+macro namedproto(xs...)
     :(NamedTuple{$xs})
 end
 
 """
-    isprototype
+    isnamedproto
 
 is a NamedTuple given type-free.
-""" isprototype
+""" isnamedproto
 
-isprototype(@nospecialize x) = false
-isprototype(@nospecialize T::UnionAll) = T <: NamedTuple
+isnamedproto(@nospecialize x) = false
+isnamedproto(@nospecialize T::UnionAll) = T <: NamedTuple
 
 """
     rename(<NamedTuple>, (<Symbols>))
 
-Construct a prototype with names from (<Symbols>) and types from <NamedTuple>
+Construct a namedproto with names from (<Symbols>) and types from <NamedTuple>
 - convenience function
 """
 function rename(x::NamedTuple{N,T}, symbols::NTuple{M,Symbol}) where {N,T,M}
@@ -147,7 +147,7 @@ end
 """
     retype(<NamedTuple>, (<Types>))
 
-Construct a prototype with names from <NamedTuple> and types from (<Types>)
+Construct a namedproto with names from <NamedTuple> and types from (<Types>)
 - convenience function
 """
 function retype(x::NamedTuple{N,T}, types::NTuple{M,<:Type}) where {N,T,M}
@@ -247,6 +247,26 @@ Base.convert(::Type{LittleDict}, x::NamedTuple) =
 
 Base.convert(::Type{T}, x::NamedTuple) where {T<:AbstractDict} =
     T(convert(Vector{Pair}, x))
+
+function Base.convert(::Type{NamedTuple}, x::AbstractVector{Pair}; types::Bool=false)
+    syms  = first.(x)
+    other = last.(x)
+    if !types
+        NamedTuple{syms}(other)
+    elseif all(isa.(other, (Type,)))
+	NamedTuple{syms, Tuple{other...}}
+    else
+        throw(ErrorException("unknown type in $other"))
+    end
+end
+
+namedtuple(x::DataType) =
+    NamedTuple{field_names(x), Tuple{field_types(x)...}}
+namedtuple(x::T) where T =
+    namedtuple(T)(field_values(x))
+
+namedtuple(x::LittleDict) = NamedTuple{x.keys}(x.vals)
+namedtuple(x::AbstractDict) = NamedTuple{Tuple(keys(x))}(values(x))
 
 # NamedTuples -> structs
 """
