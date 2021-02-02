@@ -74,7 +74,7 @@ field_types(x::LittleDict) = (typeof(x.vals).parameters...,)
 
 field_values(x::NamedTuple) = values(x)
 field_values(x::T) where T = getfield.((x,), field_names(x))
-field_values(x::LittleDict) = (x.vals...,)
+field_values(x::LittleDict) = typeof.(Tuple(x.vals))
 
 """
     namedtuple
