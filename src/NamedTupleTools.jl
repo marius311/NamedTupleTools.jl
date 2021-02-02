@@ -26,6 +26,13 @@ export namedtuple, @namedtuple,
 
 using OrderedCollections
 
+macro assign(var, val)
+    :($(esc(var)) = $(esc(val)))
+end
+
+# isempty works: isempty(NamedTuple()) === true
+Base.empty(NamedTuple) = NamedTuple()
+
 # field_count, field_names, field_types, field_vals
 include("fieldops.jl")
 
