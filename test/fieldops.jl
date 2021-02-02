@@ -9,19 +9,19 @@
     T = TestNT
     t = test_nt
 
-    @test fieldcount(T)  == 3
-    @test fieldnames(T)  == (:a, :two, :datatype)
-    @test fieldtypes(T)  == (Int, Char, DataType)
-    @test fieldvalues(t) == (1, '2', NamedTuple)
+    @test field_count(T)  == 3
+    @test field_names(T)  == (:a, :two, :datatype)
+    @test field_types(T)  == (Int, Char, DataType)
+    @test field_values(t) == (1, '2', NamedTuple)
 end
 
 @testset "field ops (struct)" begin
     T = TestStruct
     t = test_struct
 
-    @test fieldcount(T)  == 3
-    @test fieldnames(T)  == (:a, :two, :datatype)
-    @test fieldtypes(T)  == (Int, Char, DataType)
-    @test fieldvalues(t) == (1, '2', TestStruct)
+    @test field_count(T)  == 3
+    @test field_names(T)  == (:a, :two, :datatype)
+    @test field_types(T)  == (Int, Char, DataType)
+    @test field_values(t) == (1, '2', TestStruct)
 end
 
