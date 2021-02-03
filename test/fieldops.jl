@@ -7,8 +7,8 @@
    op(x::T)      ⟣  field_values(x)
 
    T a LittleDict
-   op(x::T)      ⟣  fieldcount(x), fieldnames(x), fieldtypes(x), field_tupletype(T)
-   op(x::T)      ⟣  fieldvalues(x)
+   op(x::T)      ⟣  field_count(x), field_names(x), field_types(x), field_tupletype(T)
+   op(x::T)      ⟣  field_values(x)
 =#
 
 @testset "field ops (NamedTuple())" begin
