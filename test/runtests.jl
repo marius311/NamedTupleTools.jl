@@ -1,5 +1,6 @@
 using NamedTupleTools
-using Test, OrderedCollections
+using OrderedCollections: OrderedDict, LittleDict
+using Test
 
 #=
     types and realized values
@@ -20,8 +21,6 @@ include("testvalues.jl")
    op(::Type{T}) ⟣  fieldcount(T), fieldnames(T), fieldtypes(T)
 =#
 include("fieldops.jl")
-
-using OrderedCollections: OrderedDict, LittleDict
 
 namesofvalues  = (:instrument, :madeby)
 matchingvalues = ("violin", "Stradivarius")
@@ -46,10 +45,6 @@ nt = namedtuple(namesofvalues, matchingvalues)
 
 nt = NamedTuple{(:a, :b)}(1.0, "two")
 NT = typeof(nt)
-
-@test fieldnames(nt) == (:a, :b)
-@test fieldtypes(NT) == (Float64, String)
-@test NamedTupleTools.field_types(NT) == Tuple{Float64, String}
 
 namedtuple(:a, :b) == NamedTuple{(:a, :b),T} where T<:Tuple
 
