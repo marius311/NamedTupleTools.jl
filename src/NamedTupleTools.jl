@@ -469,7 +469,7 @@ function unnest(nt::NamedTuple{N,T}; sep=".") where {N,T}
 			push!(flatkeys, ky)
 			push!(flatvals, vl)
         end
-     end
+    end
 
     ntkeys = (flatkeys...,)
     ntvals = (flatvals...,)
