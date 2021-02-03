@@ -1,19 +1,16 @@
 #=
-    Field based nondestructive ops for NamedTuples and struts
+    Field-based discernment for NamedTuples and structs
 
-      op(x::T)      ⟣  fieldvalues(x)
-      op(::Type{T}) ⟣  fieldcount(T), fieldnames(T), fieldtypes(T)
+    field-oriented operations that apply to types with fields
+      op(::Type{T}) ⟣  field_count(T), field_names(T), field_types(T)
 
-    Our field-oriented discernment functions are reliable and performant.
+    field-focused operations that apply to instances of types with fields
+      op(x::T)      ⟣  field_count(T), field_names(T), field_types(T)
+      op(x::T)      ⟣  field_values(x)
     
     Most programming languages provide functions designed for the processing of values.
     Fewer are designed with methods for the processing of types. Julia does both well.
-
-    Three of these methods are field-oriented operations that apply to types with fields.
-    The fourth method is field-focused, as it is applies to values with these same types.
-    
-    `fieldcount(_)`, `fieldnames(_)`, and `fieldtypes(_)` accept type-valued variables.
-    `fieldvalues(_)` applies to variables with assigned values rather than their types
+    Our field-based discernment functions are reliable and performant.
 =#
 
 #=
