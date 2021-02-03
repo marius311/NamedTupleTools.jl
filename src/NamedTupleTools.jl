@@ -450,5 +450,30 @@ end
 
 merge_recursive(nt1::NamedTuple, nt2::NamedTuple, nts...) =
     merge_recursive(merge_recursive(nt1, nt2), nts...)
-	
+
+function unnest(nt::NamedTuple{N,T}; sep=".") where {N,T}
+    flatkeys = []
+    flatvals = []
+    syms = field_names(nt)
+    vals = field_values(nt)
+
+    for idx in eachindex(syms)
+        ky = syms[idx]
+        vl = vals[idx]
+        if isa(vl, NamedTuple)
+			flat = flatten(vl, sep=sep)
+			flatsyms = map(k->Symbol(string(ky, sep, k)), field_names(flat))
+			append!(flatkeys, flatsyms)
+			append!(flatvals, field_values(flat))
+        else
+			push!(flatkeys, ky)
+			push!(flatvals, vl)
+        end
+     end
+
+    ntkeys = (flatkeys...,)
+    ntvals = (flatvals...,)
+    NamedTuple{ntkeys}(ntvals)
+end
+
 end  # NamedTupleTools
