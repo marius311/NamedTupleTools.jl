@@ -21,7 +21,7 @@ export namedtuple, @namedtuple,
     issame, ≅, canonical, 
     select, delete, separate,
     unnest, merge_recursive,
-    field_count, field_names, field_types, field_values,
+    field_count, field_names, field_types, field_tupletype, field_values,
     construct #, newstruct, @newstruct
 
 using OrderedCollections
