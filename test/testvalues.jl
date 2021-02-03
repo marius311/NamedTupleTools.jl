@@ -28,4 +28,10 @@ all_strings = (violin_s, violin_g, viola_s)
 #=
 filter(x->x[:madeby] == "Stradivari", all_strings)
 ((instrument = "violin", madeby = "Stradivari"), (instrument = "viola", madeby = "Stradivari"))
+
+madeby(x) = x[:madeby]
+Stradivari(x) = (==)("Stradivari", madeby(x))
+filter(Stradivari, all_strings)
+((instrument = "violin", madeby = "Stradivari"), (instrument = "viola", madeby = "Stradivari"))
+
 =#
