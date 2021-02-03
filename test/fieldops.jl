@@ -65,7 +65,9 @@ end
 
     @test field_count(t)  == 3
     @test field_names(t)  == (:a, :two, :datatype)
+    @test field_types(T)  == (Int, Char, UnionAll)
     @test field_types(t)  == (Int, Char, UnionAll)
+    @test field_tupletype(T)  == Tuple{Int, Char, UnionAll}
     @test field_tupletype(t)  == Tuple{Int, Char, UnionAll}
     @test field_values(t) == (1, '2', LittleDict)
 end
