@@ -63,6 +63,9 @@ end
     T = TestLDict
     t = test_ldict
 
+    @test field_types(T)  == (Int, Char, DataType)
+    @test field_tupletype(T)  == Tuple{Int, Char, DataType}
+   
     @test field_count(t)  == 3
     @test field_names(t)  == (:a, :two, :datatype)
     @test field_types(t)  == (Int, Char, UnionAll)
