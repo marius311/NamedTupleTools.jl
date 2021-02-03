@@ -20,7 +20,7 @@ export namedtuple, @namedtuple,
     namedproto, isnamedproto,
     issame, ≅, canonical, 
     select, delete, separate,
-    merge_recursive,
+    unnest, merge_recursive,
     field_count, field_names, field_types, field_values,
     construct #, newstruct, @newstruct
 
