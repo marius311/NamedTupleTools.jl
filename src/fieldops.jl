@@ -50,7 +50,7 @@ field_names(x::LittleDict) = (x.keys...,)
     field_types
 
 obtains the types of the fields in a NamedTuple, LittleDict, struct (of the values in a LittleDict)
-- works with NamedTuple, struct, LittleDict types
+- works with NamedTuple, struct types and LittleDicts using tuples
 - works with NamedTuple, struct, LittleDict instances
 """ field_types
 
@@ -64,7 +64,7 @@ field_types(x::LittleDict) = (typeof.(x.vals)...,)
     field_tupletype
 
 obtains as a Tuple type, the types of the fields in a NamedTuple, struct (of the values in a LittleDict)
-- works with NamedTuple, struct, LittleDict types
+- works with NamedTuple, struct type and LittleDicts using tuples
 - works with NamedTuple, struct, LittleDict instances
 """ field_tupletype
 
