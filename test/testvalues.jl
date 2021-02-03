@@ -21,3 +21,11 @@ test_struct = TestStruct(1, '2', TestStruct)
 test_ldict = LittleDict(:a=>1, :two=>'2', :datatype=>LittleDict)
 TestLDict = typeof(test_ldict)
 
+violin_s = (instrument = "violin", madeby = "Stradivari")
+viola_s  = (instrument = "viola" , madeby = "Stradivari")
+violin_g = (instrument = "violin", madeby = "Guarneri")
+all_strings = (violin_s, violin_g, viola_s)
+#=
+filter(x->x[:madeby] == "Stradivari", all_strings)
+((instrument = "violin", madeby = "Stradivari"), (instrument = "viola", madeby = "Stradivari"))
+=#
