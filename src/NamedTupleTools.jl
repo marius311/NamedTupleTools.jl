@@ -264,14 +264,6 @@ function Base.convert(::Type{NamedTuple}, x::AbstractVector{Pair}; types::Bool=f
     end
 end
 
-namedtuple(x::DataType) =
-    NamedTuple{field_names(x), Tuple{field_types(x)...}}
-namedtuple(x::T) where T =
-    namedtuple(T)(field_values(x))
-
-namedtuple(x::LittleDict) = NamedTuple{x.keys}(x.vals)
-namedtuple(x::AbstractDict) = NamedTuple{Tuple(keys(x))}(values(x))
-
 # NamedTuples -> structs
 """
     construct(<struct type>, NamedTuple)
