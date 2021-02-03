@@ -19,7 +19,7 @@ end
 test_struct = TestStruct(1, '2', TestStruct)
 
 test_ldict = LittleDict((:a, :two, :datatype), (1, '2', LittleDict))
-TestLDict = typeof(test_ldict)
+TestLDict  = typeof(test_ldict)
 
 violin_s = (instrument = "violin", madeby = "Stradivari")
 viola_s  = (instrument = "viola" , madeby = "Stradivari")
