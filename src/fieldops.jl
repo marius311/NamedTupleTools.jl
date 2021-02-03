@@ -70,7 +70,7 @@ obtains as a Tuple type, the types of the fields
 field_tupletype(::Type{NamedTuple{N,T}}) where {N,T} = T
 field_tupletype(x::DataType)   = Tuple{fieldtypes(x)...}
 field_tupletype(x::T) where T  = Tuple{fieldtypes(T)...}
-field_tupletype(x::LittleDict) = Tuple{fieldtypes(T)...}
+field_tupletype(x::LittleDict) = Tuple{fieldtypes(x)...}
 
 """
     field_values
