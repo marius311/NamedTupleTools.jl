@@ -52,17 +52,17 @@ Construct a NamedTuple (avoiding type piracy)
 namedtuple(x::NamedTuple) = x
 namedtuple(x::Type{<:NamedTuple}) = x
 
-namedtuple(names::NTuple{N,Symbol}) where N =
-   NamedTuple{names, T} where T<:Tuple
-namedtuple(names::NTuple{N,Symbol}, types::NTuple{N,Type}) where N =
-   NamedTuple{names,Tuple{types...}}
-namedtuple(names::NTuple{N,Symbol}, values::NTuple{N,Any}) where N =
-   NamedTuple{names}(values)
+namedtuple(names::NTuple{N,Symbol}) where N = NamedTuple{names, T} where T<:Tuple
+namedtuple(names::NTuple{N,Symbol}, values::NTuple{N,Any}) where N = NamedTuple{names}(values)
 
-namedtuple(x::DataType) =
-    NamedTuple{field_names(x), Tuple{field_types(x)...}}
-namedtuple(x::T) where T =
-    namedtuple(T)(field_values(x))
+namedtuple(names::NTuple{N,Symbol}, values::AbstractVector) where N = NamedTuple{names}(Tuple(values))
+namedtuple(names::NTuple{N,AbstractString}, rest...) where N = namedtuple(Symbol.(names), rest...)
+namedtuple(names::AbstractVector{Symbol}, rest...) where N = namedtuple(Tuple(names), rest...)
+namedtuple(names::AbstractVector{<:AbstractString}, rest...) = namedtuple(Tuple(names), rest...)
+
+	
+namedtuple(x::DataType) = NamedTuple{field_names(x), Tuple{field_types(x)...}}
+namedtuple(x::T) where T = namedtuple(T)(field_values(x))
 
 namedtuple(x::LittleDict) = NamedTuple{x.keys}(x.vals)
 namedtuple(x::AbstractDict) = NamedTuple{Tuple(keys(x))}(values(x))
