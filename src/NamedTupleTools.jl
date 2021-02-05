@@ -32,6 +32,9 @@ end
 
 # field_count, field_names, field_types, field_vals
 include("fieldops.jl")
+include("unrolled.jl")
+
+include("conversions.jl")
 
 """
     namedtuple

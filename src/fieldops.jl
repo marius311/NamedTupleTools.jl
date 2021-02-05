@@ -6,7 +6,7 @@
 
     field-focused operations that apply to instances of types with fields
       op(x::T)      ⟣  field_count(x), field_names(x), field_types(x), field_tupletype(x)
-      op(x::T)      ⟣  field_values(x), field_value(x)
+      op(x::T)      ⟣  field_values(x), field_value(x), named_field(x, n)
     
     Most programming languages provide functions designed for the processing of values.
     Fewer are designed with methods for the processing of types. Julia does both well.
@@ -93,3 +93,42 @@ obtains the value of a field in a NamedTuple, struct (of a key in a LittleDict)
 field_value(x::NamedTuple, field::Symbol) = getfield(x, field)
 field_value(x::T, field::Symbol) where T  = getfield(x, field)
 field_value(x::LittleDict, field::Symbol) = x[field]
+
+"""
+    named_field
+
+obtains a NamedTuple constituent from within a NamedTuple
+- by position or by name
+""" named_field
+
+function named_field(x::NamedTuple{N,T}, position::Integer) where {N,T}
+    sym = (N[position],)
+    typ = Tuple{T.parameters[position]}
+    val = x[position]
+    return NamedTuple{sym, typ}(val)
+end
+
+function named_field(x::NamedTuple{N,T}, name::Symbol) where {N,T}
+    sym = (name,)
+    typ = Tuple{T.parameters[position]}
+    val = getfield(x, name)
+    return NamedTuple{sym, typ}(val)
+end
+
+# low level support functions
+
+function hassymbol(sym::Symbol, tup::NTuple{N, Symbol}) where {N}
+    sym === first(tup) ? true : hassymbol(sym, tail(tup))
+end
+hassymbol(sym::Symbol, tup::Tuple{}) = false
+
+function indexof(sym::Symbol, tup::NTuple{N, Symbol}) where {N}
+    N < 8 ? 
+    unrolled_indexof(Val(N), sym, tup) :
+    recursive_indexof(sym, tup)
+end
+
+function recursive_indexof(sym::Symbol, tup::NTuple{N, Symbol}, idx=1) where {N}
+    sym === first(tup) ? idx : indexof(sym, Base.tail(tup), idx+1)
+end
+recursive_indexof(sym::Symbol, tup::NTuple{}) = 0
