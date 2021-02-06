@@ -37,19 +37,31 @@ filter(Stradivari, all_strings)
 
 =#
 
-sym_ch = (map(Symbol,chr_az,chr_az)...,);
+# ('a', 'b', .. 'z')
+chr_az = Tuple(map(x->Char(x), collect(Int('a'):Int('z'))));
+# ("a", "b", .. "z")
+str_az = Tuple(map(string, chr_az)); 
 
-int_az = (collect(Int('a'):Int('z'))...,);
-chr_az = (map(x->Char(x), int_az)...);
-sym_az = (map(Symbol, chr_az)...); 
-str_az = (map(string, int_az)...); 
+# (:a, :b, .. :z)
+sym_az = Tuple(map(Symbol, chr_az));
+# (:a0, :b0, .. :z0)
+sym_a0 = Symbol.(chr_az, 0)
+# (:a1, :b1, .. :z1)
+sym_a1 = Symbol.(chr_az, 1)
+# (:a2, :b2, .. :z2)
+sym_a2 = Symbol.(chr_az, 2)
 
-int_26  = collect(1:26); 
-str_26  = map(string, int26); 
-sym_26  = map(Symbol, int26);str_az = map(string, int_az); 
+# :aa :bb .. :zz
+sym_cc = (map(Symbol, chr_az, chr_az)...,);
+# :a1 :b2 .. :z26
+sym_ch = (map(Symbol, chr_az, (1:26))...,);
 
-int_512 = collect(1:512);
-str_512 = map(string, int_512);
+# :a, :b, .. :z, :a1, :b2, .. :z26, :aa, :bb .. :zz,
+ab12zz = (sym_az..., sym_ch..., sym_cc)
 
+# :a1 .. :z512
+sym_13312 = (Symbol(a,i) for a in 'a':'z' for i in 1:512)
+
+# (a='a', b='b', .. z='z')
 nt_az = NamedTuple{(sym_az)}(chr_az)
 
