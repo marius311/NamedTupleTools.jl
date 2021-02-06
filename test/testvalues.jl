@@ -44,12 +44,30 @@ str_az = Tuple(map(string, chr_az));
 
 # (:a, :b, .. :z)
 sym_az = Tuple(map(Symbol, chr_az));
+
 # (:a0, :b0, .. :z0)
+# ... 182 symbols
+# (:a6, :b6, .. :z6)
 sym_a0 = Symbol.(chr_az, 0)
-# (:a1, :b1, .. :z1)
 sym_a1 = Symbol.(chr_az, 1)
-# (:a2, :b2, .. :z2)
 sym_a2 = Symbol.(chr_az, 2)
+sym_a3 = Symbol.(chr_az, 3)
+sym_a4 = Symbol.(chr_az, 4)
+sym_a5 = Symbol.(chr_az, 5)
+sym_a6 = Symbol.(chr_az, 6)
+
+
+# :a1 .. :z512
+sym_13312 = (Symbol(a,i) for a in 'a':'z' for i in 1:512)
+
+# (a='a', b='b', .. z='z')
+nt_az = NamedTuple{(sym_az)}(chr_az)
+# (a=1, b=2', .. z=26)
+nt_az = NamedTuple{(sym_az)}(1:26)
+# a0..z0 a1..z1 .. a6..z6
+nt_182 = NamedTuple{(sym_a06)}(1:length(sym_a06))
+
+nt_az = NamedTuple{(sym_az)}(chr_az)
 
 # :aa :bb .. :zz
 sym_cc = (map(Symbol, chr_az, chr_az)...,);
@@ -59,9 +77,4 @@ sym_ch = (map(Symbol, chr_az, (1:26))...,);
 # :a, :b, .. :z, :a1, :b2, .. :z26, :aa, :bb .. :zz,
 ab12zz = (sym_az..., sym_ch..., sym_cc)
 
-# :a1 .. :z512
-sym_13312 = (Symbol(a,i) for a in 'a':'z' for i in 1:512)
-
-# (a='a', b='b', .. z='z')
-nt_az = NamedTuple{(sym_az)}(chr_az)
 
