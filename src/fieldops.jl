@@ -7,7 +7,7 @@
     field-focused operations that apply to instances of types with fields
       op(x::T)      ⟣  field_count(x), field_names(x), field_types(x), field_tupletype(x)
       op(x::T)      ⟣  field_values(x), field_value(x), named_field(x, n)
-    
+
     Most programming languages provide functions designed for the processing of values.
     Fewer are designed with methods for the processing of types. Julia does both well.
     Our field-based discernment functions are reliable and performant.
@@ -123,12 +123,15 @@ end
 hassymbol(sym::Symbol, tup::Tuple{}) = false
 
 function indexof(sym::Symbol, tup::NTuple{N, Symbol}) where {N}
-    N < 8 ? 
-    unrolled_indexof(Val(N), sym, tup) :
-    recursive_indexof(sym, tup)
+    (((
+    N <= 24 && return indexof_unroll(Val(N), sym, tup)) ||
+    N <  48 && return indexof_recur(sym, tup))          ||
+    N <  72 && return indexof_gen(sym, tup))            ||
+    return indexof_recur(sym, tup)
 end
 
-function recursive_indexof(sym::Symbol, tup::NTuple{N, Symbol}, idx=1) where {N}
-    sym === first(tup) ? idx : indexof(sym, Base.tail(tup), idx+1)
+function indexof_recur(sym::Symbol, tup::NTuple{N, Symbol}, idx=1) where {N}
+    sym === first(tup) ? idx : indexof_recur(sym, Base.tail(tup), idx+1)
 end
-recursive_indexof(sym::Symbol, tup::NTuple{}) = 0
+indexof_recur(sym::Symbol, tup::NTuple{}) = 0
+

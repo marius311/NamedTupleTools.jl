@@ -18,7 +18,7 @@ module NamedTupleTools
 
 export namedtuple, @namedtuple,
     namedproto, isnamedproto,
-    issame, ≅, canonical, 
+    issame, ≅, canonical,
     select, delete, separate,
     unnest, merge_recursive,
     field_count, field_names, field_types, field_tupletype, field_values,
@@ -44,7 +44,7 @@ Construct a NamedTuple (avoiding type piracy)
 - namedtuple(symbols)
 - namedtuple(symbols, types)
 - namedtuple(symbols, values)
-> where symbols, types, values are tuples 
+> where symbols, types, values are tuples
 
 - namedtuple(struct)
 - namedtuple(::LittleDict)
@@ -63,7 +63,7 @@ namedtuple(names::NTuple{N,AbstractString}, rest...) where N = namedtuple(Symbol
 namedtuple(names::AbstractVector{Symbol}, rest...) where N = namedtuple(Tuple(names), rest...)
 namedtuple(names::AbstractVector{<:AbstractString}, rest...) = namedtuple(Tuple(names), rest...)
 
-	
+
 namedtuple(x::DataType) = NamedTuple{field_names(x), Tuple{field_types(x)...}}
 namedtuple(x::T) where T = namedtuple(T)(field_values(x))
 
@@ -119,7 +119,7 @@ end
 namedproto(x::Type{NamedTuple{N,<:Tuple}}) where {N} = x
 namedproto(x::Type{NamedTuple{N,T}}) where {N,T} =
    NamedTuple{N,T} where T<:Tuple
-namedproto(x::NamedTuple{N,T}) where {N,T} = 
+namedproto(x::NamedTuple{N,T}) where {N,T} =
    NamedTuple{N,T} where T<:Tuple
 
 namedproto(xs::NTuple{N,Symbol}) where {N} = NamedTuple{xs}
@@ -299,14 +299,14 @@ end
 macro eval2parsed1(sname, fnames, ftypes)
     :(eval2parsed1($sname, esc($fnames), esc($ftypes)))
 end
-						
-			
+
+
 const prestruct = ":(\$(Expr(:toplevel, quote begin struct "
 const supstruct = " <: "
 const poststruct = " end; end; end)))"
 const prestruct1 = "(Expr(:toplevel, quote begin struct "
 const poststruct1 = " end; end; end))"
-	
+
 function strstruct(sname, fnames, ftypes; abstract=Any)
 	string(prestruct, sname, abstype(abstract), midstruct(fnames, ftypes), poststruct)
 end
@@ -331,7 +331,7 @@ end
 newstruct(sname::Symbol, x::NamedTuple{N,T}) where {N,T} = newstruct(sname, NamedTuple{N,T})
 newstruct(sname::String, x) = newstruct(Symbol(sname), x)
 
-newstruct(sname::Symbol, names::NTuple{N,Symbol}, types::NTuple{N,Type}) where N = 
+newstruct(sname::Symbol, names::NTuple{N,Symbol}, types::NTuple{N,Type}) where N =
     eval(eval(parsedstruct(sname, names, types)))
 
 						function newstruct(sname::Symbol, names::NTuple{N,Symbol}, types::NTuple{N,Type}) where N
