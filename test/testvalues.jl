@@ -35,3 +35,28 @@ filter(Stradivari, all_strings)
 ((instrument = "violin", madeby = "Stradivari"), (instrument = "viola", madeby = "Stradivari"))
 
 =#
+
+
+intaz = (collect(Int('a'):Int('z')));
+symaz = map(Symbol, intaz); 
+chraz = map(x->Char(x), intaz);
+
+int26 = collect(1:26); 
+str26 = map(string, int26); 
+sym26 = map(Symbol, int26);
+
+int512 = collect(1:512);
+sym512 = map(Symbol, int512);
+str512 = map(string, int512);
+
+straz = map(string, intaz); 
+
+ntaz = NamedTuple{(symaz...,)}(chraz)
+
+int_512 = collect(1:512);
+
+sym_az = map(Symbol, int_az);
+sym_26 = map(Symbol, int_26);
+
+nt_az = NamedTuple{(sym_az)}(int_z)
+
