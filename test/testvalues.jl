@@ -37,12 +37,12 @@ filter(Stradivari, all_strings)
 
 =#
 
-sym_ch = map(Symbol,chr_az,chr_az);
+sym_ch = (map(Symbol,chr_az,chr_az)...,);
 
-int_az = (collect(Int('a'):Int('z')));
-chr_az = map(x->Char(x), int_az);
-sym_az = map(Symbol, chr_az); 
-str_az = map(string, int_az); 
+int_az = (collect(Int('a'):Int('z'))...,);
+chr_az = (map(x->Char(x), int_az)...);
+sym_az = (map(Symbol, chr_az)...); 
+str_az = (map(string, int_az)...); 
 
 int_26  = collect(1:26); 
 str_26  = map(string, int26); 
