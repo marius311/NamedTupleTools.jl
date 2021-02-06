@@ -61,5 +61,3 @@ sym_a0a6 = (sym_a1...,sym_a2...,sym_a3...,sym_a4...,sym_a5...,sym_a6...,)
 # (a1=1, ..z1=26,, a2=27 .. z6=156)
 nt_182 = NamedTuple{(sym_a0a6)}(1:length(sym_a0a6))
 
-
-
