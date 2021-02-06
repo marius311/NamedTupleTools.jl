@@ -15,8 +15,9 @@
     end
 end
 
-indexof_unroll(sym::Symbol, tup::NTuple{N,Symbol}) where N =
+function indexof_unroll(sym::Symbol, tup::NTuple{N,Symbol}) where N
     indexof_unroll(Val(N), sym, tup)
+end
 
 function index_of_unrolled(sym, tup::NTuple{N,Symbol}) where N
     x12, r12 = divrem(N,12)
