@@ -13,6 +13,8 @@
     Our field-based discernment functions are reliable and performant.
 =#
 
+using OrderedCollections: LittleDict
+
 #=
    renaming avoids typed-method piracy
    Base: fieldcount, fieldnames, fieldtypes work with types only

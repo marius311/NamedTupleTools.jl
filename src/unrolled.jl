@@ -132,7 +132,6 @@ function indexof_unroll(::Val{10}, sym::Symbol, tup::NTuple{N,Symbol}) where N
     return 0
 end
 
-
 function indexof_unroll(::Val{11}, sym::Symbol, tup::NTuple{N,Symbol}) where N
     (((((((((((
     sym === tup[1]  && return  1) ||
@@ -148,7 +147,6 @@ function indexof_unroll(::Val{11}, sym::Symbol, tup::NTuple{N,Symbol}) where N
     sym === tup[11] && return 11)
     return 0
 end
-
 
 function indexof_unroll(::Val{12}, sym::Symbol, tup::NTuple{N,Symbol}) where N
     ((((((((((((
@@ -172,25 +170,25 @@ end
 function indexof_unroll(::Val{13}, sym::Symbol, tup::NTuple{N,Symbol}) where N
     result = indexof_unroll(Val(12), sym, tup)
     !iszero(result) && return result
-    return indexof_unroll(Val(1), sym, tup[13:13])
+    return 12 + indexof_unroll(Val(1), sym, tup[13:13])
 end
 
 function indexof_unroll(::Val{14}, sym::Symbol, tup::NTuple{N,Symbol}) where N
     result = indexof_unroll(Val(12), sym, tup)
     !iszero(result) && return result
-    return indexof_unroll(Val(2), sym, tup[13:14])
+    return 12 + indexof_unroll(Val(2), sym, tup[13:14])
 end
 
 function indexof_unroll(::Val{15}, sym::Symbol, tup::NTuple{N,Symbol}) where N
     result = indexof_unroll(Val(12), sym, tup)
     !iszero(result) && return result
-    return indexof_unroll(Val(3), sym, tup[13:15])
+    return 12 + indexof_unroll(Val(3), sym, tup[13:15])
 end
 
 function indexof_unroll(::Val{16}, sym::Symbol, tup::NTuple{N,Symbol}) where N
     result = indexof_unroll(Val(12), sym, tup)
     !iszero(result) && return result
-    return indexof_unroll(Val(4), sym, tup[13:16])
+    return 12 + indexof_unroll(Val(4), sym, tup[13:16])
 end
 
 #=
@@ -200,63 +198,62 @@ end
         handle the trailing 1..16 using above on the tail
 =#
 
-
 function indexof_unroll(::Val{17}, sym::Symbol, tup::NTuple{N,Symbol}) where N
     result = indexof_unroll(Val(12), sym, tup)
     !iszero(result) && return result
-    return indexof_unroll(Val(5), sym, tup[13:17])
+    return 12 + indexof_unroll(Val(5), sym, tup[13:17])
 end
 
 function indexof_unroll(::Val{18}, sym::Symbol, tup::NTuple{N,Symbol}) where N
     result = indexof_unroll(Val(12), sym, tup)
     !iszero(result) && return result
-    return indexof_unroll(Val(6), sym, tup[13:18])
+    return 12 + indexof_unroll(Val(6), sym, tup[13:18])
 end
 
 function indexof_unroll(::Val{19}, sym::Symbol, tup::NTuple{N,Symbol}) where N
     result = indexof_unroll(Val(12), sym, tup)
     !iszero(result) && return result
-    return indexof_unroll(Val(7), sym, tup[13:19])
+    return 12 + indexof_unroll(Val(7), sym, tup[13:19])
 end
 
 function indexof_unroll(::Val{20}, sym::Symbol, tup::NTuple{N,Symbol}) where N
     result = indexof_unroll(Val(12), sym, tup)
     !iszero(result) && return result
-    return indexof_unroll(Val(8), sym, tup[13:20])
+    return 12 + indexof_unroll(Val(8), sym, tup[13:20])
 end
 
 function indexof_unroll(::Val{21}, sym::Symbol, tup::NTuple{N,Symbol}) where N
     result = indexof_unroll(Val(12), sym, tup)
     !iszero(result) && return result
-    return indexof_unroll(Val(9), sym, tup[13:21])
+    return 12 + indexof_unroll(Val(9), sym, tup[13:21])
 end
 
 function indexof_unroll(::Val{22}, sym::Symbol, tup::NTuple{N,Symbol}) where N
     result = indexof_unroll(Val(12), sym, tup)
     !iszero(result) && return result
-    return indexof_unroll(Val(10), sym, tup[13:22])
+    return 12 + indexof_unroll(Val(10), sym, tup[13:22])
 end
 
 function indexof_unroll(::Val{23}, sym::Symbol, tup::NTuple{N,Symbol}) where N
     result = indexof_unroll(Val(12), sym, tup)
     !iszero(result) && return result
-    return indexof_unroll(Val(11), sym, tup[13:23])
+    return 12 + indexof_unroll(Val(11), sym, tup[13:23])
 end
 
 function indexof_unroll(::Val{24}, sym::Symbol, tup::NTuple{N,Symbol}) where N
     result = indexof_unroll(Val(12), sym, tup)
     !iszero(result) && return result
-    return indexof_unroll(Val(12), sym, tup[13:24])
+    return 12 + indexof_unroll(Val(12), sym, tup[13:24])
 end
-`
+
 function indexof_unroll_25to36(sym::Symbol, tup::NTuple{N,Symbol}) where N
     result = indexof_unroll(Val(24), sym, tup)
     !iszero(result) && return result
-    return indexof_unroll(Val(N-24), sym, tup[25:N])
+    return 12 + indexof_unroll(Val(N-24), sym, tup[25:N])
 end
 
 function indexof_unroll_37to48(sym::Symbol, tup::NTuple{N,Symbol}) where N
     result = indexof_unroll_25to36(sym, tup)
     !iszero(result) && return result
-    return indexof_unroll(Val(N-36), sym, tup[37:N])
+    return 12 + indexof_unroll(Val(N-36), sym, tup[37:N])
 end
