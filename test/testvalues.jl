@@ -56,9 +56,8 @@ sym_a4 = Symbol.(chr_az, 4)
 sym_a5 = Symbol.(chr_az, 5)
 sym_a6 = Symbol.(chr_az, 6)
 
-
 # :a1 .. :z512
-sym_13312 = (Symbol(a,i) for a in 'a':'z' for i in 1:512)
+sym_13312 = Tuple(Symbol(a,i) for a in 'a':'z' for i in 1:512)
 
 # (a='a', b='b', .. z='z')
 nt_az = NamedTuple{(sym_az)}(chr_az)
@@ -68,10 +67,5 @@ nt_az = NamedTuple{(sym_az)}(1:26)
 nt_182 = NamedTuple{(sym_a06)}(1:length(sym_a06))
 
 nt_huge = NamedTuple{(sym_13312)}(1:13312)
-
-# :aa :bb .. :zz
-sym_cc = (map(Symbol, chr_az, chr_az)...,);
-# :a1 :b2 .. :z26
-sym_ch = (map(Symbol, chr_az, (1:26))...,);
 
 
