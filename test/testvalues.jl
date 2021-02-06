@@ -28,6 +28,7 @@ all_strings = (violin_s, violin_g, viola_s)
 #=
 filter(x->x[:madeby] == "Stradivari", all_strings)
 ((instrument = "violin", madeby = "Stradivari"), (instrument = "viola", madeby = "Stradivari"))
+sym_ch = map(Symbol,chr_az,chr_az);
 
 madeby(x) = x[:madeby]
 Stradivari(x) = (==)("Stradivari", madeby(x))
@@ -36,27 +37,25 @@ filter(Stradivari, all_strings)
 
 =#
 
+sym_ch = map(Symbol,chr_az,chr_az);
 
-intaz = (collect(Int('a'):Int('z')));
-symaz = map(Symbol, intaz); 
-chraz = map(x->Char(x), intaz);
+int_az = (collect(Int('a'):Int('z')));
+chr_az = map(x->Char(x), int_az);
+sym_az = map(Symbol, chr_az); 
 
-int26 = collect(1:26); 
-str26 = map(string, int26); 
-sym26 = map(Symbol, int26);
+int26  = collect(1:26); 
+str26  = map(string, int26); 
+sym26  = map(Symbol, int26);
 
 int512 = collect(1:512);
-sym512 = map(Symbol, int512);
-str512 = map(string, int512);
+str512 = map(string, int_512);
+sym512 = map(Symbol(s,c), chr_az, int_az)
 
-straz = map(string, intaz); 
-
-ntaz = NamedTuple{(symaz...,)}(chraz)
+straz = map(string, int_az); 
 
 int_512 = collect(1:512);
 
-sym_az = map(Symbol, int_az);
-sym_26 = map(Symbol, int_26);
+sym_az = map(Symbol, chr_az);
 
-nt_az = NamedTuple{(sym_az)}(int_z)
+nt_az = NamedTuple{(sym_az)}(chr_az)
 
