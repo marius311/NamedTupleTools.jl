@@ -42,20 +42,14 @@ sym_ch = map(Symbol,chr_az,chr_az);
 int_az = (collect(Int('a'):Int('z')));
 chr_az = map(x->Char(x), int_az);
 sym_az = map(Symbol, chr_az); 
+str_az = map(string, int_az); 
 
-int26  = collect(1:26); 
-str26  = map(string, int26); 
-sym26  = map(Symbol, int26);
-
-int512 = collect(1:512);
-str512 = map(string, int_512);
-sym512 = map(Symbol(s,c), chr_az, int_az)
-
-straz = map(string, int_az); 
+int_26  = collect(1:26); 
+str_26  = map(string, int26); 
+sym_26  = map(Symbol, int26);str_az = map(string, int_az); 
 
 int_512 = collect(1:512);
-
-sym_az = map(Symbol, chr_az);
+str_512 = map(string, int_512);
 
 nt_az = NamedTuple{(sym_az)}(chr_az)
 
