@@ -251,10 +251,19 @@ end
         handle the trailing 1..16 using above on the tail
 =#
 
-function indexof_unroll(::Val{17}, sym::Symbol, tup::NTuple{N,Symbol}) where N
-    result = indexof_unroll(Val(12), sym, tup)
+function indexof_unroll_17to32(sym::Symbol, tup::NTuple{N,Symbol}) where N
+    result = indexof_unroll(Val(16), sym, tup)
     !iszero(result) && return result
-    return 12 + indexof_unroll(Val(5), sym, tup[13:17])
+    range = 17:length(N)
+    result = indexof_unroll(Val(length(N)-17), sym, tup[range])
+    return !iszero(result) ? 16 + result : result)
+end
+
+function indexof_unroll(::Val{17}, sym::Symbol, tup::NTuple{N,Symbol}) where N
+    result = indexof_unroll(Val(16), sym, tup)
+    !iszero(result) && return result
+    result = indexof_unroll(Val(1), sym, tup[17:17])
+    return !iszero(result) ? 16 + result : result)
 end
 
 function indexof_unroll(::Val{18}, sym::Symbol, tup::NTuple{N,Symbol}) where N
