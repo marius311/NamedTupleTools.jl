@@ -254,9 +254,19 @@ end
 function indexof_unroll_17to32(sym::Symbol, tup::NTuple{N,Symbol}) where N
     result = indexof_unroll(Val(16), sym, tup)
     !iszero(result) && return result
-    range = 17:length(N)
-    result = indexof_unroll(Val(length(N)-17), sym, tup[range])
+    taillen = N-16
+    range = 17:N
+    result = indexof_unroll(Val(taillen), sym, tup[range])
     return !iszero(result) ? 16 + result : 0
+end
+
+function indexof_unroll_33to64(sym::Symbol, tup::NTuple{N,Symbol}) where N
+    result = indexof_unroll_17to32(sym, tup[1:32])
+    !iszero(result) && return result
+    taillen = N-32
+    range = 33:N
+    result = indexof_unroll_17to32(sym, tup[range])
+    return !iszero(result) ? 32 + result : 0
 end
 
 function indexof_unroll(::Val{17}, sym::Symbol, tup::NTuple{N,Symbol}) where N
