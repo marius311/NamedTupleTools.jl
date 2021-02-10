@@ -240,7 +240,7 @@ function indexof_unroll(::Val{16}, sym::Symbol, tup::NTuple{N,Symbol}) where N
     sym === tup[13] && return 13) ||
     sym === tup[14] && return 14) ||
     sym === tup[15] && return 15) ||
-    sym === tup[15] && return 16)
+    sym === tup[16] && return 16)
     return 0
 end
 
