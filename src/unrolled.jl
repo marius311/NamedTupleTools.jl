@@ -256,7 +256,7 @@ function indexof_unroll_17to32(sym::Symbol, tup::NTuple{N,Symbol}) where N
     !iszero(result) && return result
     range = 17:length(N)
     result = indexof_unroll(Val(length(N)-17), sym, tup[range])
-    return !iszero(result) ? 16 + result : result)
+    return !iszero(result) ? 16 + result : 0
 end
 
 function indexof_unroll(::Val{17}, sym::Symbol, tup::NTuple{N,Symbol}) where N
