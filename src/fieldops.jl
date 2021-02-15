@@ -124,16 +124,25 @@ function hassymbol(sym::Symbol, tup::NTuple{N, Symbol}) where {N}
 end
 hassymbol(sym::Symbol, tup::Tuple{}) = false
 
-function indexof(sym::Symbol, tup::NTuple{N, Symbol}) where {N}
-    (((
-    N <= 24 && return indexof_unroll(Val(N), sym, tup)) ||
-    N <  48 && return indexof_recur(sym, tup))          ||
-    N <  72 && return indexof_gen(sym, tup))            ||
-    return indexof_recur(sym, tup)
+function indexof(sym::Symbol, seq::NTuple{N, Symbol}) where {N}
+    if N < 33 
+        indexof_recur(sym, seq)
+    else
+        indexof_iter(N, sym, seq)
+    endif    
 end
 
-function indexof_recur(sym::Symbol, tup::NTuple{N, Symbol}, idx=1) where {N}
-    sym === first(tup) ? idx : indexof_recur(sym, Base.tail(tup), idx+1)
+function indexof_recur(sym::Symbol, seq::NTuple{N, Symbol}, idx=1) where {N}
+    sym === first(seq) ? idx : indexof_recur(sym, Base.tail(seq), idx+1)
 end
-indexof_recur(sym::Symbol, tup::NTuple{}) = 0
+indexof_recur(sym::Symbol, seq::Tuple{}, idx=1) = 0
 
+@inline function indexof_iter(N, x::Symbol, seq::NTuple{N, Symbol}) where {N}
+    equalsx = Base.Fix2(===, x)
+    idx = 1
+    for item in seq
+        equalsx(item) && break
+        idx = idx + 1
+    end
+    return idx > N ? 0 : idx
+end
