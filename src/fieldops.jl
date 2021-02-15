@@ -119,29 +119,34 @@ end
 
 # low level support functions
 
-function hassymbol(sym::Symbol, tup::NTuple{N, Symbol}) where {N}
-    sym === first(tup) ? true : hassymbol(sym, Base.tail(tup))
-end
-hassymbol(sym::Symbol, tup::Tuple{}) = false
-
-function indexof(sym::Symbol, seq::NTuple{N, Symbol}) where {N}
+function indexof(item::T, seq::NTuple{N, T}) where {N,T}
     if N < 33 
-        indexof_recur(sym, seq)
+        indexof_recur(item, seq)
     else
-        indexof_iter(N, sym, seq)
-    endif    
+        indexof_iter(N, item, seq)
+    end    
 end
 
-function indexof_recur(sym::Symbol, seq::NTuple{N, Symbol}, idx=1) where {N}
-    sym === first(seq) ? idx : indexof_recur(sym, Base.tail(seq), idx+1)
+function indexof_recur(item::T, seq::NTuple{N, T}, idx=1) where {N,T}
+    item === first(seq) ? idx : indexof_recur(item, Base.tail(seq), idx+1)
 end
-indexof_recur(sym::Symbol, seq::Tuple{}, idx=1) = 0
+indexof_recur(item::T, seq::Tuple{}, idx=1) where {T} = 0
 
-@inline function indexof_iter(N, x::Symbol, seq::NTuple{N, Symbol}) where {N}
-    equalsx = Base.Fix2(===, x)
+@inline function indexof_iter(N, item::T, seq::NTuple{N, T}) where {N,T}
+    equalsx = Base.Fix2(===, item)
     idx = 1
-    for item in seq
-        equalsx(item) && break
+    for x in seq
+        equalsx(x) && break
+        idx = idx + 1
+    end
+    return idx > N ? 0 : idx
+end
+
+@inline function indexof(N, item::T, seq::Vector{T}) where {N,T}
+    equalsx = Base.Fix2(===, item)
+    idx = 1
+    for x in seq
+        equalsx(x) && break
         idx = idx + 1
     end
     return idx > N ? 0 : idx
