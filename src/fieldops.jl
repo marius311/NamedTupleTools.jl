@@ -149,5 +149,5 @@ function indexof(item::T, seq::Vector{T}) where {T}
         equalsx(x) && break
         idx = idx + 1
     end
-    return idx > length(seq) ? 0 : idx
+    return ifelse(idx > length(seq), 0, idx)
 end
