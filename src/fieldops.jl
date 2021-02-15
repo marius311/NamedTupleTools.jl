@@ -123,7 +123,7 @@ function indexof(item::T, seq::NTuple{N, T}) where {N,T}
     if N < 33 
         indexof_recur(item, seq)
     else
-        indexof_iter(N, item, seq)
+        indexof_iter(item, seq)
     end    
 end
 
