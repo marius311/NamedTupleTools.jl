@@ -120,7 +120,7 @@ end
 # low level support functions
 
 function hassymbol(sym::Symbol, tup::NTuple{N, Symbol}) where {N}
-    sym === first(tup) ? true : hassymbol(sym, tail(tup))
+    sym === first(tup) ? true : hassymbol(sym, Base.tail(tup))
 end
 hassymbol(sym::Symbol, tup::Tuple{}) = false
 
