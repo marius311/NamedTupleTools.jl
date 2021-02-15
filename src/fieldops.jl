@@ -142,12 +142,12 @@ indexof_recur(item::T, seq::Tuple{}, idx=1) where {T} = 0
     return idx > N ? 0 : idx
 end
 
-@inline function indexof(N, item::T, seq::Vector{T}) where {N,T}
+@inline function indexof(item::T, seq::Vector{T}) where {T}
     equalsx = Base.Fix2(===, item)
     idx = 1
     for x in seq
         equalsx(x) && break
         idx = idx + 1
     end
-    return idx > N ? 0 : idx
+    return idx > length(seq) ? 0 : idx
 end
