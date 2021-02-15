@@ -132,7 +132,7 @@ function indexof_recur(item::T, seq::NTuple{N, T}, idx=1) where {N,T}
 end
 indexof_recur(item::T, seq::Tuple{}, idx=1) where {T} = 0
 
-@inline function indexof_iter(N, item::T, seq::NTuple{N, T}) where {N,T}
+@inline function indexof_iter(item::T, seq::NTuple{N, T}) where {N,T}
     equalsx = Base.Fix2(===, item)
     idx = 1
     for x in seq
