@@ -6,7 +6,7 @@
 
     field-focused operations that apply to instances of types with fields
       op(x::T)      ⟣  field_count(x), field_name[s](x), field_type[s](x), field_tupletype(x)
-      op(x::T)      ⟣  field_value[s](x), named_field[s](x, n[s])
+      op(x::T)      ⟣  field_index(T, x), field_value[s](x), named_field[s](x, n[s])
 
     Most programming languages provide functions designed for the processing of values.
     Fewer are designed with methods for the processing of types. Julia does both well.
@@ -28,6 +28,7 @@ _which_key(key::Symbol) = ()
 Base.@pure _which_key(key::Symbol, first::Symbol, tail...) =
     (first === key, _which_key(key, tail...)...)
 
+# fieldindex
 
 # from Base.namedtuples.jl
 #=
