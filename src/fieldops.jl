@@ -40,6 +40,11 @@ _nt_names(::NamedTuple{names}) where {names} = names
 _nt_names(::Type{T}) where {names,T<:NamedTuple{names}} = names
 julia> Base._nt_names(nt)
 (:a, :b)
+
+_nt_types(x::NamedTuple{names,Tuple{types}}) where {names,types} = types
+_nt_types(x::NamedTuple{names,tupletypes}) where {names,tupletypes} = tupletypes
+nt_types(x::NamedTuple{names,tupletypes}) where {names,tupletypes} = Tuple(tupletypes.parameters)
+
 =#
 
 using OrderedCollections: LittleDict
