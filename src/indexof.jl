@@ -1,3 +1,29 @@
+# thanks to Mason Protter
+
+function indexof(item::T, seq::NTuple{N, T}) where {N,T}
+    if N < 33 
+        indexof_recur(item, seq)
+    else
+        indexof_iter(item, seq)
+    end    
+end
+
+function indexof_recur(item::T, seq::NTuple{N, T}, idx=1) where {N,T}
+    item === first(seq) ? idx : indexof_recur(item, Base.tail(seq), idx+1)
+end
+indexof_recur(item::T, seq::Tuple{}, idx=1) where {T} = 0
+
+@inline function indexof_iter(item::T, seq::NTuple{N, T}) where {N,T}
+    equalsx = Base.Fix2(===, item)
+    idx = 1
+    for x in seq
+        equalsx(x) && break
+        idx = idx + 1
+    end
+    return idx > N ? 0 : idx
+end
+
+
 #=
     `indexof_unroll(sym, tuple)` is the most performant `indexof`.
     tuples of 1:12 symbols are supported
