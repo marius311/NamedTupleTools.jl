@@ -8,6 +8,14 @@
       op(x::T)      ⟣  field_count(x), field_name[s](x), field_type[s](x), field_tupletype(x)
       op(x::T)      ⟣  field_index(T, x), field_value[s](x), named_field[s](x, n[s])
 
+    Base: fieldcount, fieldname[s], fieldtype[s] work with types only
+    
+    here: field_count, field_name[s], field_type[s] 
+         works with types and works with their instances
+   
+     they have been designed to support NamedTuples and structs
+     and, where meaninful (mostly instances), LittleDicts
+
     Most programming languages provide functions designed for the processing of values.
     Fewer are designed with methods for the processing of types. Julia does both well.
     Our field-based discernment functions are reliable and performant.
