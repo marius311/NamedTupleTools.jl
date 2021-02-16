@@ -13,6 +13,22 @@
     Our field-based discernment functions are reliable and performant.
 =#
 
+# https://discourse.julialang.org/t/is-this-a-valid-pure-function/17577/2
+Base.@pure typeparams(t::Type) = Tuple{t.parameters...}
+
+# https://discourse.julialang.org/t/is-this-pure/8050/5
+"""
+    which_key(NTuple{N,Symbol}, key::Symbol)
+
+evaluates to a tuple of Bool, true everywhere the key is found
+"""
+which_key(tuple::Tuple{Vararg{Symbol}}, key::Symbol) =
+    _which_key(key, tuple...)
+_which_key(key::Symbol) = ()
+Base.@pure _which_key(key::Symbol, first::Symbol, tail...) =
+    (first === key, _which_key(key, tail...)...)
+
+
 using OrderedCollections: LittleDict
 
 #=
