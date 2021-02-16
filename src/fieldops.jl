@@ -36,6 +36,8 @@ Base.@pure _which_key(key::Symbol, first::Symbol, tail...) =
     Base.merge_names(x::NTuple{N1,Symbol}, y::NTuple{N2,Symbol}) where {N1,N2}
        - names_in_x_and_names_y_uniquely
 
+_nt_names(::NamedTuple{names}) where {names} = names
+_nt_names(::Type{T}) where {names,T<:NamedTuple{names}} = names
 julia> Base._nt_names(nt)
 (:a, :b)
 =#
