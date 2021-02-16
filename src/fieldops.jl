@@ -29,6 +29,17 @@ Base.@pure _which_key(key::Symbol, first::Symbol, tail...) =
     (first === key, _which_key(key, tail...)...)
 
 
+# from Base.namedtuples.jl
+#=
+    Base.diff_names(x::NTuple{N1,Symbol}, y::NTuple{N2,Symbol}) where {N1,N2}
+      - names_in_x_and_not_in_y = diff_names(x, y)
+    Base.merge_names(x::NTuple{N1,Symbol}, y::NTuple{N2,Symbol}) where {N1,N2}
+       - names_in_x_and_names_y_uniquely
+
+julia> Base._nt_names(nt)
+(:a, :b)
+=#
+
 using OrderedCollections: LittleDict
 
 #=
