@@ -36,6 +36,13 @@ _which_key(key::Symbol) = ()
 Base.@pure _which_key(key::Symbol, first::Symbol, tail...) =
     (first === key, _which_key(key, tail...)...)
 
+#=
+julia> language = "Interpretive Dance"; programming = "Julia";
+
+julia> (; language, programming )
+(language = "Interpretive Dance", programming = "Julia")
+=#
+
 # fieldindex
 
 # from Base.namedtuples.jl
