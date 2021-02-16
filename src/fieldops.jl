@@ -5,8 +5,8 @@
       op(::Type{T}) ⟣  field_count(T), field_names(T), field_types(T), field_tupletype(T)
 
     field-focused operations that apply to instances of types with fields
-      op(x::T)      ⟣  field_count(x), field_names(x), field_types(x), field_tupletype(x)
-      op(x::T)      ⟣  field_values(x), field_value(x), named_field(x, n)
+      op(x::T)      ⟣  field_count(x), field_name[s](x), field_type[s](x), field_tupletype(x)
+      op(x::T)      ⟣  field_value[s](x), named_field[s](x, n[s])
 
     Most programming languages provide functions designed for the processing of values.
     Fewer are designed with methods for the processing of types. Julia does both well.
