@@ -55,3 +55,41 @@ julia> f(S, x) = S(x)
 
 julia> from_vec(Tuple{Int, Float64}, 1)
 (1, 1.0)        
+                
+                
+ const Tup = Union{Tuple, NamedTuple}
+const EmptyTup = Union{Tuple{}, NamedTuple{(), Tuple{}}}
+
+                
+                # StructArrays
+@generated function staticschema(::Type{T}) where {T}
+    name_tuple = Expr(:tuple, [QuoteNode(f) for f in fieldnames(T)]...)
+    type_tuple = Expr(:curly, :Tuple, [Expr(:call, :fieldtype, :T, i) for i in 1:fieldcount(T)]...)
+    Expr(:curly, :NamedTuple, name_tuple, type_tuple)
+end
+
+staticschema(::Type{T}) where {T<:Tup} = T
+
+createinstance(::Type{T}, args...) where {T} = T(args...)
+createinstance(::Type{T}, args...) where {T<:Union{Tuple, NamedTuple}} = T(args)
+                
+eltypes(::Type{T}) where {T} = map_params(eltype, T)
+
+map_params(f, ::Type{Tuple{}}) = Tuple{}
+function map_params(f, ::Type{T}) where {T<:Tuple}
+    tuple_type_cons(f(tuple_type_head(T)), map_params(f, tuple_type_tail(T)))
+end
+map_params(f, ::Type{NamedTuple{names, types}}) where {names, types} =
+    NamedTuple{names, map_params(f, types)}
+
+_map_params(f, ::Type{Tuple{}}) = ()
+function _map_params(f, ::Type{T}) where {T<:Tuple}
+    (f(tuple_type_head(T)), _map_params(f, tuple_type_tail(T))...)
+end
+_map_params(f, ::Type{NamedTuple{names, types}}) where {names, types} =
+    NamedTuple{names}(_map_params(f, types))
+
+buildfromschema(initializer, ::Type{T}) where {T} = buildfromschema(initializer, T, staticschema(T))
+
+function buildfromschema(initializer, ::Type{T}, ::Type{NT}) where {T, NT<:Tup}
+    nt = _map_params(initializer, NT)                
