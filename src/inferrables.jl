@@ -93,3 +93,24 @@ buildfromschema(initializer, ::Type{T}) where {T} = buildfromschema(initializer,
 
 function buildfromschema(initializer, ::Type{T}, ::Type{NT}) where {T, NT<:Tup}
     nt = _map_params(initializer, NT)                
+
+
+# Tim and Mason
+                    
+Keys(::NamedTuple{K}) where {K} = Tuple{K...}
+
+function copyto_type_recursive!(target::Wrapper{T, F}, 
+                                source::Wrapper{T, F}) where {T, F}
+    copyto_type_recursive!(target, source, Keys(F))
+    target
+end
+
+@inline function copyto_type_recursive!(target::Wrapper{T, F}, 
+                                        source::Wrapper{T, F}, 
+                                        ::Type{Tup}) where {T, F, Tup <: Tuple}
+    Tup === Tuple{} && return nothing
+    property = Base.tuple_type_head(Tup)
+    setproperty!(target, property, getproperty(source, property))
+    copyto_type_recursive!(target, source, Base.tuple_type_tail(Tup))
+end
+                    
