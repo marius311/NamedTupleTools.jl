@@ -31,3 +31,9 @@ Base.@pure function _fieldnames(@nospecialize t)
      end 
      isdefined(t, :types) ? t.types : t.name.types 
  end
+
+# Tim
+You could try doing the recursion in the type domain, 
+    Tuple{:a, :b, :c} using Base.tuple_type_head and Base.tuple_type_tail.
+        
+        
