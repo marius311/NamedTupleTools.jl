@@ -37,6 +37,7 @@
 # create an empty NamedTuple type
 typeof( (;) )
 
+
 # create a NamedTuple with a single valued field
 
 (language = "Julia", version = v"2")
@@ -55,4 +56,3 @@ xlower == (letter = 'x')
 NamedTuple{        tupnam₁    }( fldval₁ )
 NamedTuple{      ( fldnam₁ ,) }( fldval₁ )
 NamedTuple{ tuple( fldnam₁  ) }( fldval₁ )
-
