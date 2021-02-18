@@ -44,7 +44,9 @@ typeof( (;) )
 
 fld𝗉𝗈𝗌₁  = 1               # field's ordinal position
 fld𝗇𝖺𝗆₁  = :letter         # field's name
+tupnam₁  = ( :letter, )    # tuple of field's name
 fldtyp₁  = Char            # field's type
+tuptyp₁  = Tuple{Char}     # tuple type of field's type
 fld𝗏𝖺𝗅₁  = 'x'             # field's value
 
 fld𝗉𝗈𝗌₂  = 2               # field's ordinal position
@@ -55,10 +57,16 @@ fld𝗏𝖺𝗅₂  = v"1.7"          # field's value
 xlower == (letter = 'x')
 semver == (ver = v"2.1")
 
-xlower =  (letter = 'x')
-semver =  (ver = v"2"  )
+ (letter = 'x')
+ (ver = v"2"  )
 
-xlower = :( $fldnam₁ = $fldval₁ )
-semver = :( $fldnam₂ = $fldval₂ )
+ :( $fldnam₁ = $fldval₁ )
+ :( $fldnam₂ = $fldval₂ )
 
+ NamedTuple{      ( fldnam₁ ,) }( fldval₁ )
+ NamedTuple{ tuple( fldnam₂  ) }( fldval₂ )
+ NamedTuple{ tupn₂  ) }( fldval₂ )
+
+ NamedTuple{      ( fldnam₁ ,) }( fldval₁ )
+ NamedTuple{ tuple( fldnam₂  ) }( fldval₂ )
 
