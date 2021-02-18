@@ -38,7 +38,8 @@
 typeof( (;) )
 
 # create a NamedTuple with a single valued field
-# 𝗏𝖺𝗋
+
+(language = "Julia", version = v"2")
 
 fld𝗉𝗈𝗌₁  = 1               # field's ordinal position
 fld𝗇𝖺𝗆₁  = :letter         # field's name
@@ -47,21 +48,11 @@ fldtyp₁  = Char            # field's type
 tuptyp₁  = Tuple{Char}     # tuple type of field's type
 fld𝗏𝖺𝗅₁  = 'x'             # field's value
 
-fld𝗉𝗈𝗌₂  = 2               # field's ordinal position
-fld𝗇𝖺𝗆₂  = :ver            # field's name
-fldtyp₂  = VersionNumber   # field's type
-fld𝗏𝖺𝗅₂  = v"1.7"          # field's value
-
 xlower == (letter = 'x')
-semver == (ver = v"2.1")
 
- (letter = 'x')
- (ver = v"2"  )
+:( $fldnam₁ = $fldval₁ )
 
- :( $fldnam₁ = $fldval₁ )
- :( $fldnam₂ = $fldval₂ )
-
- NamedTuple{        tupnam₁    }( fldval₁ )
- NamedTuple{      ( fldnam₁ ,) }( fldval₁ )
- NamedTuple{ tuple( fldnam₁  ) }( fldval₁ )
+NamedTuple{        tupnam₁    }( fldval₁ )
+NamedTuple{      ( fldnam₁ ,) }( fldval₁ )
+NamedTuple{ tuple( fldnam₁  ) }( fldval₁ )
 
