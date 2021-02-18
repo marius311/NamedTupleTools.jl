@@ -33,8 +33,32 @@
    there is a realized   NamedTuple instance that is empty, it is a singleton
 =#
 
-const EmptyNTT = NamedTuple{(), Tuple{}}
 
-const EmptyNamedTuple = (;)
-const EmptyNamedTuple  = EmptyNamedTupleT( () )
+# create an empty NamedTuple
+(;)
+# create an empty NamedTuple type
+typeof( (;) )
+
+# create a NamedTuple with a single valued field
+# 𝗏𝖺𝗋 
+
+fld𝗉𝗈𝗌₁  = 1               # field's ordinal position
+fld𝗇𝖺𝗆₁  = :letter         # field's name
+fldtyp₁  = Char            # field's type
+fld𝗏𝖺𝗅₁  = 'x'             # field's value
+
+fld𝗉𝗈𝗌₂  = 2               # field's ordinal position
+fld𝗇𝖺𝗆₂  = :ver            # field's name
+fldtyp₂  = VersionNumber   # field's type
+fld𝗏𝖺𝗅₂  = v"1.7"          # field's value
+
+xlower == (letter = 'x')
+semver == (ver = v"2.1")
+
+xlower =  (letter = 'x')
+semver =  (ver = v"2"  )
+
+xlower = :( $fldnam₁ = $fldval₁ )
+semver = :( $fldnam₂ = $fldval₂ )
+
 
