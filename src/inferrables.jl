@@ -4,6 +4,50 @@
 julia> atuple = Tuple{:a, :b, :c, :d};
 julia> nelems = Base._counttuple(atuple)
 4
+
+Tuple{Nothing, Int64, Missing}
+
+julia> tuptyp = Base.tuple_type_cons(Float64, tuptyp)
+Tuple{Float64, Nothing, Int64, Missing}
+
+julia> Base.tuple_type_head(tuptyp)
+Float64
+
+julia> Base.tuple_type_tail(tuptyp)
+Tuple{Nothing, Int64, Missing}
+
+function tuple_type_tail(T::Type)
+    @_pure_meta # TODO: this method is wrong (and not @pure)
+    if isa(T, UnionAll)
+        return UnionAll(T.var, tuple_type_tail(T.body))
+    elseif isa(T, Union)
+        return Union{tuple_type_tail(T.a), tuple_type_tail(T.b)}
+    else
+        T.name === Tuple.name || throw(MethodError(tuple_type_tail, (T,)))
+        if isvatuple(T) && length(T.parameters) == 1
+            va = T.parameters[1]
+            (isa(va, DataType) && isa(va.parameters[2], Int)) || return T
+            return Tuple{Vararg{va.parameters[1], va.parameters[2]-1}}
+        end
+        return Tuple{argtail(T.parameters...)...}
+    end
+end
+
+
+# deprecations
+tuple_type_head(T::Type) = fieldtype(T, 1)
+tuple_type_cons(::Type, ::Type{Union{}}) = Union{}
+function tuple_type_cons(::Type{S}, ::Type{T}) where T<:Tuple where S
+    @_pure_meta
+    Tuple{S, T.parameters...}
+end
+# convenience function for extracting N from a Tuple (if defined)
+# else return `nothing` for anything else given (such as Vararg or other non-sized Union)
+_counttuple(::Type{<:NTuple{N,Any}}) where {N} = N
+_counttuple(::Type) = nothing
+
+
+
 =#
 
 #=
