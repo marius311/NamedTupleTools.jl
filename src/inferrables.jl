@@ -1,4 +1,12 @@
 #=
+       tuple operations from within Base
+
+julia> atuple = Tuple{:a, :b, :c, :d};
+julia> nelems = Base._counttuple(atuple)
+4
+=#
+
+#=
 KristofferC
 https://github.com/JuliaLang/julia/issues/29100
 =#
