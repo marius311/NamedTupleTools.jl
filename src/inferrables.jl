@@ -1,4 +1,8 @@
 #=
+
+nelements(::Type{NTuple{N,T}}) where {N,T} = N
+nelements(::Type{Vararg}) = N
+
        tuple operations from within Base
 
 julia> atuple = Tuple{:a, :b, :c, :d};
