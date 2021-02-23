@@ -1,3 +1,26 @@
+# ? @nospecialize
+field_count(nt::NamedTuple{N,T}) where {N,T} = length(N)
+field_count(nt::Type{NamedTuple{N,T}}) where {N,T} = length(N)
+field_names(nt::NamedTuple{N,T}) where {N,T} = N
+field_names(nt::Type{NamedTuple{N,T}}) where {N,T} = N
+field_types(nt::NamedTuple{N,T}) where {N,T} = Tuple(T.parameters)
+field_types(nt::Type{NamedTuple{N,T}}) where {N,T} = Tuple(T.parameters) # 8x
+field_indices(nt::NamedTuple{N,T}) where {N,T} = 1:field_count(nt)
+field_indices(nt::Type{NamedTuple{N,T}}) where {N,T} =  1:field_count(nt)
+field_positions(nt::NamedTuple{N,T}) where {N,T}= ntuple(i->i, field_count(nt))
+field_positions(nt::Type{NamedTuple{N,T}}) where {N,T} = ntuple(i->i, field_count(nt))
+
+field_values(@nospecialize nt::NamedTuple) = values(nt)
+
+
+
+function canonical1(nt::NamedTuple{N,T}) where {N,T}
+    symbols = map(s->Symbol(String(s)), field_names(nt))
+    symbols = swapsort(symbols)
+    NamedTuple{symbols}(nt)
+ end
+
+#=
 #=
 
 nelements(::Type{NTuple{N,T}}) where {N,T} = N
