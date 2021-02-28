@@ -6,6 +6,16 @@
    This is a substantive benefit when working with NamedTuple internals.
 =#
 
+const NTT = NamedTupleTools
+
+export field_count, 
+       field_range, field_indices,
+       field_names, field_name, field_types, field_type, 
+       field_values, field_value
+
+# these functions are not exported
+# fields_types, fields_type
+
 """
     field_count(nt | NT)
 
