@@ -11,7 +11,8 @@ const NTT = NamedTupleTools
 export field_count, 
        field_range, field_indices,
        field_names, field_name, field_types, field_type, 
-       field_values, field_value
+       field_values, field_value,
+       destructure, restructure
 
 # these functions are not exported
 # fields_types, fields_type
@@ -107,4 +108,34 @@ provides the value of the field at the position given
 
 field_values(nt::NamedTuple) = values(nt)
 field_value(nt::NamedTuple, idx::Integer) = values(nt)[idx]
+
+"""
+   destructure(nt; typetuple::Bool=false)
+
+- with `typetuple = false` [default]
+yields ((fieldnames), (fieldtypes), (fieldvalues))
+- with `typetuple = true`
+yields ((fieldnames), Tuple{fieldtypes}, (fieldvalues))
+""" destructure
+
+destructure(nt::NamedTuple; typetuple::Bool=false) =
+    if typetuple
+       (field_names(nt), fields_types(nt), field_values(nt))
+    else
+       (field_names(nt), field_types(nt), field_values(nt))
+    end
+end
+
+"""
+   restructure((fieldnames), (fieldtypes), (fieldvalues))
+   restructure((fieldnames), Tuple{fieldtypes}, (fieldvalues))
+
+yields the corresponding NamedTuple
+""" restructure
+
+restructure(names::Tuple, types::Tuple, values::Tuple) =
+   NamedTuple{names, Tuple{types...}}(values)
+
+restructure(names::Tuple, types::Type{Tuple}, values::Tuple) =
+   NamedTuple{names, types}(values)
 
