@@ -127,7 +127,7 @@ yields ((fieldnames), (fieldtypes), (fieldvalues))
 yields ((fieldnames), Tuple{fieldtypes}, (fieldvalues))
 """ destructure
 
-destructure(nt::NamedTuple; typetuple::Bool=false) =
+function destructure(nt::NamedTuple; typetuple::Bool=false)
     if typetuple
        (field_names(nt), fields_types(nt), field_values(nt))
     else
