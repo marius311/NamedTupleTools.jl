@@ -8,18 +8,18 @@
     struct         TestStruct     test_struct   
 =#
 
-test_nt = (a=1, two='2', datatype=NamedTuple)
-TestNT  = typeof(test_nt)
+test_nt = (one = 1, two = '2', three = "three")
+Test_NT = typeof(test_nt)
 
-struct TestStruct
-    a::Int
+struct Test_Struct
+    one::Int
     two::Char
-    datatype::DataType
+    three::String
 end
-test_struct = TestStruct(1, '2', TestStruct)
+test_struct = Test_Struct(1, '2', "three")
 
-test_ldict = LittleDict((:a, :two, :datatype), (1, '2', LittleDict))
-TestLDict  = typeof(test_ldict)
+test_ldict = LittleDict((:a, :two, :datatype), (1, '2', "three"))
+Test_LDict  = typeof(test_ldict)
 
 violin_s = (instrument = "violin", madeby = "Stradivari")
 viola_s  = (instrument = "viola" , madeby = "Stradivari")
