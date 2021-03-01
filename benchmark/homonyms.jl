@@ -20,7 +20,12 @@ macro bytes_and_nanos(result, basefn, basearg, nttfn, nttarg)
  end; end
 
 # using Dates; nt = (event= "JuliaCon", year=Year(2021)); NT = typeof(nt);
-result = []
-@bytes_and_nanos(result, fieldtypes,NT, field_types, nt)
-result[]
-# (base = (bytes = 144, nanos = 525.13), ntt = (bytes = 0, nanos = 10.0))
+results = Dict(:field_names => [], :field_types => [], :field_values => [])
+
+@bytes_and_nanos(results[:field_names], fieldnames,NT, field_names, nt)
+@bytes_and_nanos(results[:field_types], fieldtypes,NT, field_types, nt)
+@bytes_and_nanos(results[:field_values], values, nt, field_values, nt)
+
+results[:field_names]
+results[:field_types]
+results[:field_values]
