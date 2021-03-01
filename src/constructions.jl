@@ -9,12 +9,12 @@ julia> nt = (a=1, b=2.)
 (a = 1, b = 2.0)
 
        # empty named tuple (useful as a seed that will later grow)
-julia> NamedTuple()
+julia> (;) # or NamedTuple() 
 NamedTuple()
 
-       # only one entry => don't forget the comma
-julia> (a=1,)
-(a = 1,)
+       # only one entry => either use `;` or don't forget the comma
+julia> (; a = 1), (b = 2,)
+(a = 1,), (b = 2,)
 
 
 Growth and "modification"
