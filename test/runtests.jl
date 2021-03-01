@@ -15,12 +15,14 @@ include("testvalues.jl")
 
 
 #=
-   testing the field operations
+   testing the field_<aspect> methods
 
-   op(x::T)      ⟣  fieldvalues(x)
-   op(::Type{T}) ⟣  fieldcount(T), fieldnames(T), fieldtypes(T)
+   op(::Type{T}) ⟣  field_count(T), field_names(T), field_types(T), fields_types(T)
+   op(x::T) ⟣  field_count(x), field_names(x), field_types(x), fields_types(x), field_values(x)
 =#
-include("fieldops.jl")
+include("homonyms.jl")
+
+
 
 namesofvalues  = (:instrument, :madeby)
 matchingvalues = ("violin", "Stradivarius")
