@@ -8,6 +8,8 @@
     struct         TestStruct     test_struct   
 =#
 
+using OrderedCollections: LittleDict, freeze
+
 test_nt = (one = 1, two = '2', three = "three")
 Test_NT = typeof(test_nt)
 
