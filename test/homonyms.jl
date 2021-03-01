@@ -23,7 +23,7 @@ end
    nt = test_nt
    @test field_count(nt)   == fieldcount(NT)
    @test field_range(nt)   == 1:field_count(NT)
-   @test field_indices(nt) == Tuple(field_range(NT))
+   @test field_indices(nt) == Tuple(field_range(NT)
    @test field_names(nt)   == fieldnames(NT)
    @test field_types(nt)   == fieldtypes(NT)
    @test fields_types(nt)  == Tuple{fieldtypes(NT)...}
