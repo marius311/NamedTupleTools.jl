@@ -34,6 +34,8 @@ Dict{Symbol, Vector{Any}} with 4 entries:
 1, 171.3/9.8 = 17.5x 
   :field_names  => [(base = (bytes = 0  , nanos = 190.24), ntt = (bytes =  0, nanos =  9.81))] 
 1, 190.2/9.8 = 19.5x
+  :field_names  => [(base_keys = (bytes = 0  , nanos = 9.8), ntt = (bytes =  0, nanos =  9.81))]
+1, 1
   :field_types  => [(base = (bytes = 144, nanos = 523.56), ntt = (bytes =  0, nanos = 11.00))] 
 144, 523.5/11.0 = 48.4x
   :field_values => [(base = (bytes = 32 , nanos =  19.06), ntt = (bytes = 32, nanos = 19.06))] 
