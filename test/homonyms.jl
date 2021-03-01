@@ -1,9 +1,11 @@
 #=
 export field_count, 
-       field_range, field_indices,
-       field_names, field_name, field_types, field_type, 
+       field_range,  field_indices,
+       field_names,  field_name, 
+       field_types,  field_type, 
+       fields_types, fields_type, 
        field_values, field_value,
-       destructure, restructure
+       destructure,  restructure
 =#
 
 @testset "field_<method>(::Type{<:NamedTuple})" begin
