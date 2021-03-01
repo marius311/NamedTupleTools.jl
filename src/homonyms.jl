@@ -1,9 +1,18 @@
 #=
-   These are often faster than the corresponding functions in Base
+   Many of these NamedTuple methods sound just like methods in Base.
+   None of these NamedTuple methods is spelled like methods in Base.
+   An underscore ensures there be no type piracy and no method privateering.
+   
+   Thank you
+   Takafumi Arakaki @tkf, for convincing me to organize away prior piracy.
+   Jameson Nash @vtjnash, for introducing "privateering" to my lexicon.
+=#
 
-   Unlike their corresponding functions in Base, these work well with types and with instances.
-   The versions that expect instances are much faster than those that expect NamedTuple types.
-   This is a substantive benefit when working with NamedTuple internals.
+#=
+   The homonym functions in Base work with `::Type{<:NamedTuple}` only (by design).
+   These methods work with both `::Type{<:NamedTuple}` and `indicant::NamedTuple`.
+   Dispatch through indicants (realizations, concretions) is much more performant.
+   That helps us provide desiderata in an accessible, unobtrusive, welcome manner.
 =#
 
 const NTT = NamedTupleTools
