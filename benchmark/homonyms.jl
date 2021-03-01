@@ -26,6 +26,13 @@ results = Dict(:field_names => [], :field_types => [], :field_values => [])
 @bytes_and_nanos(results[:field_types], fieldtypes,NT, field_types, nt)
 @bytes_and_nanos(results[:field_values], values, nt, field_values, nt)
 
-results[:field_names]
-results[:field_types]
-results[:field_values]
+#=
+results
+Dict{Symbol, Vector{Any}} with 3 entries:
+  :field_names  => [(base = (bytes = 0  , nanos = 190.24), ntt = (bytes =  0, nanos =  9.81))] 
+1, 190.2/9.8 = 19.5x
+  :field_types  => [(base = (bytes = 144, nanos = 523.56), ntt = (bytes =  0, nanos = 11.00))] 
+144, 523.5/11.0 = 48.4x
+  :field_values => [(base = (bytes = 32 , nanos =  19.06), ntt = (bytes = 32, nanos = 19.06))] 
+1, 1 = 1x
+=#
