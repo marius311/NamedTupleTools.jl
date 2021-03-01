@@ -13,8 +13,8 @@ macro bytes_and_nanos(result, basefn, basearg, nttfn, nttarg)
    local nanos4base = (@belapsed $basefn(arg) setup=(arg=$basearg;)) * 1.0e9
    local bytes4ntt  = @ballocated $nttfn($nttarg)
    local nanos4ntt  = (@belapsed $nttfn(arg) setup=(arg=$nttarg;)) * 1.0e9
-   bench    = (base=(bytes=bytes4base, nanos=rnd(nanos4base)),
-                      ntt =(bytes=bytes4ntt , nanos=rnd(nanos4ntt )) )
+   bench = (base=(bytes=bytes4base, nanos=rnd(nanos4base)),
+            ntt =(bytes=bytes4ntt , nanos=rnd(nanos4ntt )) )
     push!($result, bench);
     end; 
  end; end
