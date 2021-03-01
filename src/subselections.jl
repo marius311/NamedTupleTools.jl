@@ -9,3 +9,4 @@ function omit(nt::NamedTuple{N,T}, names::Vararg{Symbol}) where {N,T}
 end
 
 omit(nt::NamedTuple{N,T}, names::Tuple{}) where {N,T} = nt
+
