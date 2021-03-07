@@ -8,3 +8,15 @@ namedtuple(names::NTuple{N,Symbol}, values::Tuple) where N = NamedTuple{names}(v
 
 namedtuple(name::AbstractString, value::T) where {T} = namedtuple(Symbol(name), value)
 namedtuple(names::NTuple{N,AbstractString}, values::Tuple) where N = namedtuple(Symbol.(names), values)
+
+namedtuple(names::AbstractVector{Symbol}, values::AbstractVector) = namedtuple(Tuple(names), Tuple(values))
+namedtuple(names::AbstractVector{Symbol}, values::Tuple) = namedtuple(Tuple(names), values)
+namedtuple(names::NTuple{N,Symbol}, values::AbstractVector) where N = namedtuple(names, Tuple(values))
+
+namedtuple(names::AbstractVector{AbstractString}, values::AbstractVector) = namedtuple(Tuple(names), Tuple(values))
+namedtuple(names::AbstractVector{AbstractStringSymbol}, values::Tuple) = namedtuple(Tuple(names), values)
+namedtuple(names::NTuple{N,AbstractString}, values::AbstractVector) where N = namedtuple(names, Tuple(values))
+
+namedtuple(name::Symbol, type::Type{T}, value::T) where {T} = NamedTuple{(name,), Tuple{T}}(value)
+namedtuple(names::NTuple{N,Symbol}, types::Tuple{NTuple{N,Type}}, values::Tuple) where N =
+    NamedTuple{names, types}(values)
