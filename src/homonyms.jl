@@ -21,7 +21,7 @@ export field_count,
        field_range, field_indices,
        field_names, field_name, field_types, field_type, 
        field_values, field_value,
-       has_key,
+       has_key, has_value,
        destructure, restructure
 
 # these functions are not exported
@@ -127,6 +127,14 @@ faster version of `haskey` for NamedTuples
 
 has_key(nt::NamedTuple{N,T}, key::Symbol) where {N,T} = key in N
 has_key(NT::Type{NamedTuple{N,T}}, key::Symbol) where {N,T} = key in N
+
+"""
+    has_value(nt, value)::Bool
+
+does `value` exist in nt?
+""" has_value
+
+has_value(nt::NamedTuple{N,T}, value) where {N,T} = value in values(nt)
 
 """
    destructure(nt; typetuple::Bool=false)
