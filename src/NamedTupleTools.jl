@@ -19,6 +19,7 @@ module NamedTupleTools
 export namedtuple, @namedtuple,
     namedproto, isnamedproto,
     issame, ≅, canonical,
+    head,
     select, delete, separate,
     unnest, merge_recursive,
     field_count, field_names, field_types, field_tupletype, field_values,
@@ -33,6 +34,8 @@ end
 # field_count, field_names, field_types, field_vals
 include("fieldops.jl")
 include("unrolled.jl")
+
+head(nt::NamedTuple{N,T}) where {N,T} = NamedTuple{(first(N),)}(first(nt))
 
 include("conversions.jl")
 
