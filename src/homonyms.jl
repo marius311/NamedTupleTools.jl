@@ -120,9 +120,9 @@ field_values(nt::NamedTuple) = values(nt)
 field_value(nt::NamedTuple, idx::Integer) = values(nt)[idx]
 
 """
-    has_key(NT, Symbol)::Bool
-    has_key(nt, Symbol)::Bool
+    has_key(nt | NT, Symbol)::Bool
 
+faster version of `haskey` for NamedTuples
 """ has_key
 
 has_key(nt::NamedTuple{N,T}, key::Symbol) where {N,T} = key in N
