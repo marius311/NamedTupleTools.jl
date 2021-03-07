@@ -1,3 +1,8 @@
+"""
+    prototype(nt | NT, [(types,) | Tuple{types...}]
+
+generate a prototypic NamedTuple `schema` from the given arg[s]
+"""
 prototype(nt::NamedTuple{N,T}) where {N,T} = NamedTuple{N}
 prototype(NT::Type{NamedTuple{N,T}}) where {N,T} = NamedTuple{N}
 
