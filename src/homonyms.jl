@@ -21,6 +21,7 @@ export field_count,
        field_range, field_indices,
        field_names, field_name, field_types, field_type, 
        field_values, field_value,
+       has_name,
        destructure, restructure
 
 # these functions are not exported
@@ -117,6 +118,15 @@ provides the value of the field at the position given
 
 field_values(nt::NamedTuple) = values(nt)
 field_value(nt::NamedTuple, idx::Integer) = values(nt)[idx]
+
+"""
+    has_key(NT, Symbol)::Bool
+    has_key(nt, Symbol)::Bool
+
+""" has_key
+
+has_key(nt::NamedTuple{N,T}, key::Symbol) where {N,T} = key in N
+has_key(NT::Type{NamedTuple{N,T}}, key::Symbol) where {N,T} = key in N
 
 """
    destructure(nt; typetuple::Bool=false)
