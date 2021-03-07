@@ -13,4 +13,4 @@ Predicate that identifies NamedTuple prototypes.
 isprototype(::Type{T}) where {T<:NamedTuple} = eltype(T) === Any
 isprototype(nt::T) where {T<:NamedTuple} = false
 isprototype(::Type{UnionAll}) = false
-isprototype(::NamedTuple{(), Tuple{}}) = true
+isprototype(::NamedTuple{(), Tuple{}}) = false 
