@@ -21,7 +21,7 @@ export field_count,
        field_range, field_indices,
        field_names, field_name, field_types, field_type, 
        field_values, field_value,
-       has_name,
+       has_key,
        destructure, restructure
 
 # these functions are not exported
