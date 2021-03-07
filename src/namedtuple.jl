@@ -20,5 +20,4 @@ namedtuple(names::NTuple{N,AbstractString}, values::AbstractVector) where N = na
 namedtuple(names::NTuple{N,Symbol}, types::NTuple{N,Type}) where N = NamedTuple{names, Tuple{types...}}
 
 namedtuple(name::Symbol, type::Type{T}, value::T) where {T} = NamedTuple{(name,), Tuple{T}}(value)
-namedtuple(names::NTuple{N,Symbol}, types::Tuple{NTuple{N,Type}}, values::Tuple) where N =
-    NamedTuple{names, types}(values)
+
