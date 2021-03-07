@@ -1,4 +1,10 @@
+#=
+    make <this> <named> [from] <that>
+=#
 
+make(::Type{DataType}, structname::Symbol, NT::Type{NamedTuple{N,T}}) where {N,T} =
+    makestruct(structname, N, Tuple(T.parameters))
+    
 # Expr part from Fredrik Ekre
 structexpr(structname, names, types) =
     "Expr(:struct,
