@@ -1,15 +1,15 @@
 
 # Expr part from Fredrik Ekre
 structexpr(structname, names, types) =
-	"Expr(:struct,
-		false,
-		Expr(:curly,
-			 :$structname
-		),
-		Expr(:block,
-			map((x,y) -> Expr(:(::), x, y), $names, $types)...
-		)
-	)"
+    "Expr(:struct,
+        false,
+        Expr(:curly,
+             :$structname
+        ),
+        Expr(:block,
+             map((x,y) -> Expr(:(::), x, y), $names, $types)...
+        )
+    )"
 
 makestruct(structname, names, types) = 
     (eval(eval(Meta.parse(structexpr(structname, names, types)))); return eval(structname))
