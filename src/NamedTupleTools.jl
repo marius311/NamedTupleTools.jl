@@ -36,6 +36,8 @@ include("fieldops.jl")
 include("unrolled.jl")
 
 head(nt::NamedTuple{N,T}) where {N,T} = NamedTuple{(N[1],),Tuple{T.parameters[1]}}(nt[1])
+head(x::Tuple) = (first(x),)
+head(x::AbstractVector) = [first(x)] 
 
 include("conversions.jl")
 
