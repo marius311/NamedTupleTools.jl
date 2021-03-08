@@ -1,3 +1,7 @@
+# dispatches(x::Type{Tuple{}}) dispatches(Tuple{}}
+# dispatches(x::Type{Tuple{T}}) where T dispatches(Tuple{Int})
+# dispatches(x::Type{NTuple{N,T}}) where {N,T} dispatches(Tuple{Int,..,Int}) 
+
 #=
     make <this> <named> [from] <that>
 =#
