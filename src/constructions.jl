@@ -1,6 +1,12 @@
 # dispatches(x::Type{Tuple{}}) dispatches(Tuple{}}
 # dispatches(x::Type{Tuple{T}}) where T dispatches(Tuple{Int})
 # dispatches(x::Type{NTuple{N,T}}) where {N,T} dispatches(Tuple{Int,..,Int}) 
+# dispatches(x::NTuple{N,Type}) where N dispatches((Int, String, ..))
+#
+#   dispatch(::Type{T}) where {T<:Tuple} = dispatch_helper(T.parameters...,)
+#   dispatch_helper(x::Vararg{Type}) = x # or something else (a transform of x)
+#
+#
 
 #=
     make <this> <named> [from] <that>
