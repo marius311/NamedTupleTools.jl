@@ -20,9 +20,17 @@ function rand1(::Type{NamedTuple}, nfields::Int=1, nchars::Int=1;
     return NamedTuple{syms}(vals)
 end
 
-function Random.rand(::Type{NamedTuple},n::Int=1, nfields::Int=1, nchars::Int=1; 
+"""
+     rand(NamedTuple, nrands, nfields_in_each_nt, nchars_per_fieldname,
+          permute_the_fieldnames_for_each_rand_nt::Bool-false,
+          permute_the_fieldvalues_for_each_rand_nt::Bool=false,
+          randomize_the_lengths_of_fieldnames::Bool=false)
+          
+"""
+function Random.rand(::Type{NamedTuple}, nrands::Int=1, nfields::Int=1, nchars::Int=1; 
                       permutesyms::Bool=false, permutevals::Bool=false, randwidth::Bool=false)
-    [rand1(NamedTuple,nfields, nchars;permutesyms,permutevals,randwidth) for i=1:n]
+    if !permutesyms && !permutevals
+        nrands = 1
+    end    
+    [rand1(NamedTuple,nfields, nchars;permutesyms,permutevals,randwidth) for i=1:nrands]
 end
-
-        
