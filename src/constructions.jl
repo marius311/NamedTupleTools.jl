@@ -12,6 +12,13 @@
     make <this> <named> [from] <that>
 =#
 
+@generated function make(::Type{NamedTuple}, astruct::DataType)
+    NT = NamedTuple{fieldnames(obj), Tuple{fieldtypes(obj)...}}
+    return :($NT(tuple($((:(getfield(obj, $i)) for i in 1:fieldcount(obj))...))))
+ end
+
+
+
 make(::Type{DataType}, structname::Symbol, NT::Type{NamedTuple{N,T}}) where {N,T} =
     makestruct(structname, N, Tuple(T.parameters))
     
