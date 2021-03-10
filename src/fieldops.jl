@@ -167,6 +167,18 @@ function named_field(x::NamedTuple{N,T}, name::Symbol) where {N,T}
     return NamedTuple{sym, typ}(val)
 end
 
+
+function named_fields(x::NamedTuple{N,T}, positions::Vector{Int}) where {I,N,T}
+   syms = N[positions]
+   typs = Tuple{T.parameters[positions]...} # Tuple{T.parameters[[positions]]...}
+   vals = map(i->getindex(x,i) , positions)
+ return (syms, typs, vals);  #    return NamedTuple{sym, typ}(val)
+end
+
+# named_fields(nt1, [1,2])
+#((:a, :b), Tuple{Int64, String}, Any[1, "two"])
+
+
 # low level support functions
 
 function indexof(item::T, seq::NTuple{N, T}) where {N,T}
