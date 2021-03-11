@@ -33,8 +33,8 @@ export field_count,
 tallys the named fields
 """ field_count
 
-field_count(nt::NamedTuple{N,T}) where {N,T} = length(N)
-field_count(nt::Type{NamedTuple{N,T}}) where {N,T} = length(N)
+field_count(@nospecialize nt::NamedTuple{N,T}) where {N,T} = length(N)
+field_count(@nospecialize nt::Type{NamedTuple{N,T}}) where {N,T} = length(N)
 
 """
     field_names(nt | NT)
@@ -72,20 +72,20 @@ provides the type for the fields as Tuple{ types... }
 provides the type for the field at the position given as Tuple{ type }
 """ fields_type
 
-field_names(nt::NamedTuple{N,T}) where {N,T} = N
-field_names(nt::Type{NamedTuple{N,T}}) where {N,T} = N
-field_name(nt::NamedTuple{N,T}, idx::Integer) where {N,T} = N[idx]
-field_name(nt::Type{NamedTuple{N,T}}, idx::Integer) where {N,T} = N[idx]
+field_names(@nospecialize nt::NamedTuple{N,T}) where {N,T} = N
+field_names(@nospecialize nt::Type{NamedTuple{N,T}}) where {N,T} = N
+field_name(@nospecialize nt::NamedTuple{N,T}, idx::Integer) where {N,T} = N[idx]
+field_name(@nospecialize nt::Type{NamedTuple{N,T}}, idx::Integer) where {N,T} = N[idx]
 
-fields_types(nt::NamedTuple{N,T}) where {N,T} = Tuple{T.parameters...}
-fields_types(nt::Type{NamedTuple{N,T}}) where {N,T} = Tuple{T.parameters...}
-fields_type(nt::NamedTuple{N,T}, idx::Integer) where {N,T} = Tuple{T.parameters[idx]}
-fields_type(nt::Type{NamedTuple{N,T}}, idx::Integer) where {N,T} = Tuple{T.parameters[idx]}
+fields_types(@nospecialize nt::NamedTuple{N,T}) where {N,T} = Tuple{T.parameters...}
+fields_types(@nospecialize nt::Type{NamedTuple{N,T}}) where {N,T} = Tuple{T.parameters...}
+fields_type(@nospecialize nt::NamedTuple{N,T}, idx::Integer) where {N,T} = Tuple{T.parameters[idx]}
+fields_type(@nospecialize nt::Type{NamedTuple{N,T}}, idx::Integer) where {N,T} = Tuple{T.parameters[idx]}
 
-field_types(nt::NamedTuple{N,T}) where {N,T} = Tuple(T.parameters)
-field_types(nt::Type{NamedTuple{N,T}}) where {N,T} = Tuple(T.parameters)
-field_type(nt::NamedTuple{N,T}, idx::Integer) where {N,T} = tuple(T.parameters[idx])
-field_type(nt::Type{NamedTuple{N,T}}, idx::Integer) where {N,T} = tuple(T.parameters[idx])
+field_types(@nospecialize nt::NamedTuple{N,T}) where {N,T} = Tuple(T.parameters)
+field_types(@nospecialize nt::Type{NamedTuple{N,T}}) where {N,T} = Tuple(T.parameters)
+field_type(@nospecialize nt::NamedTuple{N,T}, idx::Integer) where {N,T} = tuple(T.parameters[idx])
+field_type(@nospecialize nt::Type{NamedTuple{N,T}}, idx::Integer) where {N,T} = tuple(T.parameters[idx])
 
 """
     field_range(nt | NT)
@@ -99,10 +99,10 @@ provides a range for iterating over all fields
 provides the indices for all fields as a sorted tuple
 """ field_indices
 
-field_range(nt::NamedTuple{N,T}) where {N,T} = 1:field_count(nt)
-field_range(nt::Type{NamedTuple{N,T}}) where {N,T} =  1:field_count(nt)
-field_indices(nt::NamedTuple{N,T}) where {N,T}= ntuple(i->i, field_count(nt))
-field_indices(nt::Type{NamedTuple{N,T}}) where {N,T} = ntuple(i->i, field_count(nt))
+field_range(@nospecialize nt::NamedTuple{N,T}) where {N,T} = 1:field_count(nt)
+field_range(@nospecialize nt::Type{NamedTuple{N,T}}) where {N,T} =  1:field_count(nt)
+field_indices(@nospecialize nt::NamedTuple{N,T}) where {N,T}= ntuple(i->i, field_count(nt))
+field_indices(@nospecialize nt::Type{NamedTuple{N,T}}) where {N,T} = ntuple(i->i, field_count(nt))
 
 """
     field_values(nt)
@@ -116,8 +116,8 @@ the same as `values(nt)`, provided for symmetry
 provides the value of the field at the position given
 """ field_value
 
-field_values(nt::NamedTuple) = values(nt)
-field_value(nt::NamedTuple, idx::Integer) = values(nt)[idx]
+field_values(@nospecialize nt::NamedTuple) = values(nt)
+field_value(@nospecialize nt::NamedTuple, idx::Integer) = values(nt)[idx]
 
 """
     has_key(nt | NT, Symbol)::Bool
@@ -125,8 +125,8 @@ field_value(nt::NamedTuple, idx::Integer) = values(nt)[idx]
 faster version of `haskey` for NamedTuples
 """ has_key
 
-has_key(nt::NamedTuple{N,T}, key::Symbol) where {N,T} = key in N
-has_key(NT::Type{NamedTuple{N,T}}, key::Symbol) where {N,T} = key in N
+has_key(@nospecialize nt::NamedTuple{N,T}, key::Symbol) where {N,T} = key in N
+has_key(@nospecialize NT::Type{NamedTuple{N,T}}, key::Symbol) where {N,T} = key in N
 
 """
     has_value(nt, value)::Bool
@@ -134,7 +134,7 @@ has_key(NT::Type{NamedTuple{N,T}}, key::Symbol) where {N,T} = key in N
 does `value` exist in nt?
 """ has_value
 
-has_value(nt::NamedTuple{N,T}, value) where {N,T} = value in values(nt)
+has_value(@nospecialize nt::NamedTuple{N,T}, value) where {N,T} = value in values(nt)
 
 """
    destructure(nt; typetuple::Bool=false)
@@ -145,7 +145,7 @@ yields ((fieldnames), (fieldtypes), (fieldvalues))
 yields ((fieldnames), Tuple{fieldtypes}, (fieldvalues))
 """ destructure
 
-function destructure(nt::NamedTuple; typetuple::Bool=false)
+function destructure(@nospecialize nt::NamedTuple; typetuple::Bool=false)
     if typetuple
        (field_names(nt), fields_types(nt), field_values(nt))
     else
@@ -160,9 +160,9 @@ end
 yields the corresponding NamedTuple
 """ restructure
 
-restructure(names::Tuple, types::Tuple, values::Tuple) =
+restructure(@nospecialize names::Tuple, @nospecialize types::Tuple, @nospecialize values::Tuple) =
    NamedTuple{names, Tuple{types...}}(values)
 
-restructure(names::Tuple, types::Type{Tuple}, values::Tuple) =
+restructure(@nospecialize names::Tuple, @nospecialize types::Type{Tuple}, values::Tuple) =
    NamedTuple{names, types}(values)
 
