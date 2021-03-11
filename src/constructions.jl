@@ -1,3 +1,14 @@
+#= to_nt is from Mason Protter
+
+@generated function to_nt(x::T) where T
+    if isstructtype(T)
+      Expr(:tuple, :(T = $T), [:($n = to_nt(getfield(x, $(QuoteNode(n))))) for n in fieldnames(T)]...)
+    else
+      :(x)
+    end
+end
+=#
+
 # dispatches(x::Type{Tuple{}}) dispatches(Tuple{}}
 # dispatches(x::Type{Tuple{T}}) where T dispatches(Tuple{Int})
 # dispatches(x::Type{NTuple{N,T}}) where {N,T} dispatches(Tuple{Int,..,Int}) 
