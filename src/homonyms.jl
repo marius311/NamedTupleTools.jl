@@ -24,6 +24,134 @@ export field_count,
        has_key, has_value,
        destructure, restructure
 
+ Expr(:tuple,
+      :(T = $T),
+      [:($n =
+              to_nt(getfield(x, $(QuoteNode(n)))))
+              for n in fieldnames(T)
+      ]...
+     )
+
+
+
+@generated function to_nt(x::T) where T
+  if isstructtype(T)
+    Expr(:tuple, :(T = $T),
+         [:($n =
+            to_nt( getfield(x, $(QuoteNode(n)))))
+                   for n in fieldnames(T)]...)
+  else
+    :(x)
+  end
+end
+
+ulia> a = QuoteNode(:a)
+:(:a)
+julia> :((b=2, $(a.value)=1))
+:((b = 2, a = 1))
+
+
+
+
+ay("Boxing Day", 2021)
+
+julia> struct Holiday
+         event::String
+         year::Int64
+       end
+
+julia> boxing_day = Holiday("Boxing Day", 2021)
+Holiday("Boxing Day", 2021)
+
+julia> function tont(x::T) where T
+       ( # Expr(:tuple, :(T = T),
+         [ getfield(x, n) for n in fieldnames(T)]
+       ) ;  end
+tont (generic function with 1 method)
+
+julia> tont(boxing_day)
+2-element Vector{Any}:
+     "Boxing Day"
+ 2021
+
+
+@generated function untuple2(@nospecialize ::Type{T}) where {T<:Tuple}
+           if all(t isa Type for t in T.parameters)
+               return Tuple(T.parameters)
+           else
+               error("Non-type values are not allowed!")
+           end
+       end
+
+
+In every successful project I have seen, the priorities are
+(a) know what you are going to do before the doing
+(b) first explain your intent to another .. there is no second step until they understand
+(c) get it right (drawing pictures and writing tests helps)
+(d) however easy it is to use, make it easier to use
+(e) profiling and benchmarking should direct efforts to speed up the software
+(f) all the work only gets you a demo until there is writing that lets others use it well
+(g) get here (this is step seven) (edited)
+
+
+
+
+
+julia> function tont(x::T) where T
+       ( # Expr(:tuple, :(T = T),
+         [ (n, getfield(x, n)) for n in fieldnames(T)]
+       ) ;  end
+tont (generic function with 1 method)
+
+2-element Vector{Tuple{Symbol, Any}}:
+ (:event, "Boxing Day")
+ (:year, 2021)
+
+
+
+julia> function tont(x::T) where T
+                Expr(:tuple, :(T = T),
+                [ (n, getfield(x, n)) for n in fieldnames(T)])
+               ;  end
+tont (generic function with 1 method)
+
+julia> tont(boxing_day)
+:((T = T, Tuple{Symbol, Any}[(:event, "Boxing Day"), (:year, 2021)]))
+
+# ==================================================================
+
+
+holiday_nt = (event = "Boxing Day", year = 2021)
+Holiday_nt = typeof(holiday_nt)
+
+struct Holiday_st
+	event::String
+	year::Int64
+end
+
+holiday_st = Holiday("Boxing Day", 2021)
+
+field_count(@nospecialize nt::NamedTuple{N,T}) where {N,T} = nfields(N)
+
+field_count(@nospecialize ::Type{NamedTuple{N,T}}) where {N,T} = nfields(N)
+
+field_names(@nospecialize nt::NamedTuple{N,T}) where {N,T} = N
+
+field_names(@nospecialize ::Type{NamedTuple{N,T}}) where {N,T} = N
+
+field_typestuple(@nospecialize nt::NamedTuple{N,T}) where {N,T} = T
+
+field_typestuple(@nospecialize ::Type{NamedTuple{N,T}}) where {N,T} = T
+
+field_types(@nospecialize nt::NamedTuple{N,T}) where {N,T} =
+    Tuple{T.parameters[2].parameters}
+
+field_types(@nospecialize ::Type{NamedTuple{N,T}}) where {N,T} =
+    Tuple{T.parameters[2].parameters}
+
+field_values(@nospecialize nt::NamedTuple{N,T}) where {N,T} =
+    values(nt)
+
 # these functions are not exported
 # fields_types, fields_type
 
