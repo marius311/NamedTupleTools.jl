@@ -11,23 +11,30 @@ for r in randresult
 end
 
 #=
-   There are two common ways to store tabulated information.
+   There are two common ways that systems store data tables.
+   Some systems use their own, less common approaches.
+
    (a) "column major order", where one column follows another
         - adjacent columns are closer than adjacent rows
+        - for easiest column by column access to data
+        - Julia, R, MATLAB, and FORTRAN store data accross columns
+
    (b) "row major order", where one row follows another
         - adjacent rows are closer than adjacent columns
-   Julia follows 
+        - for easiest row by row access to data
+        - C++, C, SAS, and Pascal store data accross rows
 
-meet where one ends and the next begins)
+   (c) system specific organizations
+        - Scala, Python, and Java use their own approaches
+=#
 
-are contigous
-   row-major (faster when accessed as a sequence of rows)
-# which data storage orientation is easier for your pkg's clients?
-# which data storage orientation is more intuitive, and which is more performant? 
-
-orientation, column dominant or row dominantis easier for your users table organization is easier for your users
-# which table r is more performant for your user
-table_of_rows    = Tables.rowtable(ntstack)
-table_of_columns = Tables.columntable(tableofrows)
-
-
+#= 
+    Most of Julia's table packages support working with 
+    data organized as a column-major table by default.
+    A few well-regarded, and widely used packages allow you
+    to "re-orient" the data into a table organized for
+    row-major storage and retreival.  In March 2021,
+    this approach is limited to data tables that have
+    no more than 100 rows and no more than 100  columns
+    (a table with size==(150, 50) does not qualify).
+=#
