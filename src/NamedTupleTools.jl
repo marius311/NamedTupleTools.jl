@@ -26,8 +26,11 @@ export namedtuple, @namedtuple,
     construct #, newstruct, @newstruct
 
 using Tables
-using OrderedCollections
+using OrderedCollections: LittleDict
 using Dictionaries
+
+const Sequence = Union{<:Tuple, <:Vector}
+
 
 macro assign(var, val)
     :($(esc(var)) = $(esc(val)))
