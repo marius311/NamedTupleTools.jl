@@ -26,7 +26,7 @@ export namedtuple, @namedtuple,
     construct #, newstruct, @newstruct
 
 using Tables
-using OrderedCollections: LittleDict
+using OrderedCollections: LittleDict, freeze
 using Dictionaries
 
 const Sequence = Union{<:Tuple, <:Vector}
