@@ -29,6 +29,9 @@ using Tables
 using OrderedCollections: LittleDict, freeze
 using Dictionaries
 
+const NT  = NamedTuple
+const NTT = NamedTupleTools
+
 const Sequence = Union{<:Tuple, <:Vector}
 
 
