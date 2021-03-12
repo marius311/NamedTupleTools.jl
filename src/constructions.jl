@@ -1,3 +1,15 @@
+"""
+    max performance
+    
+    with no more than 16 constituents
+        use `tuple(vectorT...)` to generate a tuple from a vector with length(vector) <= 16
+    with no fewer than 17 constituents
+        use `NTuple{N,T}(avector::AbstractVector{T}) ` to generate a tuple from a vector with length(vector) > 16
+
+
+    
+"""
+
 #= to_nt is from Mason Protter
 
 @generated function to_nt(x::T) where T
