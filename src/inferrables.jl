@@ -1,3 +1,58 @@
+#=
+   Enhance the performance of these methods when
+   applied to NamedTuples of 16 or fewer elements,
+   while protecting their inferability and do this
+   without impacting the usefulness of these methods
+   with with larger NamedTuples.
+   
+   select retreival of 
+   - first
+   - second
+   - third
+   - antepenultimate 
+   - penultimate
+   - last
+
+   query exists of (same)
+
+   select retreival of
+   - field name
+   - field type
+   - field value
+
+   first(
+  <first|second|penultimate|last><entity>(::NamedTuple)6
+=#
+
+# related abstractions
+#
+# they are ordered by distance from ground 
+#   the most abstract is farthest from ground, so it is the local initial
+#   the final abstraction allows one to gather the rest, it is the local terminus
+
+abstract type FieldAspect end
+
+abstract type FieldFromType  <: FieldAspect    end
+abstract type FieldFromValue <: FieldFromType  end
+abstract type FieldAccess    <: FieldFromValue end
+
+# related singleton types
+struct FieldName  <: FieldAspect end
+struct FieldType  <: FieldAspect end
+struct FieldValue <: FieldAspect end
+# struct FieldIndex <: FieldAccess end
+
+Base.first(nt::NamedTuple{N,T}, target::Field)
+
+firstindex(a::AbstractArray) = (@_inline_meta; first(eachindex(IndexLinear(), a)))
+
+function last(v::AbstractVector, n::Integer)
+    n < 0 && throw(ArgumentError("Number of elements must be nonnegative"))
+    @inbounds v[max(begin, end - n + 1):end]
+end
+
+=#
+
 # ? @nospecialize
 field_count(nt::NamedTuple{N,T}) where {N,T} = length(N)
 field_count(nt::Type{NamedTuple{N,T}}) where {N,T} = length(N)
