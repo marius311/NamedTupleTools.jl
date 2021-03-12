@@ -25,7 +25,9 @@ export namedtuple, @namedtuple,
     field_count, field_names, field_types, field_tupletype, field_values,
     construct #, newstruct, @newstruct
 
+using Tables
 using OrderedCollections
+using Dictionaries
 
 macro assign(var, val)
     :($(esc(var)) = $(esc(val)))
