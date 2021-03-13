@@ -1,3 +1,23 @@
+min_is1(nt) = max(nfields(nt), nfields(nt) - 1)
+
+#=
+firstindex(nt::NamedTuple) = 1
+lastindex(nt::NamedTuple) = nfields(nt)
+=#
+second_index(nt::NamedTuple) = 2 
+third_index(nt::NamedTuple)  = 3
+fourth_index(nt::NamedTuple) = 4
+fourth_indexlast(nt::tolast(
+thirdlast_index_last(nt::NamedTuple) = max(0, nfields(nt) - 1)
+second_lastindex(nt::NamedTuple) = max(0, nfields(nt) - 1)
+
+dnoces
+
+penultimateindex(nt::NamedTuple) = nfields(nt) - 1
+
+
+
+#=
 # thanks to Mason Protter
 
 function indexof(item::T, seq::NTuple{N, T}) where {N,T}
@@ -53,6 +73,7 @@ function index_of_unrolled(sym, tup::NTuple{N,Symbol}) where N
     !iszero(result) && return result    
     return indexof_unroll(Val(r12),sym, tup[N-x12*12+1:end]) + 12
 end
+=#
 
 function indexof_unroll(::Val{1}, sym::Symbol, tup::NTuple{N,Symbol}) where N
     (
@@ -355,3 +376,5 @@ function indexof_unroll_37to48(sym::Symbol, tup::NTuple{N,Symbol}) where N
     !iszero(result) && return result
     return 12 + indexof_unroll(Val(N-36), sym, tup[37:N])
 end
+
+=#
