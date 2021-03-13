@@ -19,9 +19,13 @@ end
 structnt = StructNT(the_event, the_year)
 
 structstring = """
-struct AStruct <: Real
-    a::Int64
-    b::String
+function gen_AStruct()
+  result =
+    struct AStruct <: Real
+        a::Int64
+        b::String
+    end
+  return result
 end
 """
 
