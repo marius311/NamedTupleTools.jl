@@ -36,6 +36,34 @@
     field_values
 """ field_values
 
+#=
+    parameter retrieval
+=#
+
+#   parameters(nt|NT) 
+
+# an indexical is a dedicated and devoted service 
+#   brought available to for use in this environment and timme of wealth accumulation
+parameters(nt::Type{NamedTuple{N,T}}) = T.parameters
+
+# all of the parameters
+parameters(nt::Type{NamedTuple{N,T}}) = T.parameters
+# looking good is part of  the job
+
+# the indicated parameters only
+parameter(nt::NamedTuple{N,T}, indexicalsindex|range|(indices..)) = (T.parameters)[
+
+parameters(::Type{T}) where {T} = T.parameters
+parameter(::Type{T}, idx) where {T} = getindex(parameters(T), idx)
+
+parameters(x::T) where {T} = parameters(T)
+parameter(x::T, idx) where {T} = getindex(parameters(T), idx)
+
+
+parameters(::Type{T}) where {T} = T.parameters
+parameters(::T) where {T} = T.parameters
+getparameter(::Type{T}, idx) where {T} = parameters(T)[idx]
+getparameters(::Type{T}, idxs) where {T} = parameters(T)[idxs]
 
 # field_<aspect>(::Type{NamedTuple})
 
