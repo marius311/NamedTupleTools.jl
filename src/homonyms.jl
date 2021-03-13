@@ -45,19 +45,21 @@
 parameters(nt::Type{NamedTuple{}}) = nothing
 parameters(nt::NamedTuple{}) = nothing
 
-parameters(nt::Type{NamedTuple{N}}) where N = N
-parameters(nt::NamedTuple{N}) where N = N
+parameters(nt::Type{NamedTuple{N}}) where {N} = N
+parameters(nt::NamedTuple{N}) where {N} = N
 
 parameters(nt::Type{NamedTuple{N,T}}) where {N,T} = N
 parameters(nt::NamedTuple{N,T}) where {N,T} = N
 
-# an indexical is a dedicated and devoted service 
+# an indexical is a dedicated and devote d service 
 #   brought available to for use in this environment and timme of wealth accumulation
-parameters(nt::Type{NamedTuple{N,T}}) = (N, T.parameters)
+parameters(nt::Type{NamedTuple{N,T}}) where {N,T} = (N, T.parameters)
+parameters(nt::NamedTuple{N,T}) where {N,T} = (N, T.parameters)
 
-# all of the parameters
-parameters(nt::Type{NamedTuple{N,T}}) = T.parameters
-# looking good is part of  the job
+parameter(nt::NamedTuple{N,T}, idx) where {N,T}
+   @nospecialize nt
+end
+
 
 # the indicated parameters only
 parameter(nt::NamedTuple{N,T}, indexicalsindex|range|(indices..)) = (T.parameters)[
