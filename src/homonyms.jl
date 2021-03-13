@@ -44,7 +44,7 @@
 
 # an indexical is a dedicated and devoted service 
 #   brought available to for use in this environment and timme of wealth accumulation
-parameters(nt::Type{NamedTuple{N,T}}) = T.parameters
+parameters(nt::Type{NamedTuple{N,T}}) = (N, T.parameters)
 
 # all of the parameters
 parameters(nt::Type{NamedTuple{N,T}}) = T.parameters
