@@ -30,18 +30,34 @@
 #   the most abstract is farthest from ground, so it is the local initial
 #   the final abstraction allows one to gather the rest, it is the local terminus
 
+abstract type MereField   end
+abstract type NamedTupleField <: MereField end
+abstract type StructField     <: MereField end
+
+abstrac  type MultiAspect <: MereField end
 abstract type FieldAspect end
 
 abstract type FieldFromType  <: FieldAspect    end
 abstract type FieldFromValue <: FieldFromType  end
 abstract type FieldAccess    <: FieldFromValue end
 
-# related singleton types
-struct FieldName  <: FieldAspect end
-struct FieldType  <: FieldAspect end
-struct FieldValue <: FieldAspect end
+# related singleton types and singletons
+struct FieldCount <: MultiAspect end; const CountFields = FieldCount();
+struct FieldName  <: FieldAspect end; const NamedField  = FieldName();
+struct FieldType  <: FieldAspect end; const TypedField  = FieldType();
+struct FieldValue <: FieldAspect end; const ValuedField = FieldValue();
+
 # struct FieldIndex <: FieldAccess end
 
+# obtain the first   | the last entry as a value
+# first(nt), last(nt)
+
+# obtain the initial | the final entry as a NamedTuple
+# initial(nt), final(nt)
+function initial(nt::NamedTuple{N,T}) where {N,T}
+   return NamedTuple{
+   
+   
 Base.first(nt::NamedTuple{N,T}, target::Field)
 
 firstindex(a::AbstractArray) = (@_inline_meta; first(eachindex(IndexLinear(), a)))
