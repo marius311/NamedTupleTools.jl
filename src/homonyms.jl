@@ -40,7 +40,16 @@
     parameter retrieval
 =#
 
-#   parameters(nt|NT) 
+#   parameters(nt|NT)
+
+parameters(nt::Type{NamedTuple{}}) = nothing
+parameters(nt::NamedTuple{}) = nothing
+
+parameters(nt::Type{NamedTuple{N}}) where N = N
+parameters(nt::NamedTuple{N}) where N = N
+
+parameters(nt::Type{NamedTuple{N,T}}) where {N,T} = N
+parameters(nt::NamedTuple{N,T}) where {N,T} = N
 
 # an indexical is a dedicated and devoted service 
 #   brought available to for use in this environment and timme of wealth accumulation
