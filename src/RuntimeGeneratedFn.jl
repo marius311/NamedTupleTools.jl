@@ -20,10 +20,7 @@ structnt = StructNT(the_event, the_year)
 
 
 
-
-
-
-module RGFPrecompTest2
+module RGFmodule
     using RuntimeGeneratedFunctions
     RuntimeGeneratedFunctions.init(@__MODULE__)
 
