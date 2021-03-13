@@ -8,6 +8,106 @@
    Jameson Nash @vtjnash, for introducing "privateering" to my lexicon.
 =#
 
+"""
+    field_count
+""" field_count
+
+"""
+    field_names
+""" field_names
+
+"""
+    field_tupletypes
+""" field_tupletypes
+
+"""
+    field_types
+""" field_types
+
+"""
+    field_indicies
+""" field_indicies
+
+"""
+    field_range
+""" field_range
+
+"""
+    field_values
+""" field_values
+
+
+# field_<aspect>(::Type{NamedTuple})
+
+function field_count(nt::Type{NamedTuple{N,T}}) where {N,T}
+    @nospecialize nt
+    return nfields(N)
+end
+
+function field_names(nt::Type{NamedTuple{N,T}}) where {N,T}
+    @nospecialize nt
+    return N
+end
+
+function field_tupletypes(nt::Type{NamedTuple{N,T}}) where {N,T}
+    @nospecialize nt
+    return T
+end
+
+function field_types(nt::Type{NamedTuple{N,T}}) where {N,T}
+    @nospecialize nt
+    return T.parameters
+end
+
+function field_indices(nt::Type{NamedTuple{N,T}}) where {N,T}
+    @nospecialize nt
+    ntuple(i->i, field_count(nt))
+end
+
+function field_range(nt::Type{NamedTuple{N,T}}) where {N,T}
+    @nospecialize nt
+    1:field_count(nt)
+end
+
+# field_<aspect>(::NamedTuple)
+
+function field_count(nt::NamedTuple{N,T}) where {N,T}
+    @nospecialize nt
+    return nfields(nt)
+end
+
+function field_names(nt::NamedTuple{N,T}) where {N,T}
+    @nospecialize nt
+    return Base._nt_names(nt)
+end
+
+function field_tupletypes(nt::NamedTuple{N,T}) where {N,T}
+    @nospecialize nt
+    return T
+end
+
+function field_types(nt::Type{NamedTuple{N,T}}) where {N,T}
+    @nospecialize nt
+    return T.parameters
+end
+
+function field_indices(nt::NamedTuple{N,T}) where {N,T}
+    @nospecialize nt
+    ntuple(i->i, field_count(nt))
+end
+
+function field_range(nt::NamedTuple{N,T}) where {N,T}
+    @nospecialize nt
+    1:field_count(nt)
+end
+
+function field_values(nt::NamedTuple{N,T}) where {N,T}
+    @nospecialize nt
+    return values(nt)
+end
+
+
+
 #=
    The homonym functions in Base work with `::Type{<:NamedTuple}` only (by design).
    These methods work with both `::Type{<:NamedTuple}` and `indicant::NamedTuple`.
