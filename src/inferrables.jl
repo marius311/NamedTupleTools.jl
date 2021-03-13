@@ -1,3 +1,5 @@
+
+
 #=
    Enhance the performance of these methods when
    applied to NamedTuples of 16 or fewer elements,
@@ -68,6 +70,21 @@ function last(v::AbstractVector, n::Integer)
 end
 
 =#
+
+field_count(@nospecialize nt::NamedTuple{N,T}) where {N,T} = length(N)
+field_count(@nospecialize nt::Type{NamedTuple{N,T}}) where {N,T} = length(N)
+field_names(@nospecialize nt::NamedTuple{N,T}) where {N,T} = N
+field_names(@nospecialize nt::Type{NamedTuple{N,T()}}) where {N,T} = N
+field_types(@nospecialize nt::NamedTuple{N,T}) where {N,T} = Tuple(T.parameters)
+field_types(@nospecialize nt::Type{NamedTuple{N,T}}) where {N,T} = Tuple(T.parameters) # 8x
+field_indices(@nospecialize nt::NamedTuple{N,T}) where {N,T} = 1:field_count(nt)
+field_indices(@nospecialize nt::Type{NamedTuple{N,T}}) where {N,T} =  1:field_count(nt)
+field_positions(@nospecialize nt::NamedTuple{N,T}) where {N,T}= ntuple(i->i, field_count(nt))
+field_positions(@nospecialize nt::Type{NamedTuple{N,T}}) where {N,T} = ntuple(i->i, field_count(nt))
+
+field_values(@nospecialize nt::NamedTuple) = values(nt)
+
+
 
 # ? @nospecialize
 field_count(nt::NamedTuple{N,T}) where {N,T} = length(N)
