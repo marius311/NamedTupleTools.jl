@@ -22,7 +22,7 @@ field_count(x::T) where {T} = fieldcount(T)
 """ field_names
 
 field_names(NT::Type{NamedTuple{N,T}}) where {N,T} = N
-field_names(nt::Type{NamedTuple{N,T}}) where {N,T} = N
+@generated field_names(nt::Type{NamedTuple{N,T}}) where {N,T} = N
 field_names(x::Type{T}) where {T} = fieldnames(x)
 field_names(x::T) where {T} = fieldnames(T)
 
