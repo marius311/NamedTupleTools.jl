@@ -70,6 +70,22 @@ getparameters(::Type{T}, idxs) where {T} = parameters(T)[idxs]
 
 # field_<aspect>(::Type{NamedTuple})
 
+#=
+ @generated function myfind_gen(s::Symbol, tup::NTuple{N, Symbol}) where {N}
+                  ex = :(s === tup[1] && return 1)
+                  foreach(2:N) do i
+                      ex = :($ex || (s === tup[$i] && return $i))
+                  end
+                  quote
+                      $ex
+                      nothing
+                  end
+              end
+
+@generated fieldnames_fast(x) = Expr(:tuple, (:(fieldnames(x))...))
+
+=#
+
 function field_count(nt::Type{NamedTuple{N,T}}) where {N,T}
     @nospecialize nt
     return nfields(N)
