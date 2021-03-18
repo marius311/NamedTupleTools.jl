@@ -48,9 +48,10 @@ field_types(x::T) where {T} = fieldtypes(T)
     field_indicies
 """ field_indicies
 
-"""
-    field_range
-""" field_range
+field_indicies(NT::Type{NamedTuple{N,T}}) where {N,T} = ntuple(i->i, nfields(N))
+field_indicies(nt::Type{NamedTuple{N,T}}) where {N,T} = ntuple(i->i, nfields(N))
+field_indicies(x::Type{T}) where {T} = ntuple(i->i, fieldcount(T))
+field_indicies(x::T) where {T} = ntuple(i->i, fieldcount(T))
 
 """
     field_values
