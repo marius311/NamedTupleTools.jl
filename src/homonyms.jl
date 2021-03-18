@@ -23,7 +23,7 @@ field_count(x::Type{T}) where {T} = fieldcount(x)
 field_count(x::T) where {T} = fieldcount(T)
 
 """
-    field_names
+    field_names(::T|T)
 
 obtain the names of fields specified with 'T' or present in 'x::T'
 
@@ -37,7 +37,12 @@ field_names(x::Type{T}) where {T} = fieldnames(x)
 field_names(x::T) where {T} = fieldnames(T)
 
 """
-    field_name
+    field_name(::T|T, ith)
+
+obtain the name of the ith field specified with 'T' or present in 'x::T'
+
+works with these Types and their instances
+- NamedTuples, DataTypes (structs)
 """ field_name
 
 field_name(NT::Type{NamedTuple{N,T}}, idx::Integer) where {N,T} = N[idx]
@@ -46,7 +51,7 @@ field_name(x::Type{T}, idx::Integer) where {T} = fieldnames(x)[idx]
 field_name(x::T, idx::Integer) where {T} = fieldnames(T)[idx]
 
 """
-    field_tupletypes
+    field_tupletypes(::T|T)
 
 obtain, wrapped with Tuple{_}, types of fields specified with 'T' or present in 'x::T'
 
@@ -60,7 +65,7 @@ field_tupletypes(x::Type{T}) where {T} = Tuple{fieldtypes(T)...}
 field_tupletypes(x::T) where {T} = Tuple{fieldtypes(T)...}
 
 """
-    field_types
+    field_types(::T|T)
 
 obtain the types of fields specified with 'T' or present in 'x::T'
 
@@ -74,7 +79,12 @@ field_types(x::Type{T}) where {T} = fieldtypes(x)
 field_types(x::T) where {T} = fieldtypes(T)
 
 """
-    field_type
+    field_type(::T|T, ith)
+
+obtain the name of the ith field specified with 'T' or present in 'x::T'
+
+works with these Types and their instances
+- NamedTuples, DataTypes (structs)
 """ field_type
 
 field_type(nt::Type{NamedTuple{N,T}}, idx::Integer) where {N,T} = T.parameters[idx]
@@ -88,7 +98,7 @@ field_type(x::Type{T}, name::Symbol) where {T} = fieldtypes(x)[indexof(name, fie
 field_type(x::T, name::Symbol) where {T} = fieldtypes(T)[indexof(name, fieldnames(T))]
 
 """
-    field_indicies
+    field_indicies(::T|T)
 
 obtain the indices of fields specified with 'T' or present in 'x::T'
 
@@ -102,7 +112,21 @@ field_indicies(x::Type{T}) where {T} = ntuple(i->i, fieldcount(T))
 field_indicies(x::T) where {T} = ntuple(i->i, fieldcount(T))
 
 """
-    field_values
+    field_index(::T|T, name)
+
+obtain the index of the named field specified with 'T' or present in 'x::T'
+
+works with these Types and their instances
+- NamedTuples, DataTypes (structs)
+""" field_type
+
+field_index(nt::Type{NamedTuple{N,T}}, name::Symbol) where {N,T} = indexof(name, N)
+field_index(nt::NamedTuple{N,T}, name::Symbol) where {N,T} = indexof(name, N)
+field_index(x::Type{T}, name::Symbol) where {T} = indexof(name, field_names(T))
+field_index(x::T, name::Symbol) where {T} = indexof(name, field_names(T))
+
+"""
+    field_values(::T)
 
 obtain the values of fields present in 'x::T'
 
@@ -114,13 +138,20 @@ field_values(nt::NamedTuple{N,T}) where {N,T} = values(nt)
 field_values(x::T) where {T} = Tuple(getfield.((x,), 1:fieldcount(T)))
 
 """
-    field_value
+    field_value(::T, ith)
+
+obtain the name of the ith field present in 'x::T'
+
+works with instances of these Types
+- NamedTuples, DataTypes (structs)
 """ field_value
 
 field_value(nt::NamedTuple{N,T}, idx::Integer) where {N,T} = getfield(nt, idx)
 field_value(x::T, idx::Integer) where {T} = getfield(x, idx)
 field_value(nt::NamedTuple{N,T}, name::Symbol) where {N,T} = getfield(nt, name)
 field_value(x::T, name::Symbol) where {T} = getfield(x, name)
+
+
 
 #=
     parameter retrieval
