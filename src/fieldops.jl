@@ -31,6 +31,9 @@
    Jameson Nash @vtjnash, for introducing "privateering" to my lexicon.
 =#
 
+Base.@pure params(t::Type) = t.parameters
+Base.@pure tupleparams(t::Type) = Tuple{params(t)...}
+
 """
     field_count(x|T)
 count the fields specified with 'T' or present in 'x::T'
@@ -86,8 +89,8 @@ works with these Types and their instances
 - NamedTuples, DataTypes (structs), Tuples
 """ field_types
 
-field_types(nt::Type{NamedTuple{N,T}}) where {N,T} = Tuple(T.parameters)
-field_types(nt::NamedTuple{N,T}) where {N,T} = Tuple(T.parameters)
+field_types(nt::Type{NamedTuple{N,T}}) where {N,T} = Tuple(params(T))
+field_types(nt::NamedTuple{N,T}) where {N,T} = Tuple(params(T))
 field_types(x::Type{T}) where {T} = fieldtypes(x)
 field_types(x::T) where {T} = fieldtypes(T)
 
@@ -98,13 +101,13 @@ works with these Types and their instances
 - NamedTuples, DataTypes (structs)
 """ field_type
 
-field_type(nt::Type{NamedTuple{N,T}}, idx::Integer) where {N,T} = T.parameters[idx]
-field_type(nt::NamedTuple{N,T}, idx::Integer) where {N,T} = T.parameters[idx]
+field_type(nt::Type{NamedTuple{N,T}}, idx::Integer) where {N,T} = params(T)[idx]
+field_type(nt::NamedTuple{N,T}, idx::Integer) where {N,T} = params(T)[idx]
 field_type(x::Type{T}, idx::Integer) where {T} = fieldtypes(x)[idx]
 field_type(x::T, idx::Integer) where {T} = fieldtypes(T)[idx]
 
-field_type(nt::Type{NamedTuple{N,T}}, name::Symbol) where {N,T} = T.parameters[indexof(name,N)]
-field_type(nt::NamedTuple{N,T}, name::Symbol) where {N,T} = T.parameters[indexof(name,N)]
+field_type(nt::Type{NamedTuple{N,T}}, name::Symbol) where {N,T} = params(T)[indexof(name,N)]
+field_type(nt::NamedTuple{N,T}, name::Symbol) where {N,T} = params(T)[indexof(name,N)]
 field_type(x::Type{T}, name::Symbol) where {T} = fieldtypes(x)[indexof(name, fieldnames(T))]
 field_type(x::T, name::Symbol) where {T} = fieldtypes(T)[indexof(name, fieldnames(T))]
 
