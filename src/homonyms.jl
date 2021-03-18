@@ -62,6 +62,11 @@ field_type(nt::NamedTuple{N,T}, idx::Integer) where {N,T} = T.parameters[idx]
 field_type(x::Type{T}, idx::Integer) where {T} = fieldtypes(x)[idx]
 field_type(x::T, idx::Integer) where {T} = fieldtypes(T)[idx]
 
+field_type(nt::Type{NamedTuple{N,T}}, name::Symbol) where {N,T} = T.parameters[indexof(name,N)]
+field_type(nt::NamedTuple{N,T}, name::Symbol) where {N,T} = T.parameters[indexof(name,N)]
+field_type(x::Type{T}, name::Symbol) where {T} = fieldtypes(x)[indexof(name, fieldnames(T))]
+field_type(x::T, name::Symbol) where {T} = fieldtypes(T)[indexof(name, fieldnames(T))]
+
 """
     field_indicies
 """ field_indicies
