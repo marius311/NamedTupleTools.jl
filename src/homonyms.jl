@@ -27,6 +27,15 @@ field_names(x::Type{T}) where {T} = fieldnames(x)
 field_names(x::T) where {T} = fieldnames(T)
 
 """
+    field_name
+""" field_name
+
+field_name(NT::Type{NamedTuple{N,T}}, idx::Integer) where {N,T} = N[idx]
+field_name(nt::Type{NamedTuple{N,T}}, idx::Integer) where {N,T} = N[idx]
+field_name(x::Type{T}, idx::Integer) where {T} = fieldnames(x)[idx]
+field_name(x::T, idx::Integer) where {T} = fieldnames(T)[idx]
+
+"""
     field_tupletypes
 """ field_tupletypes
 
@@ -45,6 +54,15 @@ field_types(x::Type{T}) where {T} = fieldtypes(x)
 field_types(x::T) where {T} = fieldtypes(T)
 
 """
+    field_type
+""" field_type
+
+field_type(nt::Type{NamedTuple{N,T}}, idx::Integer) where {N,T} = T.parameters[idx]
+field_type(nt::NamedTuple{N,T}, idx::Integer) where {N,T} = T.parameters[idx]
+field_type(x::Type{T}, idx::Integer) where {T} = fieldtypes(x)[idx]
+field_type(x::T, idx::Integer) where {T} = fieldtypes(T)[idx]
+
+"""
     field_indicies
 """ field_indicies
 
@@ -59,6 +77,15 @@ field_indicies(x::T) where {T} = ntuple(i->i, fieldcount(T))
 
 field_values(nt::NamedTuple{N,T}) where {N,T} = values(nt)
 field_values(x::T) where {T} = Tuple(getfield.((x,), 1:fieldcount(T)))
+
+"""
+    field_value
+""" field_value
+
+field_value(nt::NamedTuple{N,T}, idx::Integer) where {N,T} = getfield(nt, idx)
+field_value(x::T, idx::Integer) where {T} = getfield(x, idx)
+field_value(nt::NamedTuple{N,T}, name::Symbol) where {N,T} = getfield(nt, name)
+field_value(x::T, name::Symbol) where {T} = getfield(x, name)
 
 #=
     parameter retrieval
