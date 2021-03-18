@@ -30,6 +30,11 @@ field_names(x::T) where {T} = fieldnames(T)
     field_tupletypes
 """ field_tupletypes
 
+field_tupletypes(NT::Type{NamedTuple{N,T}}) where {N,T} = T
+field_tupletypes(nt::Type{NamedTuple{N,T}}) where {N,T} = T
+field_tupletypes(x::Type{T}) where {T} = Tuple{fieldtypes(T)...}
+field_tupletypes(x::T) where {T} = Tuple{fieldtypes(T)...}
+
 """
     field_types
 """ field_types
