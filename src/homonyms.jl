@@ -56,14 +56,6 @@ parameters(nt::NamedTuple{N,T}) where {N,T} = N
 parameters(nt::Type{NamedTuple{N,T}}) where {N,T} = (N, T.parameters)
 parameters(nt::NamedTuple{N,T}) where {N,T} = (N, T.parameters)
 
-parameter(nt::NamedTuple{N,T}, idx) where {N,T}
-   @nospecialize nt
-end
-
-
-# the indicated parameters only
-parameter(nt::NamedTuple{N,T}, indexicalsindex|range|(indices..)) = (T.parameters)[
-
 parameters(::Type{T}) where {T} = T.parameters
 parameter(::Type{T}, idx) where {T} = getindex(parameters(T), idx)
 
