@@ -9,7 +9,12 @@
 =#
 
 """
-    field_count
+    field_count(x|T)
+
+count the fields specified with 'T' or present in 'x::T'
+
+works with these Types and their instances
+- NamedTuples, DataTypes (structs), Tuples
 """ field_count
 
 field_count(NT::Type{NamedTuple{N,T}}) where {N,T} = nfields(N)
@@ -19,6 +24,11 @@ field_count(x::T) where {T} = fieldcount(T)
 
 """
     field_names
+
+obtain the names of fields specified with 'T' or present in 'x::T'
+
+works with these Types and their instances
+- NamedTuples, DataTypes (structs)
 """ field_names
 
 field_names(NT::Type{NamedTuple{N,T}}) where {N,T} = N
@@ -37,6 +47,11 @@ field_name(x::T, idx::Integer) where {T} = fieldnames(T)[idx]
 
 """
     field_tupletypes
+
+obtain, wrapped with Tuple{_}, types of fields specified with 'T' or present in 'x::T'
+
+works with these Types and their instances
+- NamedTuples, DataTypes (structs), Tuples
 """ field_tupletypes
 
 field_tupletypes(NT::Type{NamedTuple{N,T}}) where {N,T} = T
@@ -46,6 +61,11 @@ field_tupletypes(x::T) where {T} = Tuple{fieldtypes(T)...}
 
 """
     field_types
+
+obtain the types of fields specified with 'T' or present in 'x::T'
+
+works with these Types and their instances
+- NamedTuples, DataTypes (structs), Tuples
 """ field_types
 
 field_types(nt::Type{NamedTuple{N,T}}) where {N,T} = Tuple(T.parameters)
@@ -69,6 +89,11 @@ field_type(x::T, name::Symbol) where {T} = fieldtypes(T)[indexof(name, fieldname
 
 """
     field_indicies
+
+obtain the indices of fields specified with 'T' or present in 'x::T'
+
+works with these Types and their instances
+- NamedTuples, DataTypes (structs), Tuples
 """ field_indicies
 
 field_indicies(NT::Type{NamedTuple{N,T}}) where {N,T} = ntuple(i->i, nfields(N))
@@ -78,6 +103,11 @@ field_indicies(x::T) where {T} = ntuple(i->i, fieldcount(T))
 
 """
     field_values
+
+obtain the values of fields present in 'x::T'
+
+works with instances of thes Types
+- NamedTuples, DataTypes (structs), Tuples
 """ field_values
 
 field_values(nt::NamedTuple{N,T}) where {N,T} = values(nt)
