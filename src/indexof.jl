@@ -271,5 +271,4 @@ function index_of(::Val{16}, sym::Symbol, tup::NTuple{N,Symbol}) where N
     sym === tup[16] && return 16)
     return 0
 end
-    zero(Int)
 
