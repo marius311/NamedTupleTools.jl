@@ -45,12 +45,12 @@ dual to
 
 Retrieve the types that are internal to the `Type{Tuple{_}}` as a `(tuple,)`.
 """
-untuple(::Type{T}) where {T<:Tuple} = (T.parameters...,)
-untuple(::Type{T}) where {T<:Tuple{Vararg{Any}}} = T.parameters
+Base.@pure untuple(::Type{T}) where {T<:Tuple} = (T.parameters...,)
+Base.@pure untuple(::Type{T}) where {T<:Tuple{Vararg{Any}}} = T.parameters
 
 """
     retuple( (_) )
 
 Generate a `Type{Tuple{_}}` with the given internal types as a `Tuple{_}`.
 """
-retuple(x::Tuple) = Tuple{x...,}
+Base.@pure retuple(x::Tuple) = Tuple{x...,}
