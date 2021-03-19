@@ -1,9 +1,78 @@
+"""
+    which_key(NTuple{N,Symbol}, key::Symbol)
+
+evaluates to a tuple of Bool, true everywhere the key is found
+"""
+which_key(tuple::Tuple{Vararg{Symbol}}, key::Symbol) =
+    _which_key(key, tuple...)
+
+Base.@pure _which_key(key::Symbol) = ()
+
+Base.@pure _which_key(key::Symbol, first::Symbol, tail...) =
+    [first === key, _which_key(key, tail...)...]
+
+"""
+    which_keys(NTuple{N,Symbol}, keys::Vararg{Symbol})
+
+evaluates to a tuple of Bool, true everywhere any of the keys is found
+"""
+which_keys(tuple::Tuple{Vararg{Symbol}}, keys::Tuple{Vararg{Symbol}}) =
+    map(|, (which_key(tuple, k) for k in keys)...)
+
+
+which_indices(NT::Type{NamedTuple{N,T}}, keys::Tuple{Vararg{Symbol}}) where {N,T} =
+    (1:field_count(N))[which_keys(N, keys)]
+
+which_indices(nt::NamedTuple{N,T}, keys::Tuple{Vararg{Symbol}}) where {N,T} =
+    (1:field_count(N))[which_keys(N, keys)]
+
+which_indices(NT::Type{NamedTuple{N,T}}, keys::Vararg{Symbol}) where {N,T} =
+    (1:field_count(N))[which_keys(N, keys)]
+
+which_indices(nt::NamedTuple{N,T}, keys::Vararg{Symbol}) where {N,T} =
+    (1:field_count(N))[which_keys(N, keys)]
+
+which_indices(x::T, keys::Tuple{Vararg{Symbol}}) where T =
+    (1:field_count(T))[which_keys(field_names(x), keys)]
+
+which_indices(x::Type{T}, keys::Tuple{Vararg{Symbol}}) where T =
+    (1:field_count(T))[which_keys(field_names(x), keys)]
+
+which_indices(x::T, keys::Vararg{Symbol}) where T =
+    (1:field_count(T))[which_keys(field_names(x), keys)]
+
+which_indices(x::Type{T}, keys::Vararg{Symbol}) where T =
+    (1:field_count(T))[which_keys(field_names(x), keys)]
+
+other_indices(NT::Type{NamedTuple{N,T}}, keys::Tuple{Vararg{Symbol}}) where {N,T} =
+    (1:field_count(N))[map(!, which_keys(field_names(x), keys))]
+
+other_indices(nt::NamedTuple{N,T}, keys::Tuple{Vararg{Symbol}}) where {N,T} =
+    (1:field_count(N))[map(!, which_keys(field_names(x), keys))]
+
+other_indices(NT::Type{NamedTuple{N,T}}, keys::Vararg{Symbol}) where {N,T} =
+    (1:field_count(N))[map(!, which_keys(field_names(x), keys))]
+
+other_indices(nt::NamedTuple{N,T}, keys::Vararg{Symbol}) where {N,T} =
+    (1:field_count(N))[map(!, which_keys(field_names(x), keys))]
+
+other_indices(x::T, keys::Tuple{Vararg{Symbol}}) where T =
+    (1:field_count(T))[map(!, which_keys(field_names(x), keys))]
+
+other_indices(x::Type{T}, keys::Tuple{Vararg{Symbol}}) where T =
+    (1:field_count(T))[map(!, which_keys(field_names(x), keys))]
+
+other_indices(x::T, keys::Vararg{Symbol}) where T =
+(1:field_count(T))[map(!, which_keys(field_names(x), keys))]
+
+which_indices(x::Type{T}, keys::Vararg{Symbol}) where T =
+    (1:field_count(T))[which_keys(field_names(x), keys)]
 
 
 
 
-# https://discourse.julialang.org/t/is-this-a-valid-pure-function/17577/2
-Base.@pure typeparams(t::Type) = Tuple{t.parameters...}
+
+
 
 # https://discourse.julialang.org/t/is-this-pure/8050/5
 """
@@ -19,6 +88,11 @@ Base.@pure _which_key(key::Symbol) = ()
 Base.@pure _which_key(key::Symbol, first::Symbol, tail...) =
     (first === key, _which_key(key, tail...)...)
 
+"""
+    which_keys(NTuple{N,Symbol}, keys::Vararg{Symbol})
+
+evaluates to a tuple of Bool, true everywhere any of the keys is found
+"""
 which_keys(tuple::Tuple{Vararg{Symbol}}, keys::Tuple{Vararg{Symbol}}) =
     map(|, (which_key(tuple, k) for k in keys)...)
 
