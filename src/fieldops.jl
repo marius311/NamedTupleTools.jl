@@ -58,40 +58,40 @@ admit_indices(NT::Type{NamedTuple{N,T}}, keys::Vararg{Symbol}) where {N,T} =
 admit_indices(nt::NamedTuple{N,T}, keys::Vararg{Symbol}) where {N,T} =
     (1:field_count(N))[admit_keys(N, keys)]
 
+admit_indices(x::Type{T}, keys::Tuple{Vararg{Symbol}}) where T =
+    (1:field_count(T))[admit_keys(field_names(x), keys)]
+
 admit_indices(x::T, keys::Tuple{Vararg{Symbol}}) where T =
     (1:field_count(T))[admit_keys(field_names(x), keys)]
 
-admit_indices(x::Type{T}, keys::Tuple{Vararg{Symbol}}) where T =
+admit_indices(x::Type{T}, keys::Vararg{Symbol}) where T =
     (1:field_count(T))[admit_keys(field_names(x), keys)]
 
 admit_indices(x::T, keys::Vararg{Symbol}) where T =
     (1:field_count(T))[admit_keys(field_names(x), keys)]
 
-admit_indices(x::Type{T}, keys::Vararg{Symbol}) where T =
-    (1:field_count(T))[admit_keys(field_names(x), keys)]
-
 # keys select positions to be omitted
 
 omit_indices(NT::Type{NamedTuple{N,T}}, keys::Tuple{Vararg{Symbol}}) where {N,T} =
-    (1:field_count(N))[map(!, admit_keys(field_names(x), keys))]
+    (1:field_count(N))[omit_keys(field_names(x), keys)]
 
 omit_indices(nt::NamedTuple{N,T}, keys::Tuple{Vararg{Symbol}}) where {N,T} =
-    (1:field_count(N))[map(!, admit_keys(field_names(x), keys))]
+    (1:field_count(N))[omit_keys(field_names(x), keys)]
 
 omit_indices(NT::Type{NamedTuple{N,T}}, keys::Vararg{Symbol}) where {N,T} =
-    (1:field_count(N))[map(!, admit_keys(field_names(x), keys))]
+    (1:field_count(N))[omit_keys(field_names(x), keys)]
 
 omit_indices(nt::NamedTuple{N,T}, keys::Vararg{Symbol}) where {N,T} =
-    (1:field_count(N))[map(!, admit_keys(field_names(x), keys))]
-
-omit_indices(x::T, keys::Tuple{Vararg{Symbol}}) where T =
-    (1:field_count(T))[map(!, admit_keys(field_names(x), keys))]
+    (1:field_count(N))[omit_keys(field_names(x), keys)]
 
 omit_indices(x::Type{T}, keys::Tuple{Vararg{Symbol}}) where T =
-    (1:field_count(T))[map(!, admit_keys(field_names(x), keys))]
+    (1:field_count(T))[omit_keys(field_names(x), keys)]
+
+omit_indices(x::T, keys::Tuple{Vararg{Symbol}}) where T =
+    (1:field_count(T))[omit_keys(field_names(x), keys)]
+
+omit_indices(x::Type{T}, keys::Vararg{Symbol}) where T =
+    (1:field_count(T))[omit_keys(field_names(x), keys)]
 
 omit_indices(x::T, keys::Vararg{Symbol}) where T =
-(1:field_count(T))[map(!, admit_keys(field_names(x), keys))]
-
-admit_indices(x::Type{T}, keys::Vararg{Symbol}) where T =
-    (1:field_count(T))[admit_keys(field_names(x), keys)]
+    (1:field_count(T))[omit_keys(field_names(x), keys)]
