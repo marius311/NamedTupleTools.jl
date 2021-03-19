@@ -13,10 +13,33 @@ evaluates to a tuple of Bool, true everywhere the key is found
 """
 which_key(tuple::Tuple{Vararg{Symbol}}, key::Symbol) =
     _which_key(key, tuple...)
-_which_key(key::Symbol) = ()
+
+Base.@pure _which_key(key::Symbol) = ()
+
 Base.@pure _which_key(key::Symbol, first::Symbol, tail...) =
     (first === key, _which_key(key, tail...)...)
 
+which_keys(tuple::Tuple{Vararg{Symbol}}, keys::Tuple{Vararg{Symbol}}) =
+    map(|, (which_key(tuple, k) for k in keys)...)
+
+#=
+which_keys(tuple::Tuple{Vararg{Symbol}}, keys::Tuple{Vararg{Symbol}}) =
+          collect(which_key(tuple, k) for k in keys)
+which_keys (generic function with 1 method)
+
+julia> which_keys((:a, :b, :c, :D), (:b, :c))
+2-element Vector{NTuple{4, Bool}}:
+ (0, 1, 0, 0)
+ (0, 0, 1, 0)
+
+> which_keys(tuple::Tuple{Vararg{Symbol}}, keys::Tuple{Vararg{Symbol}}) =
+          map(|, (which_key(tuple, k) for k in keys)...)
+which_keys (generic function with 1 method)
+
+julia> which_keys((:a, :b, :c, :D), (:b, :c))
+(false, true, true, false)
+
+=#
 #=
 julia> language = "Interpretive Dance"; programming = "Julia";
 
