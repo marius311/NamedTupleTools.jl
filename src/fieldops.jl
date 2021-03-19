@@ -1,293 +1,97 @@
+# symbols select positions to be admitted
+
 """
-    which_key(NTuple{N,Symbol}, key::Symbol)
+    admit_key(NTuple{N,Symbol}, key::Symbol)
 
 evaluates to a tuple of Bool, true everywhere the key is found
 """
-which_key(tuple::Tuple{Vararg{Symbol}}, key::Symbol) =
-    _which_key(key, tuple...)
+admit_key(tuple::Tuple{Vararg{Symbol}}, key::Symbol) =
+    _admit_key(key, tuple...)
 
-Base.@pure _which_key(key::Symbol) = ()
+Base.@pure _admit_key(key::Symbol) = ()
 
-Base.@pure _which_key(key::Symbol, first::Symbol, tail...) =
-    [first === key, _which_key(key, tail...)...]
+Base.@pure _admit_key(key::Symbol, first::Symbol, tail...) =
+    [first === key, _admit_key(key, tail...)...]
 
 """
-    which_keys(NTuple{N,Symbol}, keys::Vararg{Symbol})
+    admit_keys(NTuple{N,Symbol}, keys::Vararg{Symbol})
 
 evaluates to a tuple of Bool, true everywhere any of the keys is found
 """
-which_keys(tuple::Tuple{Vararg{Symbol}}, keys::Tuple{Vararg{Symbol}}) =
-    map(|, (which_key(tuple, k) for k in keys)...)
+admit_keys(tuple::Tuple{Vararg{Symbol}}, keys::Tuple{Vararg{Symbol}}) =
+    map(|, (admit_key(tuple, k) for k in keys)...)
 
-
-which_indices(NT::Type{NamedTuple{N,T}}, keys::Tuple{Vararg{Symbol}}) where {N,T} =
-    (1:field_count(N))[which_keys(N, keys)]
-
-which_indices(nt::NamedTuple{N,T}, keys::Tuple{Vararg{Symbol}}) where {N,T} =
-    (1:field_count(N))[which_keys(N, keys)]
-
-which_indices(NT::Type{NamedTuple{N,T}}, keys::Vararg{Symbol}) where {N,T} =
-    (1:field_count(N))[which_keys(N, keys)]
-
-which_indices(nt::NamedTuple{N,T}, keys::Vararg{Symbol}) where {N,T} =
-    (1:field_count(N))[which_keys(N, keys)]
-
-which_indices(x::T, keys::Tuple{Vararg{Symbol}}) where T =
-    (1:field_count(T))[which_keys(field_names(x), keys)]
-
-which_indices(x::Type{T}, keys::Tuple{Vararg{Symbol}}) where T =
-    (1:field_count(T))[which_keys(field_names(x), keys)]
-
-which_indices(x::T, keys::Vararg{Symbol}) where T =
-    (1:field_count(T))[which_keys(field_names(x), keys)]
-
-which_indices(x::Type{T}, keys::Vararg{Symbol}) where T =
-    (1:field_count(T))[which_keys(field_names(x), keys)]
-
-other_indices(NT::Type{NamedTuple{N,T}}, keys::Tuple{Vararg{Symbol}}) where {N,T} =
-    (1:field_count(N))[map(!, which_keys(field_names(x), keys))]
-
-other_indices(nt::NamedTuple{N,T}, keys::Tuple{Vararg{Symbol}}) where {N,T} =
-    (1:field_count(N))[map(!, which_keys(field_names(x), keys))]
-
-other_indices(NT::Type{NamedTuple{N,T}}, keys::Vararg{Symbol}) where {N,T} =
-    (1:field_count(N))[map(!, which_keys(field_names(x), keys))]
-
-other_indices(nt::NamedTuple{N,T}, keys::Vararg{Symbol}) where {N,T} =
-    (1:field_count(N))[map(!, which_keys(field_names(x), keys))]
-
-other_indices(x::T, keys::Tuple{Vararg{Symbol}}) where T =
-    (1:field_count(T))[map(!, which_keys(field_names(x), keys))]
-
-other_indices(x::Type{T}, keys::Tuple{Vararg{Symbol}}) where T =
-    (1:field_count(T))[map(!, which_keys(field_names(x), keys))]
-
-other_indices(x::T, keys::Vararg{Symbol}) where T =
-(1:field_count(T))[map(!, which_keys(field_names(x), keys))]
-
-which_indices(x::Type{T}, keys::Vararg{Symbol}) where T =
-    (1:field_count(T))[which_keys(field_names(x), keys)]
-
-
-
-
-
-
-
-# https://discourse.julialang.org/t/is-this-pure/8050/5
-"""
-    which_key(NTuple{N,Symbol}, key::Symbol)
-
-evaluates to a tuple of Bool, true everywhere the key is found
-"""
-which_key(tuple::Tuple{Vararg{Symbol}}, key::Symbol) =
-    _which_key(key, tuple...)
-
-Base.@pure _which_key(key::Symbol) = ()
-
-Base.@pure _which_key(key::Symbol, first::Symbol, tail...) =
-    (first === key, _which_key(key, tail...)...)
+# symbols select positions to be omitted
 
 """
-    which_keys(NTuple{N,Symbol}, keys::Vararg{Symbol})
+    omit_key(NTuple{N,Symbol}, key::Symbol)
 
-evaluates to a tuple of Bool, true everywhere any of the keys is found
+evaluates to a tuple of Bool, false everywhere the key is found
 """
-which_keys(tuple::Tuple{Vararg{Symbol}}, keys::Tuple{Vararg{Symbol}}) =
-    map(|, (which_key(tuple, k) for k in keys)...)
+omit_key(tuple::Tuple{Vararg{Symbol}}, key::Symbol) =
+    _omit_key(key, tuple...)
 
-#=
-which_keys(tuple::Tuple{Vararg{Symbol}}, keys::Tuple{Vararg{Symbol}}) =
-          collect(which_key(tuple, k) for k in keys)
-which_keys (generic function with 1 method)
+Base.@pure _omit_key(key::Symbol) = ()
 
-julia> which_keys((:a, :b, :c, :D), (:b, :c))
-2-element Vector{NTuple{4, Bool}}:
- (0, 1, 0, 0)
- (0, 0, 1, 0)
-
-> which_keys(tuple::Tuple{Vararg{Symbol}}, keys::Tuple{Vararg{Symbol}}) =
-          map(|, (which_key(tuple, k) for k in keys)...)
-which_keys (generic function with 1 method)
-
-julia> which_keys((:a, :b, :c, :D), (:b, :c))
-(false, true, true, false)
-
-=#
-#=
-julia> language = "Interpretive Dance"; programming = "Julia";
-
-julia> (; language, programming )
-(language = "Interpretive Dance", programming = "Julia")
-=#
-
-# fieldindex
-
-# from Base.namedtuples.jl
-#=
-    Base.diff_names(x::NTuple{N1,Symbol}, y::NTuple{N2,Symbol}) where {N1,N2}
-      - names_in_x_and_not_in_y = diff_names(x, y)
-    Base.merge_names(x::NTuple{N1,Symbol}, y::NTuple{N2,Symbol}) where {N1,N2}
-       - names_in_x_and_names_y_uniquely
-
-_nt_names(::NamedTuple{names}) where {names} = names
-_nt_names(::Type{T}) where {names,T<:NamedTuple{names}} = names
-julia> Base._nt_names(nt)
-(:a, :b)
-
-_nt_types(x::NamedTuple{names,Tuple{types}}) where {names,types} = types
-_nt_types(x::NamedTuple{names,tupletypes}) where {names,tupletypes} = tupletypes
-nt_types(x::NamedTuple{names,tupletypes}) where {names,tupletypes} = Tuple(tupletypes.parameters)
-
-=#
-
-using OrderedCollections: LittleDict
-
-#=
-   renaming avoids typed-method piracy
-   Base: fieldcount, fieldnames, fieldtypes work with types only
-   these work with types and instances both
-   and are helpful with NamedTuples, structs, LittleDicts
-=#
+Base.@pure _omit_key(key::Symbol, first::Symbol, tail...) =
+    [first !== key, _omit_key(key, tail...)...]
 
 """
-    field_count
+    omit_keys(NTuple{N,Symbol}, keys::Vararg{Symbol})
 
-tally the number of fields in a NamedTuple, struct (keys in a LittleDict)
-- works with NamedTuple, struct types
-- works with NamedTuple, struct, LittleDict instances
-""" field_count
-
-field_count(::Type{T}) where {T<:NamedTuple} = fieldcount(T)
-field_count(x::DataType)  = fieldcount(x)
-field_count(x::T) where T = fieldcount(T)
-field_count(x::LittleDict) = length(x.keys)
-
+evaluates to a tuple of Bool, false everywhere any of the keys is found
 """
-    field_names
+omit_keys(tuple::Tuple{Vararg{Symbol}}, keys::Tuple{Vararg{Symbol}}) =
+    map(&, (omit_key(tuple, k) for k in keys)...)
 
-obtains the names of the fields in a NamedTuple, struct (the keys in a LittleDict)
-- works with NamedTuple, struct types
-- works with NamedTuple, struct, LittleDict instances
-""" field_names
+# keys select positions to be admitted
 
-Base.@pure field_names(::Type{NamedTuple{N,T}}) where {N,T} = (N)
-field_names(x::DataType)  = fieldnames(x)
-field_names(x::T) where T = fieldnames(T)
-field_names(x::LittleDict) = (x.keys...,)
+admit_indices(NT::Type{NamedTuple{N,T}}, keys::Tuple{Vararg{Symbol}}) where {N,T} =
+    (1:field_count(N))[admit_keys(N, keys)]
 
-"""
-    field_types
+admit_indices(nt::NamedTuple{N,T}, keys::Tuple{Vararg{Symbol}}) where {N,T} =
+    (1:field_count(N))[admit_keys(N, keys)]
 
-obtains the types of the fields in a NamedTuple, LittleDict, struct (of the values in a LittleDict)
-- works with NamedTuple, struct types and LittleDicts using tuples
-- works with NamedTuple, struct, LittleDict instances
-""" field_types
+admit_indices(NT::Type{NamedTuple{N,T}}, keys::Vararg{Symbol}) where {N,T} =
+    (1:field_count(N))[admit_keys(N, keys)]
 
-field_types(::Type{NamedTuple{N,T}}) where {N,T} = Tuple(T.parameters)
-field_types(x::DataType)  = fieldtypes(x)
-field_types(x::T) where T = fieldtypes(T)
-field_types(x::Type{<:LittleDict}) = (x.parameters[4].parameters...,)
-field_types(x::LittleDict) = (typeof.(x.vals)...,)
+admit_indices(nt::NamedTuple{N,T}, keys::Vararg{Symbol}) where {N,T} =
+    (1:field_count(N))[admit_keys(N, keys)]
 
-"""
-    field_tupletype
+admit_indices(x::T, keys::Tuple{Vararg{Symbol}}) where T =
+    (1:field_count(T))[admit_keys(field_names(x), keys)]
 
-obtains as a Tuple type, the types of the fields in a NamedTuple, struct (of the values in a LittleDict)
-- works with NamedTuple, struct type and LittleDicts using tuples
-- works with NamedTuple, struct, LittleDict instances
-""" field_tupletype
+admit_indices(x::Type{T}, keys::Tuple{Vararg{Symbol}}) where T =
+    (1:field_count(T))[admit_keys(field_names(x), keys)]
 
-field_tupletype(::Type{NamedTuple{N,T}}) where {N,T} = T
-field_tupletype(x::DataType)   = Tuple{field_types(x)...}
-field_tupletype(x::T) where T  = Tuple{field_types(T)...}
-field_tupletype(x::Type{<:LittleDict}) = x.parameters[4]
-field_tupletype(x::LittleDict) = typeof(x.vals)
+admit_indices(x::T, keys::Vararg{Symbol}) where T =
+    (1:field_count(T))[admit_keys(field_names(x), keys)]
 
-"""
-    field_values
+admit_indices(x::Type{T}, keys::Vararg{Symbol}) where T =
+    (1:field_count(T))[admit_keys(field_names(x), keys)]
 
-obtains the values of the fields in a NamedTuple, struct (of the keys in a LittleDict)
-""" field_values
+# keys select positions to be omitted
 
-field_values(x::NamedTuple) = values(x)
-field_values(x::T) where T = getfield.((x,), field_names(x))
-field_values(x::LittleDict) = Tuple(x.vals)
+omit_indices(NT::Type{NamedTuple{N,T}}, keys::Tuple{Vararg{Symbol}}) where {N,T} =
+    (1:field_count(N))[map(!, admit_keys(field_names(x), keys))]
 
-"""
-    field_value
+omit_indices(nt::NamedTuple{N,T}, keys::Tuple{Vararg{Symbol}}) where {N,T} =
+    (1:field_count(N))[map(!, admit_keys(field_names(x), keys))]
 
-obtains the value of a field in a NamedTuple, struct (of a key in a LittleDict)
-""" field_value
+omit_indices(NT::Type{NamedTuple{N,T}}, keys::Vararg{Symbol}) where {N,T} =
+    (1:field_count(N))[map(!, admit_keys(field_names(x), keys))]
 
-field_value(x::NamedTuple, field::Symbol) = getfield(x, field)
-field_value(x::T, field::Symbol) where T  = getfield(x, field)
-field_value(x::LittleDict, field::Symbol) = x[field]
+omit_indices(nt::NamedTuple{N,T}, keys::Vararg{Symbol}) where {N,T} =
+    (1:field_count(N))[map(!, admit_keys(field_names(x), keys))]
 
-"""
-    named_field
+omit_indices(x::T, keys::Tuple{Vararg{Symbol}}) where T =
+    (1:field_count(T))[map(!, admit_keys(field_names(x), keys))]
 
-obtains a NamedTuple constituent from within a NamedTuple
-- by position or by name
-""" named_field
+omit_indices(x::Type{T}, keys::Tuple{Vararg{Symbol}}) where T =
+    (1:field_count(T))[map(!, admit_keys(field_names(x), keys))]
 
-function named_field(x::NamedTuple{N,T}, position::Integer) where {N,T}
-    sym = (N[position],)
-    typ = Tuple{T.parameters[position]}
-    val = x[position]
-    return NamedTuple{sym, typ}(val)
-end
+omit_indices(x::T, keys::Vararg{Symbol}) where T =
+(1:field_count(T))[map(!, admit_keys(field_names(x), keys))]
 
-function named_field(x::NamedTuple{N,T}, name::Symbol) where {N,T}
-    sym = (name,)
-    typ = Tuple{T.parameters[position]}
-    val = getfield(x, name)
-    return NamedTuple{sym, typ}(val)
-end
-
-
-function named_fields(x::NamedTuple{N,T}, positions::Vector{Int}) where {I,N,T}
-   syms = N[positions]
-   typs = Tuple{T.parameters[positions]...} # Tuple{T.parameters[[positions]]...}
-   vals = map(i->getindex(x,i) , positions)
- return (syms, typs, vals);  #    return NamedTuple{sym, typ}(val)
-end
-
-# named_fields(nt1, [1,2])
-#((:a, :b), Tuple{Int64, String}, Any[1, "two"])
-
-
-# low level support functions
-
-function indexof(item::T, seq::NTuple{N, T}) where {N,T}
-    if N < 33 
-        indexof_recur(item, seq)
-    else
-        indexof_iter(item, seq)
-    end    
-end
-
-function indexof_recur(item::T, seq::NTuple{N, T}, idx=1) where {N,T}
-    item === first(seq) ? idx : indexof_recur(item, Base.tail(seq), idx+1)
-end
-indexof_recur(item::T, seq::Tuple{}, idx=1) where {T} = 0
-
-@inline function indexof_iter(item::T, seq::NTuple{N, T}) where {N,T}
-    equalsx = Base.Fix2(===, item)
-    idx = 1
-    for x in seq
-        equalsx(x) && break
-        idx = idx + 1
-    end
-    return idx > N ? 0 : idx
-end
-
-function indexof(item::T, seq::Vector{T}) where {T}
-    equalsx = Base.Fix2(===, item)
-    idx = 1
-    for x in seq
-        equalsx(x) && break
-        idx = idx + 1
-    end
-    return ifelse(idx > length(seq), 0, idx)
-end
+admit_indices(x::Type{T}, keys::Vararg{Symbol}) where T =
+    (1:field_count(T))[admit_keys(field_names(x), keys)]
