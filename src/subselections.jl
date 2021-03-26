@@ -27,6 +27,13 @@ julia> needles,hay
 
 julia> hay[[foldl(.&,map(.!,[needle .== hay for needle in needles]))...]]
 (:b,)
+
+
+julia> needles, hay
+((:a, :x, :d), (:a, :b, :d))
+
+julia> hay[[1,2,3][[ ((1,2,3) .∉ ((1,3),))... ]]]
+(:b,)
 =#
 
 function omit(nt::NamedTuple{N,T}, names::Tuple{Vararg{Symbol}}) where {N,T}
