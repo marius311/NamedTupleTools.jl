@@ -21,6 +21,14 @@ end
     
 @inline select(nt::NamedTuple{N,T}, names::Vararg{Symbol}) where {N,T} = select(nt, names)
 
+#=
+julia> needles,hay
+((:a, :x, :d), (:a, :b, :d))
+
+julia> hay[[foldl(.&,map(.!,[needle .== hay for needle in needles]))...]]
+(:b,)
+=#
+
 function omit(nt::NamedTuple{N,T}, names::Tuple{Vararg{Symbol}}) where {N,T}
     names = Tuple( setdiff(N, names) )
     NamedTuple{names}(nt)
@@ -32,6 +40,21 @@ function omit(nt::NamedTuple{N,T}, names::Vararg{Symbol}) where {N,T}
 end
 
 omit(nt::NamedTuple{N,T}, names::Tuple{}) where {N,T} = nt
+
+"""
+   delete(namedtuple, symbol(s)|Tuple)
+   delete(ntprototype, symbol(s)|Tuple)
+
+Generate a namedtuple [ntprototype] from the first arg omitting fields present in the second arg.
+see: [`merge`](@ref)
+"""
+delete(a::NamedTuple, b::Symbol) = Base.structdiff(a, namedtuple(b))
+delete(a::NamedTuple, b::NTuple{N,Symbol}) where {N} = Base.structdiff(a, namedtuple(b))
+delete(a::NamedTuple, bs::Vararg{Symbol}) = Base.structdiff(a, namedtuple(bs))
+
+delete(::Type{T}, b::Symbol) where {S,T<:NamedTuple{S}} = namedtuple((Base.setdiff(S,(b,))...,))
+delete(::Type{T}, b::NTuple{N,Symbol}) where {S,N,T<:NamedTuple{S}} = namedtuple((Base.setdiff(S,b)...,))
+delete(::Type{T}, bs::Vararg{Symbol}) where {S,N,T<:NamedTuple{S}} = namedtuple((Base.setdiff(S,bs)...,))
 
 
 """
