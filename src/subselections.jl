@@ -35,6 +35,9 @@ julia> needles, hay
 julia> hay[[1,2,3][[ ((1,2,3) .∉ ((1,3),))... ]]]
 (:b,)
 
+> @btime hay[[foldl(.&,map(.!,[needle .== $hayr[] for needle in $needlesr[]]))...]]
+  252.033 ns (6 allocations: 496 bytes)
+(:b,)
 
 julia> map(s->any(s in hay), needles)
 (true, false, true)
@@ -43,18 +46,21 @@ julia> map(s->!any(s in hay), needles)
 (false, true, false)
 =#
 
-function omit(nt::NamedTuple{N,T}, names::Tuple{Vararg{Symbol}}) where {N,T}
-    names = Tuple( setdiff(N, names) )
-    NamedTuple{names}(nt)
-end
+@inline needles_haystack(needles, hay) = hay[[foldl(.&,map(.!,[n .== hay for n in needles]))...]]
 
+function omit(nt::NamedTuple{N,T}, names::Tuple{Vararg{Symbol}}) where {N,T}
+    unnamed = needles_haystack(names, N)
+    NamedTuple{unnamed}(nt)
+end
+#=
 function omit(nt::NamedTuple{N,T}, names::Vararg{Symbol}) where {N,T}
     names = Tuple( setdiff(N, names) )
     NamedTuple{names}(nt)
 end
-
+=#
 omit(nt::NamedTuple{N,T}, names::Tuple{}) where {N,T} = nt
 
+#=
 """
    delete(namedtuple, symbol(s)|Tuple)
    delete(ntprototype, symbol(s)|Tuple)
@@ -69,7 +75,7 @@ delete(a::NamedTuple, bs::Vararg{Symbol}) = Base.structdiff(a, namedtuple(bs))
 delete(::Type{T}, b::Symbol) where {S,T<:NamedTuple{S}} = namedtuple((Base.setdiff(S,(b,))...,))
 delete(::Type{T}, b::NTuple{N,Symbol}) where {S,N,T<:NamedTuple{S}} = namedtuple((Base.setdiff(S,b)...,))
 delete(::Type{T}, bs::Vararg{Symbol}) where {S,N,T<:NamedTuple{S}} = namedtuple((Base.setdiff(S,bs)...,))
-
+=#
 
 """
     parameters(x)
