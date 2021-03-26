@@ -1,8 +1,16 @@
-select(nt::NamedTuple{N,T}, names::Tuple{Vararg{Symbol}}) where {N,T} = 
-    NamedTuple{names}(nt)
-
+@inline function validnames(nt::NamedTuple{N,T}, names::Tuple{Vararg{Symbol}}) where {N,T}
+    ntnames = keys(nt)
+    return filter(!isnothing, Tuple(nm in ntnames ? nm : nothing for nm=names))
+end
+    
+function select(nt::NamedTuple{N,T}, names::Tuple{Vararg{Symbol}}) where {N,T}
+    names = validnames(nt, names)
+    isempty(names) && return (;)
+    return NamedTuple{names}(nt)
+end
+    
 select(nt::NamedTuple{N,T}, names::Vararg{Symbol}) where {N,T} = 
-    NamedTuple{names}(nt)
+    select(nt, names)
 
 select(nt::NamedTuple{N,T}, names::Tuple{}) where {N,T} = (;)
 
