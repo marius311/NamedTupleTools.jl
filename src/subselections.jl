@@ -1,18 +1,25 @@
-@inline function validnames(nt::NamedTuple{N,T}, names::Tuple{Vararg{Symbol}}) where {N,T}
-    ntnames = keys(nt)
-    return filter(!isnothing, Tuple(nm in ntnames ? nm : nothing for nm=names))
+@generated function occurs_in(s::Symbol, tup::NTuple{N, Symbol}) where {N}
+    ex = :(s === tup[1] && return s)
+       foreach(2:N) do i
+           ex = :($ex || (s === tup[$i] && return s))
+       end
+    quote
+       $ex
+       nothing
+    end
 end
-    
+
+@inline function selectnames(nt::NamedTuple{N,T}, names::Tuple{Vararg{Symbol}}) where {N,T}
+    ntnames = keys(nt)
+    return filter(!isnothing, map(sym->occurs_in(sym, ntnames), names))
+end
+
 function select(nt::NamedTuple{N,T}, names::Tuple{Vararg{Symbol}}) where {N,T}
-    names = validnames(nt, names)
-    isempty(names) && return (;)
+    names = selectnames(nt, names)
     return NamedTuple{names}(nt)
 end
     
-select(nt::NamedTuple{N,T}, names::Vararg{Symbol}) where {N,T} = 
-    select(nt, names)
-
-select(nt::NamedTuple{N,T}, names::Tuple{}) where {N,T} = (;)
+@inline select(nt::NamedTuple{N,T}, names::Vararg{Symbol}) where {N,T} = select(nt, names)
 
 function omit(nt::NamedTuple{N,T}, names::Tuple{Vararg{Symbol}}) where {N,T}
     names = Tuple( setdiff(N, names) )
