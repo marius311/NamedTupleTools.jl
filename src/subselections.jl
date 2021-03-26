@@ -46,7 +46,8 @@ julia> map(s->!any(s in hay), needles)
 (false, true, false)
 =#
 
-@inline not_occurs_in(needles, hay) = hay[[foldl(.&,map(.!,[n .== hay for n in needles]))...]]
+# @inline not_occurs_in(needles, hay) = hay[[foldl(.&,map(.!,[n .== hay for n in needles]))...]]
+@inline not_occurs_in(needles, hay) = filter(needle -> !(needle in hay), needles)
 
 function omit(nt::NamedTuple{N,T}, names::Tuple{Vararg{Symbol}}) where {N,T}
     unnamed = not_occurs_in(names, N)
