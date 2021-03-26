@@ -34,6 +34,13 @@ julia> needles, hay
 
 julia> hay[[1,2,3][[ ((1,2,3) .∉ ((1,3),))... ]]]
 (:b,)
+
+
+julia> map(s->any(s in hay), needles)
+(true, false, true)
+
+julia> map(s->!any(s in hay), needles)
+(false, true, false)
 =#
 
 function omit(nt::NamedTuple{N,T}, names::Tuple{Vararg{Symbol}}) where {N,T}
