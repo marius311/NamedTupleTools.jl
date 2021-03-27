@@ -51,8 +51,16 @@ str_Az = Tuple(map(string, chr_Az));
 sym_az = Tuple(map(Symbol, chr_az));
 sym_Az = Tuple(map(Symbol, chr_Az));
 
-nt_az = NamedTuple{sym_az}(chr_az);
-nt_Az = NamedTuple{sym_Az}(chr_Az);
+nt_8  = NamedTuple{sym_az[1:8]}(chr_az[1:8])
+NT_8  = typeof(nt_8)
+nt_16  = NamedTuple{sym_az[1:16]}(chr_az[1:16])
+NT_16  = typeof(nt_16)
+nt_26 = NamedTuple{sym_az}(chr_az);
+NT_26 = typeof(nt_26);
+nt_32 = NamedTuple{sym_Az[1:32]}(chr_Az[1:32]);
+NT_32 = typeof(nt_32);
+nt_52 = NamedTuple{sym_Az}(str_Az);
+NT_52 = typeof(nt_52);
 
 # (:a0, :b0, .. :z0)
 # ... 182 symbols
@@ -65,8 +73,12 @@ sym_a4 = Symbol.(chr_az, 4)
 sym_a5 = Symbol.(chr_az, 5)
 sym_a6 = Symbol.(chr_az, 6)
 
+sym_a0a3 = (sym_a1...,sym_a2...,sym_a3...,)
 sym_a0a6 = (sym_a1...,sym_a2...,sym_a3...,sym_a4...,sym_a5...,sym_a6...,)
 
 # (a1=1, ..z1=26,, a2=27 .. z6=156)
-nt_182 = NamedTuple{(sym_a0a6)}(1:length(sym_a0a6))
+nt_78 = NamedTuple{sym_a0a3}(1:length(sym_a0a3))
+NT_78 = typeof(nt_78)
+nt_182 = NamedTuple{sym_a0a6}(1:length(sym_a0a6))
+NT_182 = typeof(nt_182)
 
