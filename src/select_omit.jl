@@ -78,6 +78,7 @@ delete(::Type{T}, b::NTuple{N,Symbol}) where {S,N,T<:NamedTuple{S}} = namedtuple
 delete(::Type{T}, bs::Vararg{Symbol}) where {S,N,T<:NamedTuple{S}} = namedtuple((Base.setdiff(S,bs)...,))
 =#
 
+#=
 """
     parameters(x)
 
@@ -121,3 +122,4 @@ Base.@pure untuple(::Type{T}) where {T<:Tuple{Vararg{Any}}} = T.parameters
 Generate a `Type{Tuple{_}}` with the given internal types as a `Tuple{_}`.
 """
 Base.@pure retuple(x::Tuple) = Tuple{x...,}
+=#
