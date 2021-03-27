@@ -13,6 +13,7 @@ using Test
 =#
 include("testvalues.jl")
 
+include("select_omit.jl")
 
 #=
    testing the field_<aspect> methods
