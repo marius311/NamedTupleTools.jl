@@ -41,13 +41,14 @@ end
 
 # field_count, field_names, field_types, field_vals
 include("fieldops.jl")
-include("unrolled.jl")
+include("indexof.jl")
 
 head(nt::NamedTuple{N,T}) where {N,T} = NamedTuple{(N[1],),Tuple{T.parameters[1]}}(nt[1])
 head(x::Tuple) = (first(x),)
 head(x::AbstractVector) = [first(x)] 
 
 include("conversions.jl")
+include("select_omit.jl")
 
 """
     namedtuple
