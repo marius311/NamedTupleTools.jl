@@ -9,17 +9,26 @@
     end
 end
 
-@inline function selectnames(nt::NamedTuple{N,T}, names::Tuple{Vararg{Symbol}}) where {N,T}
+@inline function selectnames(nt::NamedTuple{N,T}, keepnames::Tuple{Vararg{Symbol}}) where {N,T}
     ntnames = keys(nt)
-    return filter(!isnothing, map(sym->occurs_in(sym, ntnames), names))
+    return filter(!isnothing, map(sym->occurs_in(sym, ntnames), keepnames))
 end
 
-function select(nt::NamedTuple{N,T}, names::Tuple{Vararg{Symbol}}) where {N,T}
-    names = selectnames(nt, names)
-    return NamedTuple{names}(nt)
+function select(nt::NamedTuple{N,T}, keepnames::Tuple{Vararg{Symbol}}) where {N,T}
+    usenames = selectnames(nt, keepnames)
+    return NamedTuple{usenames}(nt)
 end
     
-@inline select(nt::NamedTuple{N,T}, names::Vararg{Symbol}) where {N,T} = select(nt, names)
+@inline select(nt::NamedTuple{N,T}, keepnames::Vararg{Symbol}) where {N,T} = select(nt, keepnames)
+
+@inline not_occurs_in(needles, hay) = filter(straw -> !(straw in needles), hay)
+
+function omit(nt::NamedTuple{N,T}, omitnames::Tuple{Vararg{Symbol}}) where {N,T}
+    keepnames = not_occurs_in(omitnames, N)
+    NamedTuple{keepnames}(nt)
+end
+
+omit(nt::NamedTuple{N,T}, omitnames::Tuple{}) where {N,T} = nt
 
 #=
 julia> needles,hay
@@ -45,16 +54,6 @@ julia> map(s->any(s in hay), needles)
 julia> map(s->!any(s in hay), needles)
 (false, true, false)
 =#
-
-# @inline not_occurs_in(needles, hay) = hay[[foldl(.&,map(.!,[n .== hay for n in needles]))...]]
-@inline not_occurs_in(needles, hay) = filter(straw -> !(straw in needles), hay)
-
-function omit(nt::NamedTuple{N,T}, omit_names::Tuple{Vararg{Symbol}}) where {N,T}
-    keep_names = not_occurs_in(omit_names, N)
-    NamedTuple{keep_names}(nt)
-end
-
-omit(nt::NamedTuple{N,T}, omit_names::Tuple{}) where {N,T} = nt
 
 #=
 function omit(nt::NamedTuple{N,T}, names::Vararg{Symbol}) where {N,T}
