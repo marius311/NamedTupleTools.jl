@@ -1,6 +1,5 @@
-# @propagate_inbounds getindex(a::FieldArray, i::Int) = getfield(a, i)
-
 @generated function index_of(s::Symbol, tup::NTuple{N, Symbol}) where {N}
+    @nospecialize d, tup
     ex = :(s === tup[1] && return 1)
         foreach(2:N) do i
             ex = :($ex || (s === tup[$i] && return $i))
@@ -16,7 +15,10 @@ function indices_of(syms::NTuple{N1,Symbol}, symbols::NTuple{N2, Symbol}) where 
    filter(!iszero, map(s->index_of(s, symbols), syms))
 end
 
-indices_of(syms::NTuple{N,Symbol}, nt::NamedTuple{N,T}) where {N,T} = indices_of(syms, N)
+indices_of(syms::NTuple{N, Symbol}, nt::NamedTuple{Names,Types}) where {N,Names,Types} = indices_of(syms, N)
+
+
+# @propagate_inbounds getindex(a::FieldArray, i::Int) = getfield(a, i)
 
 function find_index_of(sym::Symbol, symbols::NTuple{N, Symbol}) where N
    for (idx, symbol) in enumerate(symbols)
