@@ -1,3 +1,4 @@
+# @propagate_inbounds getindex(a::FieldArray, i::Int) = getfield(a, i)
 
 @generated function index_of(s::Symbol, tup::NTuple{N, Symbol}) where {N}
     ex = :(s === tup[1] && return 1)
