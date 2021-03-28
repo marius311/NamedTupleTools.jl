@@ -1,4 +1,36 @@
 
+@generated function index_of(s::Symbol, tup::NTuple{N, Symbol}) where {N}
+    ex = :(s === tup[1] && return 1)
+        foreach(2:N) do i
+            ex = :($ex || (s === tup[$i] && return $i))
+        end
+    quote
+        $ex
+        0
+    end
+end
+
+# foreach sym in syms, iff sym in symbols getindex(symbols, sym)
+function indices_of(syms::NTuple{N1,Symbol}, symbols::NTuple{N2, Symbol}) where {N1,N2}
+   filter(!iszero, map(s->index_of(s, symbols), syms))
+end
+
+indices_of(syms::NTuple{N,Symbol}, nt::NamedTuple{N,T}) where {N,T} = indices_of(syms, N)
+
+function find_index_of(sym::Symbol, symbols::NTuple{N, Symbol}) where N
+   for (idx, symbol) in enumerate(symbols)
+      sym === symbol && return idx
+   end
+   return 0
+end
+
+# foreach sym in syms, iff sym in symbols getindex(symbols, sym)
+function find_indices_of(syms::NTuple{N1,Symbol}, symbols::NTuple{N2, Symbol}) where {N1,N2}
+   filter(!iszero, map(s->find_index_of(s, symbols), syms))
+end
+
+find_indices_of(syms::NTuple{N,Symbol}, nt::NamedTuple{N,T}) where {N,T} = find_indices_of(syms, N)
+
 #=
    forall xs | 0  <= length(xs) <= 16 the fastest hand unrolled functions are used
    forall xs | 17 <= length(xs) <= 32 the very fast generated functions are used
