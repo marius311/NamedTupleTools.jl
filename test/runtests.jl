@@ -23,7 +23,7 @@ include("select_omit.jl")
 =#
 include("homonyms.jl")
 
-
+include("namedtupletype.jl")
 
 namesofvalues  = (:instrument, :madeby)
 matchingvalues = ("violin", "Stradivarius")
