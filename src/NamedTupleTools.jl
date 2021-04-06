@@ -66,6 +66,17 @@ asvalue(x::NTuple{N,Any}) where {N} = x
 asvalue(x::Vararg{Any}) = x
 asvalue(x::Vector{Any}) = Tuple(x)
 
+namedtupletype() = NamedTuple{asname(), T} where {T}
+namedtupletype(x) = NamedTuple{asname(x), T} where {T}
+namedtupletype(xs::Vararg{Symbol}) = NamedTuple{asname(xs), T} where {T}
+namedtupletype(x, y) = NamedTuple{asname(x), astype(y)}
+namedtupletype(xs, ys::Vararg{DataType}) = NamedTuple{asname(xs), astype(ys)}
+
+namedtuple() = NamedTuple()
+namedtuple(x, v) = NamedTuple{asname(x)}(asvalue(v))
+namedtuple(x, t::DataType, v) where {T} = NamedTuple{asname(x), astype(t)}(asvalue(v))
+
+
 
 # field_count, field_names, field_types, field_vals
 include("fieldops.jl")
