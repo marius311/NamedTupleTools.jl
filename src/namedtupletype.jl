@@ -26,3 +26,8 @@ ntt(names::Vararg{<:AbstractString}) = ntt(Symbol.(names))
 
 ntt(names::Vector{Symbol}) = ntt(Tuple(names))
 ntt(names::Vector{<:AbstractString}) = ntt(Symbol.(names))
+
+ntt(name::Symbol, type::Type) = NamedTuple{(name,), Tuple{type}}
+ntt(name::Tuple{Symbol}, type::Tuple{DataType}) = ntt(name[1], type[1])      
+ntt(name::Symbol, type::Tuple{DataType}) = NamedTuple{(name,), Tuple{type[1]}}
+ntt(name::Tuple{Symbol}, type::DataType) = NamedTuple{name, Tuple{type})      
