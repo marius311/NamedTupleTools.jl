@@ -52,6 +52,9 @@ ntt(names::NTuple{N,AbstractString}, types::Vector{<:DataType}) where {N} = ntt(
 ntt(names::Vector{<:AbstractString}, types::NTuple{N, <:DataType}) where {N} = ntt(Symbol.(names), types)
 ntt(names::Vector{<:AbstractString}, types::Vector{<:DataType}) = ntt(Symbol.(names), types)
 
+ntt(names::NTuple{N1,T1}, types::NTuple{N2,T2}) where {N1,N2,T1,T2} =
+   throw(ErrorException("length(names) must equal length(types)"))
+
 # tests
 using Test
 
