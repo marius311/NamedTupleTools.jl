@@ -55,42 +55,4 @@ ntt(names::Vector{<:AbstractString}, types::Vector{<:DataType}) = ntt(Symbol.(na
 ntt(names::NTuple{N1,T1}, types::NTuple{N2,T2}) where {N1,N2,T1,T2} =
    throw(ErrorException("length(names) must equal length(types)"))
 
-# tests
-using Test
-
-@test ntt() == NamedTuple{(), Tuple{}}
-@test ntt(:a) == NamedTuple{(:a,)}
-@test ntt("a") == NamedTuple{(:a,)}
-@test ntt(:a, :b) == NamedTuple{(:a, :b)}
-@test ntt("a", "b") == NamedTuple{(:a, :b)}
-@test ntt((:a,)) == NamedTuple{(:a,)}
-@test ntt(("a",)) == NamedTuple{(:a,)}
-@test ntt((:a, :b)) == NamedTuple{(:a, :b)}
-@test ntt(("a", "b")) == NamedTuple{(:a, :b)}
-@test ntt([:a, :b]) == NamedTuple{(:a, :b)}
-@test ntt(["a", "b"]) == NamedTuple{(:a, :b)}
-
-@test ntt(:a, Int) == NamedTuple{(:a,), Tuple{Int}}
-@test ntt("a", Int) == NamedTuple{(:a,), Tuple{Int}}
-@test ntt(:a, (Int,)) == NamedTuple{(:a,), Tuple{Int}}
-@test ntt("a", (Int,)) == NamedTuple{(:a,), Tuple{Int}}
-@test ntt((:a,), Int) == NamedTuple{(:a,), Tuple{Int}}
-@test ntt(("a",), Int) == NamedTuple{(:a,), Tuple{Int}}
-
-@test ntt((:a,), (Int,)) == NamedTuple{(:a,), Tuple{Int}}
-@test ntt(("a",), (Int,)) == NamedTuple{(:a,), Tuple{Int}}                                                                                                           
-@test ntt((:a, :b), (Int, String)) == NamedTuple{(:a, :b), Tuple{Int, String}}
-@test ntt(("a", "b"), (Int, String)) == NamedTuple{(:a, :b), Tuple{Int, String}}
-@test ntt([:a, :b], (Int, String)) == NamedTuple{(:a, :b), Tuple{Int, String}}
-@test ntt(["a", "b"], (Int, String)) == NamedTuple{(:a, :b), Tuple{Int, String}}
-
-@test ntt((:a,), [Int,]) == NamedTuple{(:a,), Tuple{Int}}
-@test ntt(("a",), [Int,]) == NamedTuple{(:a,), Tuple{Int}}
-@test ntt((:a, :b), [Int, String]) == NamedTuple{(:a, :b), Tuple{Int, String}}
-@test ntt(("a", "b"), [Int, String]) == NamedTuple{(:a, :b), Tuple{Int, String}}
-@test ntt([:a, :b], [Int, String]) == NamedTuple{(:a, :b), Tuple{Int, String}}
-@test ntt(["a", "b"], [Int, String]) == NamedTuple{(:a, :b), Tuple{Int, String}}
-                                                                                                           
-                                                                                                                  
-                                                                                                                  
-                                                                                                                  
+                                                                                                
