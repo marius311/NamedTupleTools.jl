@@ -38,5 +38,14 @@ ntt(names::Vector{Symbol}, types::NTuple{N, <:DataType}) where {N} = NamedTuple{
 ntt(names::Vector{Symbol}, types::Vector{<:DataType}) = let N=min(length(names), length(types))
     NamedTuple{Tuple(names[1:N], Tuple{types[1:N]...}}
 end
-              
+
+ntt(name::AbstractString, type::DataType) = ntt(Symbol(name), type)
+ntt(name::AbstractString, type::Tuple{DataType}) = ntt(Symbol(name), type)
+ntt(name::Tuple{AbstractString}, type::DataType) = ntt(Symbol(name[1]), type)
+ntt(name::Tuple{AbstractString}, type::Tuple{DataType}) = ntt(Symbol(name[1]), type[1])
+                                       
+ntt(name::AbstractString, type::Vector{<:DataType}) = ntt(Symbol(name), type)
+ntt(names::NTuple{N,AbstractString}, types::Vector{<:DataType}) where {N} = ntt(Symbol.(names), types)
+ntt(names::Vector{<:AbstractString}, types::NTuple{N, <:DataType}) where {N} = ntt(Symbol.(names), types)
+ntt(names::Vector{<:AbstractString}, types::Vector{<:DataType}) = ntt(Symbol.(names, types)
 
