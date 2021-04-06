@@ -49,3 +49,22 @@ ntt(names::NTuple{N,AbstractString}, types::Vector{<:DataType}) where {N} = ntt(
 ntt(names::Vector{<:AbstractString}, types::NTuple{N, <:DataType}) where {N} = ntt(Symbol.(names), types)
 ntt(names::Vector{<:AbstractString}, types::Vector{<:DataType}) = ntt(Symbol.(names, types)
 
+# tests
+using Tests
+
+@test ntt() == NamedTuple{(), Tuple{}}
+@test ntt(:a) == NamedTuple{(:a,)}
+@test ntt("a") == NamedTuple{(:a,)}
+@test ntt(:a, :b) = NamedTuple{(:a, :b)}
+@test ntt("a", "b") = NamedTuple{(:a, :b)}
+@test ntt((:a,)) == NamedTuple{(:a,)}
+@test ntt(("a",)) == NamedTuple{(:a,)}
+@test ntt((:a, :b)) = NamedTuple{(:a, :b)}
+@test ntt(("a", "b")) = NamedTuple{(:a, :b)}
+@test ntt([:a, :b]) = NamedTuple{(:a, :b)}
+@test ntt(["a", "b"]) = NamedTuple{(:a, :b)}
+
+                                                                                                                  
+                                                                                                                  
+                                                                                                                  
+                                                                                                                  
