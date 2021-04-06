@@ -50,7 +50,7 @@ ntt(names::Vector{<:AbstractString}, types::NTuple{N, <:DataType}) where {N} = n
 ntt(names::Vector{<:AbstractString}, types::Vector{<:DataType}) = ntt(Symbol.(names), types)
 
 # tests
-using Tests
+using Test
 
 @test ntt() == NamedTuple{(), Tuple{}}
 @test ntt(:a) == NamedTuple{(:a,)}
