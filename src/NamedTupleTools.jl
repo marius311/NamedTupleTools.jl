@@ -39,6 +39,34 @@ macro assign(var, val)
     :($(esc(var)) = $(esc(val)))
 end
 
+# conversions to vanilla args for namedtuple, ntt
+
+asname() = ()
+asname(x::Symbol) = (x,)
+asname(x::Tuple{Symbol}) = x
+asname(x::NTuple{N,Symbol}) where {N} = x
+asname(x::Vararg{Symbol}) = x
+asname(x::T) where {T<:AbstractString} = asname(Symbol(x))
+asname(x::Tuple{T}) where {T<:AbstractString} = asname(x[1])
+asname(x::Vector{Symbol}) = Tuple(x)
+asname(x::Vector{T}) where {T<:AbstractString} = Tuple(Symbol.(x))
+asname(x::Vararg{AbstractString}) = Symbol.(x)
+
+astype() = Tuple{}
+astype(x::DataType) = Tuple{x}
+astype(x::Tuple{DataType}) = Tuple{x[1]}
+astype(x::NTuple{N,<:DataType}) where {N} = Tuple{x...}
+astype(x::Vararg{DataType}) = Tuple{x...}
+astype(x::Vector{<:DataType}) = Tuple{x...}
+
+asvalue() = ()
+asvalue(x::T) where {T} = (x,)
+asvalue(x::Tuple{T}) where {T} = (x[1],)
+asvalue(x::NTuple{N,Any}) where {N} = x
+asvalue(x::Vararg{Any}) = x
+asvalue(x::Vector{Any}) = Tuple(x)
+
+
 # field_count, field_names, field_types, field_vals
 include("fieldops.jl")
 include("indexof.jl")
