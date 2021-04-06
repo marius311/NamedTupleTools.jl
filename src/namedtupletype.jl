@@ -29,9 +29,9 @@ ntt(names::Vector{<:AbstractString}) = ntt(Symbol.(names))
 
 ntt(name::Symbol, type::DataType) = NamedTuple{(name,), Tuple{type}}
 ntt(name::Symbol, type::Tuple{DataType}) = NamedTuple{(name,), Tuple{type[1]}}
-ntt(name::Tuple{Symbol}, type::DataType) = NamedTuple{name, Tuple{type}}      
-ntt(name::Tuple{Symbol}, type::Tuple{DataType}) = ntt(name, Tuple{type[1]})
-                                       
+ntt(name::Tuple{Symbol}, type::DataType) = NamedTuple{name, Tuple{type}}
+ntt(name::Tuple{Symbol}, type::Tuple{DataType}) = ntt(name, type[1])
+
 ntt(name::Symbol, type::Vector{<:DataType}) = NamedTuple{(name,), Tuple{type[1]}}
 ntt(names::NTuple{N,Symbol}, types::Vector{<:DataType}) where {N} = NamedTuple{names, Tuple{types[1:N]...}}     
 ntt(names::Vector{Symbol}, types::NTuple{N, <:DataType}) where {N} = NamedTuple{Tuple(names[1:N]), Tuple{types...}}
