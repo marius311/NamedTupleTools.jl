@@ -1,3 +1,45 @@
+#=
+julia> args = [(:a, 1), (:b, 2)];
+
+julia> ofargs = (; args...)
+(a = 1, b = 2)
+
+----
+
+= 1, b = 2)
+
+julia> args
+2-element Vector{Tuple{Symbol, Int64}}:
+ (:a, 1)
+ (:b, 2)
+
+julia> println(args)
+[(:a, 1), (:b, 2)]
+
+julia> args
+2-element Vector{Tuple{Symbol, Int64}}:
+ (:a, 1)
+ (:b, 2)
+
+julia> ofargs = (; args...)
+(a = 1, b = 2)
+
+julia> typeof(ans)
+NamedTuple{(:a, :b), Tuple{Int64, Int64}}
+
+=#
+struct NamedPair 
+
+
+getpair(ntt::Type{<:NamedTuple}, idx::Integer) =
+    Pair(fieldnames(ntt)[idx], fieldtypes(ntt)[idx])
+
+getpair(nt::NamedTuple{N,T}, idx::Integer) where {N,T} =
+    Pair(N[idx], T.parameters[idx])
+
+getpair(nt::NamedTuple{N,T}, idx::Integer) where {N,T} =
+    Pair(N[idx], ntt[idx])
+
 min_is1(nt) = max(nfields(nt), nfields(nt) - 1)
 
 #=
