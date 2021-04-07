@@ -1,4 +1,6 @@
 #=
+https://discourse.julialang.org/t/splatting-tuples-into-a-named-tuple-implicitly-converts-them-to-pairs/44351/4
+
 julia> args = [(:a, 1), (:b, 2)];
 
 julia> ofargs = (; args...)
