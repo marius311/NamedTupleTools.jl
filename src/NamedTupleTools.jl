@@ -41,6 +41,9 @@ end
 
 # conversions to vanilla args for namedtuple, ntt
 
+# asname(_)  _ ↦ names::NTuple{N, Symbol}
+# asnames(_) _ ↦ names::Vector{Symbol}
+
 asname() = ()
 asname(x::Symbol) = (x,)
 asname(x::Tuple{Symbol}) = x
@@ -52,6 +55,8 @@ asname(x::Vector{Symbol}) = Tuple(x)
 asname(x::Vector{T}) where {T<:AbstractString} = Tuple(Symbol.(x))
 asname(x::Vararg{AbstractString}) = Symbol.(x)
 
+# astype(_) _ ↦ types::Tuple{NTuple{N, <:DataType}...}
+
 astype() = Tuple{}
 astype(x::DataType) = Tuple{x}
 astype(x::Tuple{DataType}) = Tuple{x[1]}
@@ -59,12 +64,16 @@ astype(x::NTuple{N,<:DataType}) where {N} = Tuple{x...}
 astype(x::Vararg{DataType}) = Tuple{x...}
 astype(x::Vector{<:DataType}) = Tuple{x...}
 
+# asvalue(_) _ ↦ values::NTuple{N, Any}
+
 asvalue() = ()
 asvalue(x::T) where {T} = (x,)
 asvalue(x::Tuple{T}) where {T} = (x[1],)
 asvalue(x::NTuple{N,Any}) where {N} = x
 asvalue(x::Vararg{Any}) = x
 asvalue(x::Vector{Any}) = Tuple(x)
+
+
 
 namedtupletype() = NamedTuple{asname(), T} where {T}
 namedtupletype(x) = NamedTuple{asname(x), T} where {T}
