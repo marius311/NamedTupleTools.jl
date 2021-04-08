@@ -1,21 +1,13 @@
-Base.@pure function parameters(x)
-    x.parameters
-end
-
-Base.@pure function parameters(x, i) 
-    @inbounds getindex(parameters(x), i)
-end
-
-Base.@pure function params(x)
-    Tuple(parameters(x))
-end
-
-Base.@pure function params(x, i) 
-    Tuple(parameters(x, i))
-end
+parameters(x) = x.parameters
+parameters(x, i) = @inbounds getindex(parameters(x), i)
+params(x) = Tuple(parameters(x))
+params(x, i) = Tuple(parameters(x, i))
 
 nt_to_doublet(nt::NT) where {N,T,NT<:NamedTuple{N,T}} = (N, params(T))
 nt_to_triplet(nt::NT) where {N,T,NT<:NamedTuple{N,T}} = (N, params(T), values(nt))
+
+NT_to_doublet(::Type{NT}) where {N,T,NT<:NamedTuple{N,T}} = (N, params(T))
+NT_to_triplet(::Type{NT}) where {N,T,NT<:NamedTuple{N,T}} = (N, params(T), values(nt))
 
 const sym4names   = :field_names
 const sym4types   = :field_types
