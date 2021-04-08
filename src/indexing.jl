@@ -1,3 +1,37 @@
+Base.@pure function parameters(x)
+    x.parameters
+end
+
+Base.@pure function parameters(x, i) 
+    @inbounds getindex(parameters(x), i)
+end
+
+Base.@pure function params(x)
+    Tuple(parameters(x))
+end
+
+Base.@pure function params(x, i) 
+    Tuple(parameters(x, i))
+end
+
+nt_to_doublet(nt::NT) where {N,T,NT<:NamedTuple{N,T}} = (N, params(T))
+nt_to_triplet(nt::NT) where {N,T,NT<:NamedTuple{N,T}} = (N, params(T), values(nt))
+
+const sym4names   = :field_names
+const sym4types   = :field_types
+const sym4values  = :field_values
+const sym4indices = :field_indices
+
+#const 
+NamedDoublet = NamedTuple{N,T} where {N,T}
+#const 
+NamedTriplet = NamedTuple{N,T} where {N,T}
+
+nt_to_nameddoublet(nt::NT) where {N,T,NT<:NamedTuple{N,T}} = NamedDoublet(field_names=N, field_types=params(T))
+
+nt_to_namedtriplet(nt::NT) where {N,T,NT<:NamedTuple{N,T}} = (names=N, types=params(T), values=values(nt))
+
+
 #=
 https://discourse.julialang.org/t/splatting-tuples-into-a-named-tuple-implicitly-converts-them-to-pairs/44351/4
 
