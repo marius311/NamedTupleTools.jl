@@ -44,34 +44,33 @@ end
 # asname(_)  _ ↦ names::NTuple{N, Symbol}
 # asnames(_) _ ↦ names::Vector{Symbol}
 
-asname() = ()
-asname(x::Symbol) = (x,)
-asname(x::Tuple{Symbol}) = x
-asname(x::NTuple{N,Symbol}) where {N} = x
-asname(x::Vararg{Symbol}) = x
-asname(x::T) where {T<:AbstractString} = asname(Symbol(x))
-asname(x::Tuple{T}) where {T<:AbstractString} = asname(x[1])
-asname(x::Vector{Symbol}) = Tuple(x)
-asname(x::Vector{T}) where {T<:AbstractString} = Tuple(Symbol.(x))
-asname(x::Vararg{AbstractString}) = Symbol.(x)
+as_name() = ()
+as_name(x::NTuple{N,Symbol}) where {N} = x
+as_name(x::Vararg{Symbol}) = x
+as_name(x::Vector{Symbol}) = Tuple(x)
+
+as_name(x::NTuple{N,<:AbstractString}) where {N} = as_name(Symbol.(x))
+as_name(x::Vararg{<:AbstractString}) = as_name(Symbol.(x))
+as_name(x::Vector{<:AbstractString}) = as_name(Symbol.(x))
 
 # astype(_) _ ↦ types::Tuple{NTuple{N, <:DataType}...}
 
-astype() = Tuple{}
-astype(x::DataType) = Tuple{x}
-astype(x::Tuple{DataType}) = Tuple{x[1]}
-astype(x::NTuple{N,<:DataType}) where {N} = Tuple{x...}
-astype(x::Vararg{DataType}) = Tuple{x...}
-astype(x::Vector{<:DataType}) = Tuple{x...}
+as_type() = Tuple{}
+as_type(x::Type{<:Tuple}) = x
+as_type(x::NTuple{N,<:DataType}) where {N} = Tuple{x...}
+as_type(x::Vararg{<:DataType}) = Tuple{x...}
+as_type(x::Vector{DataType}) = as_type(Tuple(x))
 
 # asvalue(_) _ ↦ values::NTuple{N, Any}
 
-asvalue() = ()
-asvalue(x::T) where {T} = (x,)
-asvalue(x::Tuple{T}) where {T} = (x[1],)
-asvalue(x::NTuple{N,Any}) where {N} = x
-asvalue(x::Vararg{Any}) = x
-asvalue(x::Vector{Any}) = Tuple(x)
+as_value() = ()
+as_value(x::T) where {T} = (x,)
+as_value(x::NTuple{N,Any}) where {N} = x
+as_value(x::Vararg{Any}) = x
+as_value(x::Vector{Any}) = Tuple(x)
+
+
+# ============================================================
 
 
 
