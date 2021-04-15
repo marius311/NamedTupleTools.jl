@@ -39,40 +39,8 @@ macro assign(var, val)
     :($(esc(var)) = $(esc(val)))
 end
 
-# conversions to vanilla args for namedtuple, ntt
 
-# asname(_)  _ ↦ names::NTuple{N, Symbol}
-# asnames(_) _ ↦ names::Vector{Symbol}
-
-as_name() = ()
-as_name(x::NTuple{N,Symbol}) where {N} = x
-as_name(x::Vararg{Symbol}) = x
-as_name(x::Vector{Symbol}) = Tuple(x)
-
-as_name(x::NTuple{N,<:AbstractString}) where {N} = as_name(Symbol.(x))
-as_name(x::Vararg{<:AbstractString}) = as_name(Symbol.(x))
-as_name(x::Vector{<:AbstractString}) = as_name(Symbol.(x))
-
-# astype(_) _ ↦ types::Tuple{NTuple{N, <:DataType}...}
-
-as_type() = Tuple{}
-as_type(x::Type{<:Tuple}) = x
-as_type(x::NTuple{N,<:DataType}) where {N} = Tuple{x...}
-as_type(x::Vararg{<:DataType}) = Tuple{x...}
-as_type(x::Vector{DataType}) = as_type(Tuple(x))
-
-# asvalue(_) _ ↦ values::NTuple{N, Any}
-
-as_value() = ()
-as_value(x::T) where {T} = (x,)
-as_value(x::NTuple{N,Any}) where {N} = x
-as_value(x::Vararg{Any}) = x
-as_value(x::Vector{Any}) = Tuple(x)
-
-
-# ============================================================
-
-
+# ====================================================================
 
 namedtupletype() = NamedTuple{asname(), T} where {T}
 namedtupletype(x) = NamedTuple{asname(x), T} where {T}
