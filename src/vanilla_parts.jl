@@ -34,9 +34,12 @@ ntt() = (;)
 ntt(x) = NamedTuple{nt_names(x), T} where {T}
 ntt(xs::Vararg{Symbol}) = NamedTuple{xs, T} where {T}
 ntt(x, y) = NamedTuple{nt_names(x), nt_types(y)}
+ntt(; names) = ntt(names)
+ntt(; names, types) = ntt(names, types)
 
 nt(x, y) = NamedTuple{nt_names(x)}(nt_values(y))
 nt(x, y, z::Vararg{Any}) = NamedTuple{nt_names(x), nt_types(y)}(z)
 nt(x, y, z) = NamedTuple{nt_names(x), nt_types(y)}(nt_values(z))
+nt(; names, types, values) = ntt(names, types, values)
 
 # ====================================================================
