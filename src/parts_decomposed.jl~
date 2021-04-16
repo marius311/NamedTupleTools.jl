@@ -20,3 +20,18 @@ field_type(ntt::Type{NamedTuple{N,T}}, idx::Integer) where {N,T} = (T.parameters
 field_type(nt::NamedTuple{N,T}, idx::Integer) where {N,T} = (T.parameters)[idx]
 
 field_value(nt::NamedTuple{N,T}, idx::Integer) where {N,T} = getfield(nt, idx)
+
+# multifield indexed selection
+
+function field_name_type(ntt::Type{NamedTuple{N,T}}, idx::Integer) where {N,T}
+    field_name(ntt, idx), field_type(ntt, idx)
+end
+function field_name_type(nt::NamedTuple{N,T}, idx::Integer) where {N,T}
+    field_name(nt, idx), field_type(nt, idx)
+end
+function field_name_type_value(nt::NamedTuple{N,T}, idx::Integer) where {N,T}
+    field_name(nt, idx),
+    field_type(nt, idx),
+    field_value(nt, idx)
+end
+

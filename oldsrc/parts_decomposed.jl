@@ -16,7 +16,7 @@ field_values(nt::NamedTuple{N,T}) where {N,T} = values(nt)
 field_name(ntt::Type{NamedTuple{N,T}}, idx::Integer) where {N,T} = getfield(N, idx)
 field_name(nt::NamedTuple{N,T}, idx::Integer) where {N,T} = getfield(N, idx)
 
-field_type(ntt::Type{NamedTuple{N,T}}, idx::Integer) where {N,T} = (T.parameters)[idx]
+field_type(ntt::Type{NamedTuple{N,T}}, idx::Integer) where {N,T} = getfield(T, idx)
 field_type(nt::NamedTuple{N,T}, idx::Integer) where {N,T} = (T.parameters)[idx]
 
 field_value(nt::NamedTuple{N,T}, idx::Integer) where {N,T} = getfield(nt, idx)
