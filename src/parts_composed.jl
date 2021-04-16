@@ -2,7 +2,8 @@
 
 # nttype(_) form a NamedTupleType
 
-nttype() = (;)
+nttype() = typeof((;)) # NamedTuple{(), Tuple{}}
+
 nttype(x) = NamedTuple{nt_names(x), T} where {T<:Tuple}
 nttype(xs::Vararg{Symbol}) = NamedTuple{xs, T} where {T<:Tuple}
 nttype(x, y) = NamedTuple{nt_names(x), nt_types(y)}
@@ -11,6 +12,8 @@ nttype(; names) = nttype(names)
 nttype(; names, types) = nttype(names, types)
 
 # nt(_) form a NamedTuple
+
+nt() = (;)
 
 nt(x, y) = NamedTuple{nt_names(x)}(nt_values(y))
 nt(x, y, z) = NamedTuple{nt_names(x), nt_types(y)}(nt_values(z))
