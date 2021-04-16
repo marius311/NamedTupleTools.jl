@@ -13,13 +13,13 @@ nttype(; names, types) = nttype(names, types)
 # nt(_) form a NamedTuple
 
 nt(x, y) = NamedTuple{nt_names(x)}(nt_values(y))
-nt(x, y, z::Vararg{Any}) = NamedTuple{nt_names(x), nt_types(y)}(z)
 nt(x, y, z) = NamedTuple{nt_names(x), nt_types(y)}(nt_values(z))
 
 nt(; names, values) = ntt(names, values)
 nt(; names, types, values) = ntt(names, types, values)
 
-nt(x::Type{<:NamedTuple}, y) = (x)(y)
+nt(x::Type{<:NamedTuple}, y) = (x)(nt_values(y))
+nt(x::Type{<:NamedTuple}, y::Vararg) = (x)(nt_values(y))
 nt(; nttype, values) = nt(nttype, values)
 
 # ====================================================================
