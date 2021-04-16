@@ -23,8 +23,8 @@ nt(x::Type{<:NamedTuple}, y) = (x)(y)
 nt(; nttype, values) = nt(nttype, values)
 
 # ====================================================================
-
-# conversions to vanilla args for NamedTupleTypes and NamedTuples
+# support routines for the constructive functions above
+# conversions to args for NamedTupleTypes and NamedTuples
 
 # nt_names(_) ↦ names::NTuple{N, Symbol}
 
