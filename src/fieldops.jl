@@ -9,8 +9,10 @@ works with these Types and their instances
 field_count(NT::Type{NamedTuple{N}}) where {N} = nfields(N)
 field_count(NT::Type{NamedTuple{N,T}}) where {N,T} = nfields(N)
 field_count(nt::NamedTuple{N,T}) where {N,T} = nfields(N)
-field_count(x::Type{T}) where {T} = fieldcount(x)
-field_count(x::T) where {T} = fieldcount(T)
+field_count(x::T) where {T<:DataType} = fieldcount(x)
+field_count(x::T) where {T} = field_count(T)
+field_count(x::Type{T}) where {T<:LittleDict} = length(x.parameters[3].parameters)
+field_count(x::LittleDict) = length(keys(x))
 
 """
     field_names(::T|T)
