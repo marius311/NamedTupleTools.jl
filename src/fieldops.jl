@@ -1,5 +1,5 @@
 getindices(x, idx::Integer) = getindex(x, idx)
-getindices(x, idxs::NTuple{N,T}) where {N, T<:Integer} = Tuple(map(ix->getindex(x,ix), idxs))
+getindices(x, idxs::NTuple{N,T}) where {N, T<:Integer} = Tuple(map(ix->getindex(x,ix), idxs)) # speedup
 
 """
     field_count(x|T)
