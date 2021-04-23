@@ -62,6 +62,18 @@ field_types(x::T) where {T} = field_types(T)
 field_types(x::Type{T}) where {T<:LittleDict} = Tuple(x.parameters[4])
 field_types(x::LittleDict) = field_tupletypes(typeof(x))
 
+"""
+    field_values(::T)
+
+obtain the values of fields present in 'x::T'
+works with these Type instances
+- NamedTuples, DataTypes (structs), LittleDict
+""" field_values
+
+field_values(nt::NamedTuple{N,T}) where {N,T} = Tuple(T.parameters)
+field_values(x::T) where {T} = Tuple(map(i->getfield(x, i), 1:field_count(x))
+field_values(x::LittleDict) = values(x)
+
 
 
 
