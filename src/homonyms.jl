@@ -17,8 +17,9 @@ works with these Types and their instances
 - NamedTuples, DataTypes (structs), Tuples
 """ field_count
 
+field_count(NT::Type{NamedTuple{N}}) where {N} = nfields(N)
 field_count(NT::Type{NamedTuple{N,T}}) where {N,T} = nfields(N)
-field_count(nt::Type{NamedTuple{N,T}}) where {N,T} = nfields(N)
+field_count(nt::NamedTuple{N,T}) where {N,T} = nfields(N)
 field_count(x::Type{T}) where {T} = fieldcount(x)
 field_count(x::T) where {T} = fieldcount(T)
 
@@ -31,10 +32,11 @@ works with these Types and their instances
 - NamedTuples, DataTypes (structs)
 """ field_names
 
+field_names(NT::Type{NamedTuple{N}}) where {N} = N
 field_names(NT::Type{NamedTuple{N,T}}) where {N,T} = N
-@generated field_names(nt::Type{NamedTuple{N,T}}) where {N,T} = N
-field_names(x::Type{T}) where {T} = fieldnames(x)
-field_names(x::T) where {T} = fieldnames(T)
+field_names(nt::NamedTuple{N,T}) where {N,T} = N
+field_names(x::T) where {T<:DataType} = fieldnames(x)
+field_names(x::T) where {T} = field_names(T)
 
 """
     field_name(::T|T, ith)
