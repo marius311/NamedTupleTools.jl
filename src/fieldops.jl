@@ -71,8 +71,8 @@ works with these Type instances
 """ field_values
 
 field_values(nt::NamedTuple{N,T}) where {N,T} = Tuple(T.parameters)
-field_values(x::T) where {T} = Tuple(map(i->getfield(x, i), 1:field_count(x))
-field_values(x::LittleDict) = values(x)
+field_values(x::T) where {T} = Tuple(map(i->getfield(x, i), 1:field_count(x)))
+field_values(x::LittleDict) = Tuple(values(x))
 
 
 
