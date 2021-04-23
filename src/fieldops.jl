@@ -77,7 +77,7 @@ field_values(x::T) where {T} = Tuple(map(i->getfield(x, i), 1:field_count(x)))
 field_values(x::LittleDict) = Tuple(values(x))
 
 
-
+#=
 
 field_names(ntt::Type{NamedTuple{N}}, idx::Integer) where {N} = N[idx]
 field_names(ntt::Type{NamedTuple{N,T}}, idx::Integer) where {N,T} = N[idx]
@@ -96,3 +96,4 @@ field_names(nt::NamedTuple{N}, idxs::Vararg{<:Integer}) where {N} = map(i->field
 field_names(nt::NamedTuple{N,T}, idxs::Vararg{<:Integer}) where {N,T} = map(i->field_names(nt,i), idxs)
 field_types(nt::NamedTuple{N,T}, idxs::Vararg{<:Integer}) where {N,T} = map(i->field_types(nt,i), idxs)
 field_values(nt::NamedTuple{N}, idxs::Vararg{<:Integer}) where {N} = map(i->field_values(ntt,i), idxs)
+=#
