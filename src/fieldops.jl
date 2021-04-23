@@ -3,7 +3,7 @@
     field_count(x|T)
 count the fields specified with 'T' or present in 'x::T'
 works with these Types and their instances
-- NamedTuples, DataTypes (structs), Tuples
+- NamedTuples, DataTypes (structs), Tuples, LittleDicts
 """ field_count
 
 field_count(NT::Type{NamedTuple{N}}) where {N} = nfields(N)
