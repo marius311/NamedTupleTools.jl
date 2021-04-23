@@ -77,13 +77,6 @@ field_values(x::LittleDict) = Tuple(values(x))
 
 
 
-field_tupletypes(ntt::Type{NamedTuple{N,T}}) where {N,T} = T
-field_types(ntt::Type{NamedTuple{N,T}}) where {N,T} = Tuple(T.parameters)
-
-field_tupletypes(nt::NamedTuple{N,T}) where {N,T} = T
-field_types(nt::NamedTuple{N,T}) where {N,T} = Tuple(T.parameters)
-field_values(nt::NamedTuple{N,T}) where {N,T} = values(nt)
-
 field_names(ntt::Type{NamedTuple{N}}, idx::Integer) where {N} = N[idx]
 field_names(ntt::Type{NamedTuple{N,T}}, idx::Integer) where {N,T} = N[idx]
 field_types(ntt::Type{NamedTuple{N,T}}, idx::Integer) where {N,T} = T.parameters[idx]
