@@ -1,4 +1,10 @@
-@testset "field_count" begin
+#=
+    NT   ≝  NamedTuple
+    NTT  ≝  NamedTuple Type  == typeof(NT)
+    NTT+NT  ≝ works with both an NTT and an NT arguments
+=#
+
+@testset "field_count( NTT+NT )" begin
   @test field_count(ntt0) == field_count(nt0) == 0
   @test field_count(ntt1) == field_count(nt1) == 1
   @test field_count(ntt2) == field_count(nt2) == 2
@@ -6,7 +12,7 @@
   @test field_count(ntt4) == field_count(nt4) == 4
 end
 
-@testset "field_names" begin
+@testset "field_names( NTT+NT )" begin
   @test field_names(ntt0) == field_names(nt0) == ()
   @test field_names(ntt1) == field_names(nt1) == (:a,)
   @test field_names(ntt2) == field_names(nt2) == (:a, :b)
@@ -14,7 +20,7 @@ end
   @test field_names(ntt4) == field_names(nt4) == (:a, :b, :c, :d)
 end
 
-@testset "field_types" begin
+@testset "field_types( NTT+NT )" begin
   @test field_types(ntt0) == field_types(nt0) == ()
   @test field_types(ntt1) == field_types(nt1) == (Int64,)
   @test field_types(ntt2) == field_types(nt2) == (Int64, Char)
@@ -22,7 +28,7 @@ end
   @test field_types(ntt4) == field_types(nt4) == (Int64, Char, String, Rational{Int64})
 end
 
-@testset "field_typestuple" begin
+@testset "field_typestuple( NTT+NT )" begin
   @test field_typestuple(ntt0) == field_types(nt0) == Tuple{}
   @test field_typestuple(ntt1) == field_types(nt1) == Tuple{Int64}
   @test field_typestuple(ntt2) == field_types(nt2) == Tuple{Int64, Char}
@@ -30,7 +36,7 @@ end
   @test field_typestuple(ntt4) == field_types(nt4) == Tuple{Int64, Char, String, Rational{Int64}}
 end
 
-@testset "field_values" begin
+@testset "field_values( NT )" begin
   @test field_values(nt0) == ()
   @test field_values(nt1) == (1,)
   @test field_values(nt2) == (1, '2')
