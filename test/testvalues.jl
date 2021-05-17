@@ -23,16 +23,16 @@ struct Test_Struct
     one::Int
     two::Char
     three::String
-end
-test_struct = Test_Struct(1, '2', "three")
+end;
+test_struct = Test_Struct(1, '2', "three");
 
-test_ldict = LittleDict((:a, :two, :datatype), (1, '2', "three"))
-Test_LDict  = typeof(test_ldict)
+test_ldict = LittleDict((:a, :two, :datatype), (1, '2', "three"));
+Test_LDict  = typeof(test_ldict);
 
-violin_s = (instrument = "violin", madeby = "Stradivari")
-viola_s  = (instrument = "viola" , madeby = "Stradivari")
-violin_g = (instrument = "violin", madeby = "Guarneri")
-all_strings = (violin_s, violin_g, viola_s)
+violin_s = (instrument = "violin", madeby = "Stradivari");
+viola_s  = (instrument = "viola" , madeby = "Stradivari");
+violin_g = (instrument = "violin", madeby = "Guarneri");
+all_strings = (violin_s, violin_g, viola_s);
 #=
 filter(x->x[:madeby] == "Stradivari", all_strings)
 ((instrument = "violin", madeby = "Stradivari"), (instrument = "viola", madeby = "Stradivari"))
@@ -71,19 +71,19 @@ NT_52 = typeof(nt_52);
 # (:a0, :b0, .. :z0)
 # ... 182 symbols
 # (:a6, :b6, .. :z6)
-sym_a0 = Symbol.(chr_az, 0)
-sym_a1 = Symbol.(chr_az, 1)
-sym_a2 = Symbol.(chr_az, 2)
-sym_a3 = Symbol.(chr_az, 3)
-sym_a4 = Symbol.(chr_az, 4)
-sym_a5 = Symbol.(chr_az, 5)
-sym_a6 = Symbol.(chr_az, 6)
+sym_a0 = Symbol.(chr_az, 0);
+sym_a1 = Symbol.(chr_az, 1);
+sym_a2 = Symbol.(chr_az, 2);
+sym_a3 = Symbol.(chr_az, 3);
+sym_a4 = Symbol.(chr_az, 4);
+sym_a5 = Symbol.(chr_az, 5);
+sym_a6 = Symbol.(chr_az, 6);
 
-sym_a0a3 = (sym_a1...,sym_a2...,sym_a3...,)
-sym_a0a6 = (sym_a1...,sym_a2...,sym_a3...,sym_a4...,sym_a5...,sym_a6...,)
+sym_a0a3 = (sym_a1...,sym_a2...,sym_a3...,);
+sym_a0a6 = (sym_a1...,sym_a2...,sym_a3...,sym_a4...,sym_a5...,sym_a6...,);
 
 # (a1=1, ..z1=26,, a2=27 .. z6=156)
-nt_78 = NamedTuple{sym_a0a3}(1:length(sym_a0a3))
-NT_78 = typeof(nt_78)
-nt_182 = NamedTuple{sym_a0a6}(1:length(sym_a0a6))
-NT_182 = typeof(nt_182)
+nt_78 = NamedTuple{sym_a0a3}(1:length(sym_a0a3));
+NT_78 = typeof(nt_78);
+nt_182 = NamedTuple{sym_a0a6}(1:length(sym_a0a6));
+NT_182 = typeof(nt_182);
