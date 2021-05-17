@@ -19,6 +19,9 @@ nt4 = (a=1, b='2', c="three", d=4//1); ntt4 = typeof(nt4);
 test_nt = (one = 1, two = '2', three = "three")
 Test_NT = typeof(test_nt)
 
+struct Test_Singleton end;
+const test_singleton = Test_Singleton();
+
 struct Test_Struct
     one::Int
     two::Char
