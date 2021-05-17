@@ -13,6 +13,10 @@ using Test
 =#
 include("testvalues.jl")
 
+include("field_ops.jl")
+
+
+#=
 include("select_omit.jl")
 
 #=
@@ -188,3 +192,4 @@ nt1 = (a = 1, b = 2)
 c = 3
 nt = (a = 1, b = 2, c = 3)
 @test @namedtuple(nt1..., c) == nt
+=#
