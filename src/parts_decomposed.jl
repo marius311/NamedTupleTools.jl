@@ -20,3 +20,13 @@ field_type(ntt::Type{NamedTuple{N,T}}, idx::Integer) where {N,T} = (T.parameters
 field_type(nt::NamedTuple{N,T}, idx::Integer) where {N,T} = (T.parameters)[idx]
 
 field_value(nt::NamedTuple{N,T}, idx::Integer) where {N,T} = getfield(nt, idx)
+
+# (field, indices) multiselected field_items
+
+field_name(ntt::Type{NamedTuple{N,T}}, idxs::NTuple{L,Integer}) where {N,T,L} = getindex.(Ref(N), idxs)
+field_name(nt::NamedTuple{N,T}, idxs::NTuple{L,Integer}) where {N,T,L} = getindex.(Ref(N), idxs)
+
+field_type(ntt::Type{NamedTuple{N,T}}, idxs::NTuple{L,Integer}) where {N,T,L} = getindex.(Ref(T.parameters), idxs)
+field_type(nt::NamedTuple{N,T}, idxs::NTuple{L,Integer}) where {N,T,L} = getindex.(Ref(T.parameters), idxs)
+
+field_value(nt::NamedTuple{N,T}, idxs::NTuple{L,Integer}) where {N,T,L} = getfield.(Ref(nt), idxs)
