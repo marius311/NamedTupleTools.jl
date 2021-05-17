@@ -17,6 +17,7 @@ export # familiar field operations (piracy avoiding)
 
 namedtuple
 
+include("support.jl")
 include("field_ops.jl")
 
 
