@@ -20,3 +20,7 @@
 
 
 / parts_decomposed.jl
+
+
+### support
+- getindicies
