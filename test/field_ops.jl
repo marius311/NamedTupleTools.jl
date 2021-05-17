@@ -31,10 +31,10 @@ end
 end
 
 @testset "field_typestuple( NTT+NT )" begin
-  @test field_typestuple(ntt0) == field_types(nt0) == Tuple{}
-  @test field_typestuple(ntt1) == field_types(nt1) == Tuple{Int64}
-  @test field_typestuple(ntt2) == field_types(nt2) == Tuple{Int64, Char}
-  @test field_typestuple(ntt3) == field_types(nt3) == Tuple{Int64, Char, String}
+  @test field_typestuple(ntt0) == field_typestuple(nt0) == Tuple{}
+  @test field_typestuple(ntt1) == field_typestuple(nt1) == Tuple{Int64}
+  @test field_typestuple(ntt2) == field_typestuple(nt2) == Tuple{Int64, Char}
+  @test field_typestuple(ntt3) == field_typestuple(nt3) == Tuple{Int64, Char, String}
 end
 
 @testset "field_values( NT )" begin
