@@ -14,9 +14,13 @@ nt0 = (;); ntt0 = typeof(nt0);
 nt1 = (; a=1); ntt1 = typeof(nt1);
 nt2 = (a=1, b='2'); ntt2 = typeof(nt2);
 nt3 = (a=1, b='2', c="three"); ntt3 = typeof(nt3);
-nt4 = (a=1, b='2', c="three", d=4//1); ntt4 = typeof(nt4);
 
 # types and their realizations for testing
+
+empty_tuple = ()
+Empty_Tuple = typeof(empty_tuple)
+test_tuple = (1, '2', "three")
+Test_Tuple = typeof(test_tuple)
 
 test_nt = (one = 1, two = '2', three = "three")
 Test_NT = typeof(test_nt)
