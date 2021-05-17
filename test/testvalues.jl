@@ -10,6 +10,12 @@
 
 using OrderedCollections: LittleDict, freeze
 
+nt0 = (;); ntt0 = typeof(nt0);
+nt1 = (; a=1); ntt1 = typeof(nt1);
+nt2 = (a=1, b='2'); ntt2 = typeof(nt2);
+nt3 = (a=1, b='2', c="three"); ntt3 = typeof(nt3);
+nt4 = (a=1, b='2', c="three", d=4//1); ntt4 = typeof(nt4);
+
 test_nt = (one = 1, two = '2', three = "three")
 Test_NT = typeof(test_nt)
 
@@ -81,4 +87,3 @@ nt_78 = NamedTuple{sym_a0a3}(1:length(sym_a0a3))
 NT_78 = typeof(nt_78)
 nt_182 = NamedTuple{sym_a0a6}(1:length(sym_a0a6))
 NT_182 = typeof(nt_182)
-
