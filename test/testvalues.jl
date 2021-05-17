@@ -16,6 +16,8 @@ nt2 = (a=1, b='2'); ntt2 = typeof(nt2);
 nt3 = (a=1, b='2', c="three"); ntt3 = typeof(nt3);
 nt4 = (a=1, b='2', c="three", d=4//1); ntt4 = typeof(nt4);
 
+# types and their realizations for testing
+
 test_nt = (one = 1, two = '2', three = "three")
 Test_NT = typeof(test_nt)
 
@@ -30,7 +32,11 @@ end;
 test_struct = Test_Struct(1, '2', "three");
 
 test_ldict = LittleDict((:a, :two, :datatype), (1, '2', "three"));
-Test_LDict  = typeof(test_ldict);
+Test_LDict = typeof(test_ldict);
+test_odict = LittleDict(Dict(test_ldict)) # unfrozen
+Test_ODict = typeof(test_odict)
+
+# end types and their realizations for testing
 
 violin_s = (instrument = "violin", madeby = "Stradivari");
 viola_s  = (instrument = "viola" , madeby = "Stradivari");
