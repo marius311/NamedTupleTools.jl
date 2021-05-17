@@ -1,7 +1,12 @@
 #=
+    The first 3/4 of this file tests NamedTuple Types and NamedTuple realizations
+    The rest of this file tests Tuples, structs, LittleDicts and their realizations
+=#
+
+#=
     NT   ≝  NamedTuple
     NTT  ≝  NamedTuple Type  == typeof(NT)
-    NTT+NT  ≝ works with both an NTT and an NT arguments
+    NTT+NT  ≝ works with both an NTT arg and an NT arg
 =#
 
 @testset "field_count( NTT+NT )" begin
@@ -42,4 +47,31 @@ end
   @test field_values(nt2) == (1, '2')
   @test field_values(nt3) == (1, '2', "three")
   @test field_values(nt4) == (1, '2', "three", 4//1)
+end
+
+#=
+    TT      ≝  Tuple instance
+    TTT     ≝  Tuple type == typeof(TT)
+    TTT+TT  ≝  works with both an TTT arg and an TT arg
+
+    ST      ≝  struct instance
+    STT     ≝  struct type == typeof(ST)
+    STT+ST  ≝  works with both an STT arg and an ST arg
+
+    LT      ≝  LittleDict instance
+    LTT     ≝  LittleDict type == typeof(LT)
+    LTT+LT  ≝  works with both an LTT arg and an LT arg
+=#
+
+@testset "field_count( TTT+TT )" begin
+  @test field_count(Empty_Tuple) == field_count(empty_tuple) == 0
+  @test field_count(Test_Tuple) == field_count(test_tuple) == 3
+end
+@testset "field_count( STT+ST )" begin
+  @test field_count(Test_Singleton) == field_count(test_singleton) == 0
+  @test field_count(Test_Struct) == field_count(test_struct) == 3
+end
+@testset "field_count( LTT+LT )" begin
+  @test field_count(Test_LDict) == field_count(test_ldict) == 3
+  @test field_count(Test_ODict) == field_count(test_odict) == 3
 end
