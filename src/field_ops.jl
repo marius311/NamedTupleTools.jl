@@ -61,6 +61,7 @@ field_count(x::Type{T}) where {T} = fieldcount(x)
 field_count(x::T) where {T} = fieldcount(T)
 # dicts
 field_count(x::AbstractDict) = length(x)
+field_count(x::Type{<:AbstractDict}) = throw(TypeError("field_count", AbstractDict, x))
 
 # tuples
 field_names(x::Type{Tuple}) = ()
