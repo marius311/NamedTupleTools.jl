@@ -1,5 +1,3 @@
-include("testvalues")
-
 @testset "field_count" begin
   @test field_count(ntt0) == field_count(nt0) == 0
   @test field_count(ntt1) == field_count(nt1) == 1
