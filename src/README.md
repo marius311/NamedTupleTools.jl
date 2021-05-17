@@ -1,5 +1,5 @@
 ## NamedTupleTools.jl (v2) / src / 
-#### { *source files implementing the NamedTupleTools* }
+#### { *source code implementing NamedTupleTools* }
 
 ### NamedTupleTools (the module)
 - exports
