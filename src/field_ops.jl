@@ -27,8 +27,8 @@ field_values(nt::NamedTuple{N,T}, idx::Integer) where {N,T} = getfield(nt, idx)
 field_values(nt::NamedTuple{N,T}, idxs::NTuple{L,Integer}) where {N,T,L} = getfield.(Ref(nt), idxs)
 
 # obtain the Type[s] that must be instantiated as fields
-field_types(ntt::Type{NamedTuple{N,T}}) where {N,T} = ntt.parameters[2]
-field_types(nt::NamedTuple{N,T}) where {N,T} = T
+field_types(ntt::Type{NamedTuple{N,T}}) where {N,T} = Tuple(ntt.parameters[2].parameters)
+field_types(nt::NamedTuple{N,T}) where {N,T} = Tuple(T.parameters)
 # (field, index) selected field_item
 field_types(ntt::Type{NamedTuple{N,T}}, idx::Integer) where {N,T} = (T.parameters)[idx]
 field_types(nt::NamedTuple{N,T}, idx::Integer) where {N,T} = (T.parameters)[idx]
