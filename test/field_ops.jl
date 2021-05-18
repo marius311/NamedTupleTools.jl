@@ -72,9 +72,9 @@ end
 end
 @testset "field_count( LT+OT )" begin
   @test field_count(test_ldict) == 3
-  @test field_count(Test_LDict) == 3  
+  @test field_count(test_odict) == 3
 end
 @testset "field_count( OTT+OT )" begin
-  @test field_count(test_odict) == 3
+  @test field_count(Test_LDict) == 3  
   @test field_count(Test_ODict) == nothing
 end
