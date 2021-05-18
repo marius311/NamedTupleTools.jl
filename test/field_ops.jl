@@ -154,35 +154,85 @@ end
 end
 
 @testset "field_typestuple( TTT+TT )" begin
-  @test field_typestuple(Empty_Tuple) == field_typestuple(empty_tuple) == ()
+  @test field_typestuple(Empty_Tuple) == field_typestuple(empty_tuple) == Tuple{}
   @test field_typestuple(Test_Tuple) == field_typestuple(test_tuple) == Tuple{Int64, Char, String}
+    
+  @test field_typestuple(Test_Tuple, 2) == field_typestuple(test_tuple, (2,)) == Tuple{Char}
+  @test field_typestuple(Test_Tuple, (1, 3)) == Tuple{Int64, String}
+  @test field_typestuple(Test_Tuple, :b) == field_typestuple(test_tuple, (:b,)) == Tuple{Char}
+  @test field_typestuple(Test_Tuple, (:a, :c)) == Tuple{Int64, String}
 end
 @testset "field_typestuple( STT+ST )" begin
   @test field_typestuple(Test_Singleton) == field_typestuple(test_singleton) == ()
   @test field_typestuple(Test_Struct) == field_typestuple(test_struct) == Tuple{Int64, Char, String}
+
+  @test field_typestuple(Test_Struct, 2) == field_typestuple(test_tuple, (2,)) == Tuple{Char}
+  @test field_typestuple(Test_Struct, (1, 3)) == Tuple{Int64, String}
+  @test field_typestuple(Test_Struct, :b) == field_typestuple(test_tuple, (:b,)) == Tuple{Char}
+  @test field_typestuple(Test_Struct, (:a, :c)) == Tuple{Int64, String}
 end
 @testset "field_typestuple( LT+OT )" begin
   @test field_typestuple(test_ldict) == Tuple{Int64, Char, String}
   @test field_typestuple(test_odict) == Tuple{Int64, Char, String}
+    
+  @test field_typestuple(test_ldict, 2) == field_typestuple(test_ldict, (2,)) == Tuple{Char}
+  @test field_typestuple(test_ldict, (1, 3)) == Tuple{Int64, String}
+  @test field_typestuple(test_ldict, :b) == field_typestuple(test_ldict, (:b,)) == Tuple{Char}
+  @test field_typestuple(test_ldict, (:a, :c)) == Tuple{Int64, String}
+
+  @test field_typestuple(test_odict, 2) == field_typestuple(test_odict, (2,)) == Tuple{Char}
+  @test field_typestuple(test_odict, (1, 3)) == Tuple{Int64, String}
+  @test field_typestuple(test_odict, :b) == field_typestuple(test_odict, (:b,)) == Tuple{Char}
+  @test field_typestuple(test_odict, (:a, :c)) == Tuple{Int64, String}
 end
 @testset "field_typestuple( LTT+OTT )" begin
-  @test field_typestuple(Test_LDict) == Tuple{Int64, Char, String} 
-  @test field_typestuple(Test_ODict) == nothing
+  @test field_typestuple(Test_LDict) == Tuple{Int64, Char, String}
+    
+  @test field_typestuple(Test_Ldict, 2) == field_typestuple(Test_Ldict, (2,)) == Tuple{Char}
+  @test field_typestuple(Test_Ldict, (1, 3)) == Tuple{Int64, String}
+  @test field_typestuple(Test_Ldict, :b) == field_typestuple(Test_Ldict, (:b,)) == Tuple{Char}
+  @test field_typestuple(Test_Ldict, (:a, :c)) == Tuple{Int64, String}
 end
+
 
 @testset "field_values( TTT+TT )" begin
   @test field_values(Empty_Tuple) == field_values(empty_tuple) == ()
   @test field_values(Test_Tuple) == field_values(test_tuple) == (1, '2', "three")
+    
+  @test field_values(Test_Tuple, 2) == field_values(test_tuple, (2,)) == ('2',)
+  @test field_values(Test_Tuple, (1, 3)) == (1, "three")
+  @test field_values(Test_Tuple, :b) == field_values(test_tuple, (:b,)) == ('2',)
+  @test field_values(Test_Tuple, (:a, :c)) == (1, "three")
 end
 @testset "field_values( STT+ST )" begin
   @test field_values(Test_Singleton) == field_values(test_singleton) == ()
   @test field_values(Test_Struct) == field_values(test_struct) == (1, '2', "three")
+
+  @test field_values(Test_Struct, 2) == field_values(test_tuple, (2,)) == ('2',)
+  @test field_values(Test_Struct, (1, 3)) == (1, "three")
+  @test field_values(Test_Struct, :b) == field_values(test_tuple, (:b,)) == ('2',)
+  @test field_values(Test_Struct, (:a, :c)) == (1, "three")
 end
 @testset "field_values( LT+OT )" begin
   @test field_values(test_ldict) == (1, '2', "three")
   @test field_values(test_odict) == (1, '2', "three")
+    
+  @test field_values(test_ldict, 2) == field_values(test_ldict, (2,)) == ('2',)
+  @test field_values(test_ldict, (1, 3)) == (1, "three")
+  @test field_values(test_ldict, :b) == field_values(test_ldict, (:b,)) == ('2',)
+  @test field_values(test_ldict, (:a, :c)) == (1, "three")
+
+  @test field_values(test_odict, 2) == field_values(test_odict, (2,)) == ('2',)
+  @test field_values(test_odict, (1, 3)) == (1, "three")
+  @test field_values(test_odict, :b) == field_values(test_odict, (:b,)) == ('2',)
+  @test field_values(test_odict, (:a, :c)) == (1, "three")
 end
 @testset "field_values( LTT+OTT )" begin
-  @test field_values(Test_LDict) == nothing
-  @test field_values(Test_ODict) == nothing
+  @test field_values(Test_LDict) == (1, '2', "three")
+    
+  @test field_values(Test_Ldict, 2) == field_values(Test_Ldict, (2,)) == ('2',)
+  @test field_values(Test_Ldict, (1, 3)) == (1, "three")
+  @test field_values(Test_Ldict, :b) == field_values(Test_Ldict, (:b,)) == ('2',)
+  @test field_values(Test_Ldict, (:a, :c)) == (1, "three")
 end
+
