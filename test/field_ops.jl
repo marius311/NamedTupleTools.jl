@@ -94,9 +94,8 @@ end
   @test field_count(test_ldict) == 3
   @test field_count(test_odict) == 3
 end
-@testset "field_count( OTT+OT )" begin
-  @test field_count(Test_LDict) == 3  
-  @test field_count(Test_ODict) == nothing
+@testset "field_count( LTT )" begin
+  @test field_count(Test_LDict) == 3
 end
 
 @testset "field_names( STT+ST )" begin
@@ -107,9 +106,8 @@ end
   @test field_names(test_ldict) == (:a, :b, :c)
   @test field_names(test_odict) == (:a, :b, :c)
 end
-@testset "field_names( LTT+OTT )" begin
+@testset "field_names( LTT )" begin
   @test field_names(Test_LDict) == (:a, :b, :c)  
-  @test field_names(Test_ODict) == nothing
 end
 
 @testset "field_types( TTT+TT )" begin
