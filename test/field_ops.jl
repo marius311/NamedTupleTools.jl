@@ -97,10 +97,6 @@ end
   @test field_count(Test_ODict) == nothing
 end
 
-@testset "field_names( TTT+TT )" begin
-  @test field_names(Empty_Tuple) == field_names(empty_tuple) == ()
-  @test field_names(Test_Tuple) == field_names(test_tuple) == (:a, :b, :c)
-end
 @testset "field_names( STT+ST )" begin
   @test field_names(Test_Singleton) == field_names(test_singleton) == ()
   @test field_names(Test_Struct) == field_names(test_struct) == (:a, :b, :c)
@@ -113,8 +109,6 @@ end
   @test field_names(Test_LDict) == (:a, :b, :c)  
   @test field_names(Test_ODict) == nothing
 end
-
-
 
 @testset "field_types( TTT+TT )" begin
   @test field_types(Empty_Tuple) == field_types(empty_tuple) == ()
