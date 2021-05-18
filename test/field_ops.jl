@@ -1,3 +1,4 @@
+
 #=
     The first 3/4 of this file tests NamedTuple Types and NamedTuple realizations
     The rest of this file tests Tuples, structs, LittleDicts and their realizations
@@ -68,15 +69,12 @@ end
     TT      ≝  Tuple instance
     TTT     ≝  Tuple type == typeof(TT)
     TTT+TT  ≝  works with both an TTT arg and an TT arg
-
     ST      ≝  struct instance
     STT     ≝  struct type == typeof(ST)
     STT+ST  ≝  works with both an STT arg and an ST arg
-
     LT      ≝  LittleDict instance
     LTT     ≝  LittleDict type == typeof(LT)
     LTT+LT  ≝  works with both an LTT arg and an LT arg
-
     OT      ≝  OrderedDict instance
     OTT     ≝  OrderedDict type == typeof(OT)
     OTT+OT  ≝  works with both an OTT arg and an OT arg
@@ -145,10 +143,10 @@ end
 @testset "field_types( LTT+OTT )" begin
   @test field_types(Test_LDict) == (Int64, Char, String)
     
-  @test field_types(Test_Ldict, 2) == field_types(Test_Ldict, (2,)) == (Char,)
-  @test field_types(Test_Ldict, (1, 3)) == (Int64, String)
-  @test field_types(Test_Ldict, :b) == field_types(Test_Ldict, (:b,)) == (Char,)
-  @test field_types(Test_Ldict, (:a, :c)) == (Int64, String)
+  @test field_types(Test_LDict, 2) == field_types(Test_LDict, (2,)) == (Char,)
+  @test field_types(Test_LDict, (1, 3)) == (Int64, String)
+  @test field_types(Test_LDict, :b) == field_types(Test_LDict, (:b,)) == (Char,)
+  @test field_types(Test_LDict, (:a, :c)) == (Int64, String)
 end
 
 @testset "field_typestuple( TTT+TT )" begin
@@ -186,10 +184,10 @@ end
 @testset "field_typestuple( LTT+OTT )" begin
   @test field_typestuple(Test_LDict) == Tuple{Int64, Char, String}
     
-  @test field_typestuple(Test_Ldict, 2) == field_typestuple(Test_Ldict, (2,)) == Tuple{Char}
-  @test field_typestuple(Test_Ldict, (1, 3)) == Tuple{Int64, String}
-  @test field_typestuple(Test_Ldict, :b) == field_typestuple(Test_Ldict, (:b,)) == Tuple{Char}
-  @test field_typestuple(Test_Ldict, (:a, :c)) == Tuple{Int64, String}
+  @test field_typestuple(Test_LDict, 2) == field_typestuple(Test_LDict, (2,)) == Tuple{Char}
+  @test field_typestuple(Test_LDict, (1, 3)) == Tuple{Int64, String}
+  @test field_typestuple(Test_LDict, :b) == field_typestuple(Test_LDict, (:b,)) == Tuple{Char}
+  @test field_typestuple(Test_LDict, (:a, :c)) == Tuple{Int64, String}
 end
 
 
@@ -228,9 +226,9 @@ end
 @testset "field_values( LTT+OTT )" begin
   @test field_values(Test_LDict) == (1, '2', "three")
     
-  @test field_values(Test_Ldict, 2) == field_values(Test_Ldict, (2,)) == ('2',)
-  @test field_values(Test_Ldict, (1, 3)) == (1, "three")
-  @test field_values(Test_Ldict, :b) == field_values(Test_Ldict, (:b,)) == ('2',)
-  @test field_values(Test_Ldict, (:a, :c)) == (1, "three")
+  @test field_values(Test_LDict, 2) == field_values(Test_LDict, (2,)) == ('2',)
+  @test field_values(Test_LDict, (1, 3)) == (1, "three")
+  @test field_values(Test_LDict, :b) == field_values(Test_LDict, (:b,)) == ('2',)
+  @test field_values(Test_LDict, (:a, :c)) == (1, "three")
 end
 
