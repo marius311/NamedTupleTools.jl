@@ -70,7 +70,7 @@ field_count(x::Tuple) = length(x)
 field_count(x::Type{T}) where {T} = fieldcount(x)
 field_count(x::T) where {T} = fieldcount(T)
 # ordered dicts
-field_count(x::Type{<:LittleDict})  = isfrozen(x) ? length(x.parameters[3].parameters) : nothing
+field_count(x::Type{<:LittleDict})  = isfrozen(x) ? length(x.parameters[3].parameters) : missing
 field_count(x::OrdDict) = length(x)
 
 # tuples
@@ -93,8 +93,8 @@ field_values(x::OrdDict) = values(x)
 field_types(x::Type{Tuple}) = x
 field_types(x::Tuple) = typeof.(x)
 # structs
-field_types(x::Type{T}) where {T} = fieldnames(T)
-field_types(x::T) where {T} = fieldnames(T)
+field_types(x::Type{T}) where {T} = fieldtypes(T)
+field_types(x::T) where {T} = fieldtypes(T)
 # ordered dicts -- ONLY USE WITH VERY SMALL DICTIONARIES
 field_types(x::OrdDict) = Tuple(typeof.(values(x)))
 
@@ -105,5 +105,5 @@ field_typestuple(x::Tuple) = typeof(x)
 field_typestuple(x::Type{T}) where {T} = fieldnames(T)
 field_typestuple(x::T) where {T} = fieldnames(T)
 # ordered dicts -- ONLY USE WITH VERY SMALL DICTIONARIES
-field_typestuple(x::Type{T}) where {T<:OrdDict} = isfrozen(x) ? Tuple{typeof.(values(x))...}  : nothing
+field_typestuple(x::Type{T}) where {T<:OrdDict} = isfrozen(x) ? Tuple{typeof.(values(x))...}  : missing
 field_typestuple(x::OrdDict) = Tuple{typeof.(values(x))...}
