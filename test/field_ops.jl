@@ -56,6 +56,10 @@ end
     LT      ≝  LittleDict instance
     LTT     ≝  LittleDict type == typeof(LT)
     LTT+LT  ≝  works with both an LTT arg and an LT arg
+
+    OT      ≝  OrderedDict instance
+    OTT     ≝  OrderedDict type == typeof(OT)
+    OTT+OT  ≝  works with both an OTT arg and an OT arg
 =#
 
 @testset "field_count( TTT+TT )" begin
@@ -66,7 +70,11 @@ end
   @test field_count(Test_Singleton) == field_count(test_singleton) == 0
   @test field_count(Test_Struct) == field_count(test_struct) == 3
 end
-@testset "field_count( LTT+LT )" begin
-  @test field_count(Test_LDict) == field_count(test_ldict) == 3
-  @test field_count(Test_ODict) == field_count(test_odict) == 3
+@testset "field_count( LT+OT )" begin
+  @test field_count(test_ldict) == 3
+  @test field_count(Test_LDict) == 3  
+end
+@testset "field_count( OTT+OT )" begin
+  @test field_count(test_odict) == 3
+  @test field_count(Test_ODict) == nothing
 end
