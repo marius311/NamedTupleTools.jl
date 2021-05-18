@@ -71,7 +71,6 @@ field_count(x::Type{T}) where {T} = fieldcount(x)
 field_count(x::T) where {T} = fieldcount(T)
 # ordered dicts
 field_count(x::Type{<:LittleDict})  = isfrozen(x) ? length(x.parameters[3].parameters) : nothing
-field_count(x::Type{<:OrderedDict}) = nothing
 field_count(x::OrdDict) = length(x)
 
 # tuples
