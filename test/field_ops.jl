@@ -24,6 +24,8 @@ end
 
   @test field_names(ntt2, 2) == field_names(nt2, (2,)) == (:b,)
   @test field_names(ntt3, (1, 3)) == (:a, :c)
+  @test field_names(ntt2, :b) == field_names(nt2, (:b,)) == (:b,)
+  @test field_names(ntt3, (:a, :c)) == (:a, :c)
 end
 
 @testset "field_types( NTT+NT )" begin
@@ -113,18 +115,42 @@ end
 @testset "field_types( TTT+TT )" begin
   @test field_types(Empty_Tuple) == field_types(empty_tuple) == ()
   @test field_types(Test_Tuple) == field_types(test_tuple) == (Int64, Char, String)
+    
+  @test field_types(Test_Tuple, 2) == field_types(test_tuple, (2,)) == (Char,)
+  @test field_types(Test_Tuple, (1, 3)) == (Int64, String)
+  @test field_types(Test_Tuple, :b) == field_types(test_tuple, (:b,)) == (Char,)
+  @test field_types(Test_Tuple, (:a, :c)) == (Int64, String)
 end
 @testset "field_types( STT+ST )" begin
   @test field_types(Test_Singleton) == field_types(test_singleton) == ()
   @test field_types(Test_Struct) == field_types(test_struct) == (Int64, Char, String)
+
+  @test field_types(Test_Struct, 2) == field_types(test_tuple, (2,)) == (Char,)
+  @test field_types(Test_Struct, (1, 3)) == (Int64, String)
+  @test field_types(Test_Struct, :b) == field_types(test_tuple, (:b,)) == (Char,)
+  @test field_types(Test_Struct, (:a, :c)) == (Int64, String)
 end
 @testset "field_types( LT+OT )" begin
   @test field_types(test_ldict) == (Int64, Char, String)
   @test field_types(test_odict) == (Int64, Char, String)
+    
+  @test field_types(test_ldict, 2) == field_types(test_ldict, (2,)) == (Char,)
+  @test field_types(test_ldict, (1, 3)) == (Int64, String)
+  @test field_types(test_ldict, :b) == field_types(test_ldict, (:b,)) == (Char,)
+  @test field_types(test_ldict, (:a, :c)) == (Int64, String)
+
+  @test field_types(test_odict, 2) == field_types(test_odict, (2,)) == (Char,)
+  @test field_types(test_odict, (1, 3)) == (Int64, String)
+  @test field_types(test_odict, :b) == field_types(test_odict, (:b,)) == (Char,)
+  @test field_types(test_odict, (:a, :c)) == (Int64, String)
 end
 @testset "field_types( LTT+OTT )" begin
   @test field_types(Test_LDict) == (Int64, Char, String)
-  @test field_types(Test_ODict) == nothing
+    
+  @test field_types(Test_Ldict, 2) == field_types(Test_Ldict, (2,)) == (Char,)
+  @test field_types(Test_Ldict, (1, 3)) == (Int64, String)
+  @test field_types(Test_Ldict, :b) == field_types(Test_Ldict, (:b,)) == (Char,)
+  @test field_types(Test_Ldict, (:a, :c)) == (Int64, String)
 end
 
 @testset "field_typestuple( TTT+TT )" begin
