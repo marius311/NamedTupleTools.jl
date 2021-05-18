@@ -71,7 +71,7 @@ field_count(x::Type{T}) where {T} = fieldcount(x)
 field_count(x::T) where {T} = fieldcount(T)
 # ordered dicts
 field_count(x::OrdDict) = length(x)
-field_count(x::Type{<:LittletDict}) = length(x.parameters[3].parameters)
+field_count(x::Type{<:LittleDict}) = length(x.parameters[3].parameters)
 field_count(x::Type{<:OrderedDict}) = length(x.parameters[end])
 
 # tuples
@@ -106,5 +106,5 @@ field_typestuple(x::Tuple) = typeof(x)
 field_typestuple(x::Type{T}) where {T} = fieldnames(T)
 field_typestuple(x::T) where {T} = fieldnames(T)
 # ordered dicts -- ONLY USE WITH VERY SMALL DICTIONARIES
-field_typestuple(x::Type{T}) where {T<:OrddDict} = isfrozen(x) ? Tuple{typeof.(values(x))...}  : nothing
+field_typestuple(x::Type{T}) where {T<:OrdDict} = isfrozen(x) ? Tuple{typeof.(values(x))...}  : nothing
 field_typestuple(x::OrdDict) = Tuple{typeof.(values(x))...}
