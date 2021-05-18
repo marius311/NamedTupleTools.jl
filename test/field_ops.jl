@@ -21,6 +21,9 @@ end
   @test field_names(ntt1) == field_names(nt1) == (:a,)
   @test field_names(ntt2) == field_names(nt2) == (:a, :b)
   @test field_names(ntt3) == field_names(nt3) == (:a, :b, :c)
+
+  @test field_names(ntt2, 2) == field_names(nt2, (2,)) == (:b,)
+  @test field_names(ntt3, (1, 3)) == (:a, :c)
 end
 
 @testset "field_types( NTT+NT )" begin
@@ -28,6 +31,11 @@ end
   @test field_types(ntt1) == field_types(nt1) == (Int64,)
   @test field_types(ntt2) == field_types(nt2) == (Int64, Char)
   @test field_types(ntt3) == field_types(nt3) == (Int64, Char, String)
+
+  @test field_types(ntt2, 2) == field_types(nt2, (2,)) == (Char,)
+  @test field_types(ntt3, (1, 3)) == (Int64, String)
+  @test field_types(ntt2, :b) == field_types(nt2, (:b,)) == (Char,)
+  @test field_types(ntt3, (:a, :c)) == (Int64, String)
 end
 
 @testset "field_typestuple( NTT+NT )" begin
@@ -35,6 +43,11 @@ end
   @test field_typestuple(ntt1) == field_typestuple(nt1) == Tuple{Int64}
   @test field_typestuple(ntt2) == field_typestuple(nt2) == Tuple{Int64, Char}
   @test field_typestuple(ntt3) == field_typestuple(nt3) == Tuple{Int64, Char, String}
+
+  @test field_typestuple(ntt2, 2) == field_typestuple(nt2, (2,)) == Tuple{Char}
+  @test fie1ypestuple(ntt3, (1, 3)) == Tuple{Int64, String}
+  @test field_typestuple(ntt2, :b) == field_types(nt2, (:b,)) == Tuple{Char}
+  @test field_typestuple(ntt3, (:a, :c)) == Tuple{Int64, String}
 end
 
 @testset "field_values( NT )" begin
@@ -42,6 +55,11 @@ end
   @test field_values(nt1) == (1,)
   @test field_values(nt2) == (1, '2')
   @test field_values(nt3) == (1, '2', "three")
+    
+  @test field_values(ntt2, 2) == field_values(nt2, (2,)) == ('2',)
+  @test field_values(ntt3, (1, 3)) == (1, "three")
+  @test field_values(ntt2, :b) == field_values(nt2, (:b,)) == ('2',)
+  @test field_values(ntt3, (:a, :c)) == (1, "three")
 end
 
 #=
