@@ -3,7 +3,7 @@
     The rest of this file supports Tuples, structs, LittleDicts and their realizations
 =#
 
-# field summary
+# field tally 
 field_count(ntt::Type{NamedTuple{N,T}}) where {N,T} = nfields(N)
 field_count(nt::NamedTuple{N,T}) where {N,T} = nfields(N)
 
@@ -53,14 +53,24 @@ field_typestuple(nt::NamedTuple{N,T}, idxs::NTuple{L,Integer}) where {N,T,L} = T
       (b) LittleDict types and their realizations
 =#
 
+const OrdDict = Union{LittleDict, OrderedDict}
+
+isfrozen(x::LittleDict) = true
+isfrozen(x::LittleDict{Symbol, Any, Vector{Symbol}, Vector{Any}}) = false
+isfrozen(x::OrderedDict) = false
+
+isfrozen(x::Type{<:LittleDict}) = true
+isfrozen(x::Type{LittleDict{Symbol, Any, Vector{Symbol}, Vector{Any}}}) = false
+isfrozen(x::Type{<:OrderedDict}) = false
+
 # tuples
 field_count(x::Type{Tuple}) = length(x)
 field_count(x::Tuple) = length(x)
 # structs
 field_count(x::Type{T}) where {T} = fieldcount(x)
 field_count(x::T) where {T} = fieldcount(T)
-# dicts
-field_count(x::AbstractDict) = length(x)
+# ordered dicts
+field_count(x::Union{LittleDict, OrderedDict}) = length(x)
 field_count(x::Type{<:AbstractDict}) = throw(TypeError("field_count", AbstractDict, x))
 
 # tuples
@@ -69,15 +79,15 @@ field_names(x::Tuple) = ()
 # structs
 field_names(x::Type{T}) where {T} = fieldnames(T)
 field_names(x::T) where {T} = fieldnames(T)
-# dicts
-field_names(x::AbstractDict) = keys(x)
+# ordered dicts
+field_names(x::OrdDict) = keys(x)
 
 # tuples
 field_values(x::Tuple) = x
 # structs
 field_values(x::T) where {T} = getfield.(Ref(x), fieldnames(T))
-# dicts
-field_values(x::AbstractDict) = values(x)
+# ordered dicts
+field_values(x::OrdDict) = values(x)
 
 # tuples
 field_types(x::Type{Tuple}) = x
@@ -85,8 +95,8 @@ field_types(x::Tuple) = typeof.(x)
 # structs
 field_types(x::Type{T}) where {T} = fieldnames(T)
 field_types(x::T) where {T} = fieldnames(T)
-# dicts
-field_types(x::AbstractDict) = Tuple(typeof.(values(x)))  # ONLY USE WITH VERY SMALL DICTIONARIES
+# ordered dicts -- ONLY USE WITH VERY SMALL DICTIONARIES
+field_types(x::OrdDict) = Tuple(typeof.(values(x)))
 
 # tuples
 field_typestuple(x::Type{Tuple}) = x
@@ -94,5 +104,6 @@ field_typestuple(x::Tuple) = typeof(x)
 # structs
 field_typestuple(x::Type{T}) where {T} = fieldnames(T)
 field_typestuple(x::T) where {T} = fieldnames(T)
-# dicts
-field_typestuple(x::AbstractDict) = Tuple{typeof.(values(x))...}  # ONLY USE WITH VERY SMALL DICTIONARIES
+# ordered dicts -- ONLY USE WITH VERY SMALL DICTIONARIES
+field_typestuple(x::Type{T}) where {T<:OrddDict} = isfrozen(x) ? Tuple{typeof.(values(x))...}  : nothing
+field_typestuple(x::OrdDict) = Tuple{typeof.(values(x))...}
