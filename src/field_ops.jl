@@ -3,7 +3,7 @@
     The rest of this file supports Tuples, structs, LittleDicts and their realizations
 =#
 
-# field tally 
+# field tally
 field_count(ntt::Type{NamedTuple{N,T}}) where {N,T} = nfields(N)
 field_count(nt::NamedTuple{N,T}) where {N,T} = nfields(N)
 
