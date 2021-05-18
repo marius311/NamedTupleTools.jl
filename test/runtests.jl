@@ -9,7 +9,7 @@ using Test
                     | Type       | value
         ------------|------------|------------
         NamedTuple  | TestNT     | test_nt
-        struct      | TestStruct | test_struct   
+        struct      | TestStruct | test_struct
 =#
 include("testvalues.jl")
 

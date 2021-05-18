@@ -5,7 +5,7 @@
     Julia type     local type     value
     ----------     --------------------------
     NamedTuple     TestNT         test_nt
-    struct         TestStruct     test_struct   
+    struct         TestStruct     test_struct
 =#
 
 using OrderedCollections: LittleDict, freeze
@@ -63,8 +63,8 @@ chr_az = Tuple(map(x->Char(x), collect(Int('a'):Int('z'))));
 # ('A'..'Z','a'..'z')
 chr_Az = Tuple(map(x->Char(x), (collect(Int('A'):Int('Z'))...,collect(Int('a'):Int('z'))...,) ));
 # ("a", "b", .. "z")
-str_az = Tuple(map(string, chr_az)); 
-str_Az = Tuple(map(string, chr_Az)); 
+str_az = Tuple(map(string, chr_az));
+str_Az = Tuple(map(string, chr_Az));
 
 # (:a, :b, .. :z)
 sym_az = Tuple(map(Symbol, chr_az));

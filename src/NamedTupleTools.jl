@@ -1,7 +1,7 @@
 module NamedTupleTools
 
 export # familiar field operations (piracy avoiding)
-       field_count, 
+       field_count,
        field_names,  field_name,
        field_types,  field_type,
        field_values, field_value,
