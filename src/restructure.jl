@@ -23,20 +23,24 @@ function restructure_(::Val{true}, ::Type{NamedTuple}, x::Type{T}) where {T} =
     return NamedTuple{namedfields, tupletypedfields}
 end
 
+
+# struct realization -> NamedTupleType
+# use `restructure(NamedTuple, typeof(struct_realization))`
+function restructure(::ValNT, @nospecialize x::LittleDict)
+    namedfields = field_names(x)
+    tupletypedfields = field_tupletypes(x)
+    return NamedTuple{namedfields, tupletypedfields}
+end    
+
 # struct realization -> NamedTuple realization
 restructure(::Type{NamedTuple}, @nospecialize x::T) where {T} =
     restructure_(Val(isstructtype(T)), NamedTuple, x)
 restructure_(::Val{false}, ::Type{NamedTuple}, @nospecialize x::T) where {T} =
     throw(ErrorException("Restructuring to a NamedTuple is not supported for $(typeof(x))."))
 function restructure_(::Val{true}, ::Type{NamedTuple}, x:::T) where {T} =
-    namedfields = field_names(x)
-    tupletypedfields = field_tupletypes(x)
     valuedfields = field_values(x)
-    return NamedTuple{namedfields, tupletypedfields}(valuedfields)
+    return restructure(NTT, x)(valuedfields)
 end
-
-# struct realization -> NamedTupleType
-# use `restructure(NamedTuple, typeof(struct_realization))`
 
 #> support for LittleDicts
 
