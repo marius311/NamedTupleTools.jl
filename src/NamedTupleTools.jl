@@ -27,7 +27,7 @@ export Struct
 using OrderedCollections: OrderedSet, LittleDict, OrderedDict, freeze
 
 # dispatch on NamedTuple Types
-const NTT = Val{NamedTuple}()
+const NTT = (Val{NamedTuple})()
 
 include("support.jl")
 include("field_ops.jl")
