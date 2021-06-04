@@ -23,6 +23,8 @@ else
 end
 export Struct
 
+using OrderedCollections: OrderedSet, LittleDict, OrderedDict, freeze
+
 include("support.jl")
 include("field_ops.jl")
 include("restructure.jl")
