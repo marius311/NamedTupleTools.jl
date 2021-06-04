@@ -103,6 +103,6 @@ field_tupletypes(x::Type{Tuple}) = x
 field_tupletypes(x::Tuple) = typeof(x)
 # structs
 field_tupletypes(x::Type{T}) where {T} = 
-    isstructtype(T) ? field_types(x) : throw(ErrorException("Expected a struct realization, got $(x).")
+    isstructtype(T) ? field_types(x) : throw(ErrorException("Expected a struct realization, got $(x)."))
 # ordered dicts -- ONLY USE WITH VERY SMALL DICTIONARIES
 field_tupletypes(x::Union{LittleDict,OrderedDict}) = Tuple{typeof.(values(x))...}
