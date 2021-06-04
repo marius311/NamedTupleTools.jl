@@ -7,21 +7,12 @@ export # familiar field operations, expanded applicability      (avoids piracy)
        # data structure interconversions, args follow `convert` (avoids piracy)
        restructure,                  # restructure(::Type{Target}, x::Source)
 #=
-       if !isdefined(Base, :Struct)
-           abstract type Struct end
-           export Struct
-       end
 
        restructure(::Type{Struct}, x::NamedTuple) 
        restructure(::Type{NamedTuple}, x) = restructure_(Val(isstructtype(x)), NamedTuple, x)
        restructure_(::Val{true}, ::Type{NamedTuple}, x)
        restructure_(::Val{false}, ::Type{NamedTuple}, x) = throw
 =#
-       from, # from(::Tuple, x::Tuple) = x; from(::DataType, x::NamedTuple)    restructure(::NamedTuple, x::DataType)
-       astuple, asnamedtuple, asdict, asstruct
-       namedtuple_from,
-       tuple_from, littledict_from, struct_from, table_from
-       tupled, nametupled, structured, tabled, littledicted,
        # editing: include, exclude,
        reposition_fields, reposition_field,
        remove_from,
@@ -30,6 +21,14 @@ export # familiar field operations, expanded applicability      (avoids piracy)
 
 
 namedtuple
+
+# Julia could define Struct
+if !isdefined(Base, :Struct)
+    abstract type Struct end
+else
+    import Struct
+end
+export Struct
 
 include("support.jl")
 include("field_ops.jl")
