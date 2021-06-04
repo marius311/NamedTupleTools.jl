@@ -1,13 +1,24 @@
 module NamedTupleTools
 
-export # familiar field operations (piracy avoiding)
-       field_count,
-       field_names,  field_name,
-       field_types,  field_type,
-       field_values, field_value,
-       # data structure interconversions
+export # familiar field operations, expanded applicability      (avoids piracy)
+       field_count, field_names,     # all  NamedTupleTypes, all NamedTuples
+       field_types,                  # some NamedTupleTypes, all NamedTuples
+       field_values,                 # none NamedTupleTypes, all NamedTuples
+       # data structure interconversions, args follow `convert` (avoids piracy)
+       restructure,  Struct,         # restructure(::Type{Target}, x::Source)
+#=
+       abstract type Struct end
+
+       restructure(::Type{Struct}, x::NamedTuple) 
+       restructure(::Type{NamedTuple}, x) = restructure_(Val(isstructtype(x)), NamedTuple, x)
+       restructure_(::Val{true}, ::Type{NamedTuple}, x)
+       restructure_(::Val{false}, ::Type{NamedTuple}, x) = throw
+=#
+       from, # from(::Tuple, x::Tuple) = x; from(::DataType, x::NamedTuple)    restructure(::NamedTuple, x::DataType)
+       astuple, asnamedtuple, asdict, asstruct
        namedtuple_from,
-       tuple_from, dict_from, struct_from,
+       tuple_from, littledict_from, struct_from, table_from
+       tupled, nametupled, structured, tabled, littledicted,
        # editing: include, exclude,
        reposition_fields, reposition_field,
        remove_from,
