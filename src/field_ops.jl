@@ -80,7 +80,7 @@ field_names(x::Tuple) = ()
 field_names(x::Type{T}) where {T} = fieldnames(T)
 field_names(x::T) where {T} = fieldnames(T)
 # ordered dicts
-field_names(x::OrdDict) = keys(x)
+field_names(x::OrdDict) = Tuple(keys(x))
 
 # tuples
 field_values(x::Tuple) = x
