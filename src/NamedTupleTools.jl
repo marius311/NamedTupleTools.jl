@@ -1,6 +1,7 @@
 module NamedTupleTools
 
-export # familiar field operations, expanded applicability      (avoids piracy)
+export NTT,                            # dispatch on a NamedTuple Type
+       # familiar field operations, expanded applicability      (avoids piracy)
        field_count, field_names,       # all  NamedTupleTypes, all NamedTuples
        field_types, field_tupletypes,  # some NamedTupleTypes, all NamedTuples
        field_values,                   # none NamedTupleTypes, all NamedTuples
@@ -24,6 +25,9 @@ end
 export Struct
 
 using OrderedCollections: OrderedSet, LittleDict, OrderedDict, freeze
+
+# dispatch on NamedTuple Types
+const NTT = Val{NamedTuple}()
 
 include("support.jl")
 include("field_ops.jl")
