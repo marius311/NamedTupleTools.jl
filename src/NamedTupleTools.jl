@@ -5,9 +5,12 @@ export # familiar field operations, expanded applicability      (avoids piracy)
        field_types,                  # some NamedTupleTypes, all NamedTuples
        field_values,                 # none NamedTupleTypes, all NamedTuples
        # data structure interconversions, args follow `convert` (avoids piracy)
-       restructure,  Struct,         # restructure(::Type{Target}, x::Source)
+       restructure,                  # restructure(::Type{Target}, x::Source)
 #=
-       abstract type Struct end
+       if !isdefined(Base, :Struct)
+           abstract type Struct end
+           export Struct
+       end
 
        restructure(::Type{Struct}, x::NamedTuple) 
        restructure(::Type{NamedTuple}, x) = restructure_(Val(isstructtype(x)), NamedTuple, x)
