@@ -17,7 +17,7 @@ restructure(::Type{NamedTuple}, @nospecialize x::Type{T}) where {T} =
     restructure_(Val(isstructtype(x)), NamedTuple, x)
 restructure_(::Val{false}, ::Type{NamedTuple}, @nospecialize x::Type{T}) where {T} =
     throw(ErrorException("Restructuring to a NamedTuple Type is not supported for $(T)."))
-function restructure_(::Val{true}, ::Type{NamedTuple}, x::Type{T}) where {T} =
+function restructure_(::Val{true}, ::Type{NamedTuple}, x::Type{T}) where {T}
     namedfields = field_names(x)
     tupletypedfields = field_tupletypes(x)
     return NamedTuple{namedfields, tupletypedfields}
