@@ -20,10 +20,10 @@ function restructure(::Type{NamedTuple}, x::T) where {T<:OrderedDict}
 =#
     
 # support for OrderedCollections, including LittleDicts
-isfrozen(nospecialize x::LittleDict{K,V, <:Tuple, <:Tuple}) where {K,V} = true
-isfrozen(nospecialize x::LittleDict{K,V, <:Vector, <:Vector) where {K,V} = false
+isfrozen(@nospecialize x::LittleDict{K,V, <:Tuple, <:Tuple}) where {K,V} = true
+isfrozen(@nospecialize x::LittleDict{K,V, <:Vector, <:Vector) where {K,V} = false
 isfrozen(@nospecialize x::AbstractDict) = false
-isfrozen(nospecialize x::OrderedSet)  = true
+isfrozen(@nospecialize x::OrderedSet)  = true
 
 # support for LittleDicts
 unfreeze(@nospecialize x::LittleDict{K,V, <:Tuple, <:Tuple) where {K,V} =
