@@ -32,7 +32,7 @@ export Struct
 
 include("support.jl")
 include("field_ops.jl")
-
+include("restructure.jl")
 
 
 end  # NamedTupleTools
