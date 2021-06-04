@@ -5,9 +5,12 @@
     This file collects conversions that facilitate working with NamedTuples.
 =#
 
-function restructure(::Type{NamedTuple}, x::T) where {T<:OrderedDict}
 
-# support for Structs
+#=
+    specific restructurings
+=#
+
+#> support for struct types and struct realizations
 
 # struct Type -> NamedTuple Type
 restructure(::Type{NamedTuple}, @nospecialize x::Type{T}) where {T} = 
@@ -28,22 +31,30 @@ restructure_(::Val{false}, ::Type{NamedTuple}, @nospecialize x::T) where {T} =
 function restructure_(::Val{true}, ::Type{NamedTuple}, x:::T) where {T} =
     namedfields = field_names(x)
     tupletypedfields = field_tupletypes(x)
-    return NamedTuple{namedfields, tupletypedfields}(values(x))
+    valuedfields = field_values(x)
+    return NamedTuple{namedfields, tupletypedfields}(valuedfields)
 end
 
 # struct realization -> NamedTupleType
 # use `restructure(NamedTuple, typeof(struct_realization))`
-    
-#=
 
-       restructure(::Type{Struct}, x::NamedTuple) 
-       restructure(::Type{NamedTuple}, @nospecialize x::T) where {T} = restructure_(Val(isstructtype(T)), NamedTuple, x)
-       restructure_(::Val{true}, ::Type{NamedTuple}, x)
-       restructure_(::Val{false}, ::Type{NamedTuple}, x) = throw
-=#
+#> support for LittleDicts
+
+# LittleDict realization -> NamedTuple Type
+function restructure(::ValNT, @nospecialize x::LittleDict)
+    namedfields = field_names(x)
+    tupletypedfields = field_tupletypes(x)
+    return NamedTuple{namedfields, tupletypedfields}
+end    
     
+# LittleDict realization -> NamedTuple realization
+function restructure(::Type{NamedTuple}, @nospecialize x::LittleDict)
+    valuedfields = field_values(x)
+    return restructure(NTT, x)(valuedfields)
+end    
+
 #=
-    support for specific restructurings
+    lower level assistance for specific restructureables
 =#
     
 # support for LittleDicts, extended to other OrderedCollections
