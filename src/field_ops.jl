@@ -49,8 +49,10 @@ field_tupletypes(nt::NamedTuple{N,T}, idxs::NTuple{L,Integer}) where {N,T,L} = T
 #=
    field_ops support for
       (a) Tuple types and their realizations
-      (a) struct types and thier realizations
-      (b) LittleDict types and their realizations
+      (b) struct types and thier realizations
+      (c) LittleDict types and their realizations
+      (d) OrderedDict realizations (intended for use with small dictionaries)
+      (e) OrderedSet realizations
 =#
 
 const OrdDict = Union{LittleDict, OrderedDict}
@@ -72,6 +74,8 @@ field_count(x::T) where {T} = fieldcount(T)
 # ordered dicts
 field_count(x::Type{<:LittleDict})  = isfrozen(x) ? length(x.parameters[3].parameters) : missing
 field_count(x::OrdDict) = length(x)
+# ordered sets
+field_count(@nospecialize x::OrderedSet{T}) where {T} = length(x)
 
 # tuples
 field_names(x::Type{Tuple}) = ()
@@ -81,6 +85,8 @@ field_names(x::Type{T}) where {T} = fieldnames(T)
 field_names(x::T) where {T} = fieldnames(T)
 # ordered dicts
 field_names(x::OrdDict) = Tuple(keys(x))
+# ordered sets
+field_names(@nospecialize x::OrderedSet{T}) where {T} = Tuple(Symbol.(keys(x)))
 
 # tuples
 field_values(x::Tuple) = x
@@ -88,6 +94,8 @@ field_values(x::Tuple) = x
 field_values(x::T) where {T} = getfield.(Ref(x), fieldnames(T))
 # ordered dicts
 field_values(x::OrdDict) = values(x)
+# ordered sets
+field_values(@nospecialize x::OrderedSet{T}) where {T} = Tuple(x.dict.keys)
 
 # tuples
 field_types(x::Type{Tuple}) = x
@@ -97,6 +105,9 @@ field_types(x::Type{T}) where {T} = fieldtypes(T)
 field_types(x::T) where {T} = fieldtypes(T)
 # ordered dicts -- ONLY USE WITH VERY SMALL DICTIONARIES
 field_types(x::OrdDict) = Tuple(typeof.(values(x)))
+# ordered sets
+field_types(@nospecialize x::OrderedSet{T}) where {T} = Tuple(x.dict.keys)
+field_types(x::OrderedSet{T}) where {T} = Tuple(fill(T, length(x)))
 
 # tuples
 field_tupletypes(x::Type{Tuple}) = x
@@ -106,3 +117,5 @@ field_tupletypes(x::Type{T}) where {T} =
     isstructtype(T) ? field_types(x) : throw(ErrorException("Expected a struct realization, got $(x)."))
 # ordered dicts -- ONLY USE WITH VERY SMALL DICTIONARIES
 field_tupletypes(x::Union{LittleDict,OrderedDict}) = Tuple{typeof.(values(x))...}
+# ordered sets
+field_tupletypes(x::OrderedSet{T}) where {T} = NTuple{length(x), T}
