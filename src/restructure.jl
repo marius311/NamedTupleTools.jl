@@ -23,14 +23,13 @@ function restructure_(::Val{true}, ::Type{NamedTuple}, x::Type{T}) where {T} =
     return NamedTuple{namedfields, tupletypedfields}
 end
 
-
 # struct realization -> NamedTupleType
 # use `restructure(NamedTuple, typeof(struct_realization))`
 function restructure(::ValNT, @nospecialize x::LittleDict)
     namedfields = field_names(x)
     tupletypedfields = field_tupletypes(x)
     return NamedTuple{namedfields, tupletypedfields}
-end    
+end
 
 # struct realization -> NamedTuple realization
 restructure(::Type{NamedTuple}, @nospecialize x::T) where {T} =
@@ -49,14 +48,48 @@ function restructure(::ValNT, @nospecialize x::LittleDict)
     namedfields = field_names(x)
     tupletypedfields = field_tupletypes(x)
     return NamedTuple{namedfields, tupletypedfields}
-end    
+end
     
 # LittleDict realization -> NamedTuple realization
 function restructure(::Type{NamedTuple}, @nospecialize x::LittleDict)
     valuedfields = field_values(x)
     return restructure(NTT, x)(valuedfields)
-end    
+end
 
+#> support for Orderedsets
+
+# OrderedSet realization -> NamedTuple Type
+function restructure(::ValNT, @nospecialize x::OrderedSet)
+    namedfields = field_names(x)
+    tupletypedfields = field_tupletypes(x)
+    return NamedTuple{namedfields, tupletypedfields}
+end
+    
+# OrderedSet realization -> NamedTuple realization
+function restructure(::Type{NamedTuple}, @nospecialize x::OrderedSet)
+    valuedfields = field_values(x)
+    return restructure(NTT, x)(valuedfields)
+end
+
+
+for T in (:LittleDict, :OrderedSet)
+  @eval begin
+    # realization -> NamedTuple Type
+    function restructure(::ValNT, @nospecialize x::$T)
+        namedfields = field_names(x)
+        tupletypedfields = field_tupletypes(x)
+        return NamedTuple{namedfields, tupletypedfields}
+    end
+    # realization -> NamedTuple realization
+    function restructure(::Type{NamedTuple}, @nospecialize x::$T)
+        valuedfields = field_values(x)
+        return restructure(NTT, x)(valuedfields)
+    end
+  end; end
+end
+
+
+        
 #=
     lower level assistance for specific restructureables
 =#
