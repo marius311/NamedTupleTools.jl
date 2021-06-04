@@ -37,14 +37,14 @@ field_types(ntt::Type{NamedTuple{N,T}}, idxs::NTuple{L,Integer}) where {N,T,L} =
 field_types(nt::NamedTuple{N,T}, idxs::NTuple{L,Integer}) where {N,T,L} = getindex.(Ref(T.parameters), idxs)
 
 # obtain Tuple{ Type[s] } that must be instantiated as fields
-field_typestuple(ntt::Type{NamedTuple{N,T}}) where {N,T} = T
-field_typestuple(nt::NamedTuple{N,T}) where {N,T} = T
+field_tupletypes(ntt::Type{NamedTuple{N,T}}) where {N,T} = T
+field_tupletypes(nt::NamedTuple{N,T}) where {N,T} = T
 # (field, index) selected field_item
-field_typestuple(ntt::Type{NamedTuple{N,T}}, idx::Integer) where {N,T} = Tuple{ (T.parameters)[idx] }
-field_typestuple(nt::NamedTuple{N,T}, idx::Integer) where {N,T} = Tuple{ (T.parameters)[idx] }
+field_tupletypes(ntt::Type{NamedTuple{N,T}}, idx::Integer) where {N,T} = Tuple{ (T.parameters)[idx] }
+field_tupletypes(nt::NamedTuple{N,T}, idx::Integer) where {N,T} = Tuple{ (T.parameters)[idx] }
 # (field, indices) multiselected field_items
-field_typestuple(ntt::Type{NamedTuple{N,T}}, idxs::NTuple{L,Integer}) where {N,T,L} = Tuple{ getindex.(Ref(T.parameters), idxs)... }
-field_typestuple(nt::NamedTuple{N,T}, idxs::NTuple{L,Integer}) where {N,T,L} = Tuple{ getindex.(Ref(T.parameters), idxs)... }
+field_tupletypes(ntt::Type{NamedTuple{N,T}}, idxs::NTuple{L,Integer}) where {N,T,L} = Tuple{ getindex.(Ref(T.parameters), idxs)... }
+field_tupletypes(nt::NamedTuple{N,T}, idxs::NTuple{L,Integer}) where {N,T,L} = Tuple{ getindex.(Ref(T.parameters), idxs)... }
 
 #=
    field_ops support for
@@ -99,11 +99,10 @@ field_types(x::T) where {T} = fieldtypes(T)
 field_types(x::OrdDict) = Tuple(typeof.(values(x)))
 
 # tuples
-field_typestuple(x::Type{Tuple}) = x
-field_typestuple(x::Tuple) = typeof(x)
+field_tupletypes(x::Type{Tuple}) = x
+field_tupletypes(x::Tuple) = typeof(x)
 # structs
-field_typestuple(x::Type{T}) where {T} = fieldnames(T)
-field_typestuple(x::T) where {T} = fieldnames(T)
+field_tupletypes(x::Type{T}) where {T} = 
+    isstructtype(T) ? field_types(x) : throw(ErrorException("Expected a struct realization, got $(x).")
 # ordered dicts -- ONLY USE WITH VERY SMALL DICTIONARIES
-field_typestuple(x::Type{T}) where {T<:OrdDict} = isfrozen(x) ? Tuple{typeof.(values(x))...}  : missing
-field_typestuple(x::OrdDict) = Tuple{typeof.(values(x))...}
+field_tupletypes(x::Union{LittleDict,OrderedDict}) = Tuple{typeof.(values(x))...}
