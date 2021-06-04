@@ -20,3 +20,17 @@ In this case `getindicies` extends `getindex`, returning a `NamedTuple`.
 getindices(@nospecialize x, @nospecialize idx::Integer) = getindex(x, idx)
 getindices(@nospecialize x, @nospecialize idxs::NTuple{L,T}) where {L, T<:Integer} = Tuple(map(i->getindex(x, i), idxs))
 getindices(@nospecialize x, @nospecialize idxs::NTuple{L,Symbol}) where {L} = getindex(x, idxs)
+
+        
+#=
+    lower level assistance for specific restructureables
+=#
+    
+# support for LittleDicts, extended to other OrderedCollections
+isfrozen(@nospecialize x::LittleDict{K,V, <:Tuple, <:Tuple}) where {K,V} = true
+isfrozen(@nospecialize x::LittleDict{K,V, <:Vector, <:Vector) where {K,V} = false
+isfrozen(@nospecialize x::AbstractDict) = false
+isfrozen(@nospecialize x::OrderedSet)  = true
+# OrderedCollections exports `frozen = freeze(::LittleDict)`
+unfreeze(@nospecialize x::LittleDict{K,V, <:Tuple, <:Tuple) where {K,V} =
+    LittleDict(keys(x), values(x))
