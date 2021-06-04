@@ -41,38 +41,9 @@ function restructure_(::Val{true}, ::Type{NamedTuple}, x:::T) where {T} =
     return restructure(NTT, x)(valuedfields)
 end
 
-#> support for LittleDicts
+#> support for LittleDicts, OrderedDicts
 
-# LittleDict realization -> NamedTuple Type
-function restructure(::ValNT, @nospecialize x::LittleDict)
-    namedfields = field_names(x)
-    tupletypedfields = field_tupletypes(x)
-    return NamedTuple{namedfields, tupletypedfields}
-end
-    
-# LittleDict realization -> NamedTuple realization
-function restructure(::Type{NamedTuple}, @nospecialize x::LittleDict)
-    valuedfields = field_values(x)
-    return restructure(NTT, x)(valuedfields)
-end
-
-#> support for Orderedsets
-
-# OrderedSet realization -> NamedTuple Type
-function restructure(::ValNT, @nospecialize x::OrderedSet)
-    namedfields = field_names(x)
-    tupletypedfields = field_tupletypes(x)
-    return NamedTuple{namedfields, tupletypedfields}
-end
-    
-# OrderedSet realization -> NamedTuple realization
-function restructure(::Type{NamedTuple}, @nospecialize x::OrderedSet)
-    valuedfields = field_values(x)
-    return restructure(NTT, x)(valuedfields)
-end
-
-
-for T in (:LittleDict, :OrderedSet)
+for T in (:LittleDict, :OrderedDict)
   @eval begin
     # realization -> NamedTuple Type
     function restructure(::ValNT, @nospecialize x::$T)
@@ -85,20 +56,20 @@ for T in (:LittleDict, :OrderedSet)
         valuedfields = field_values(x)
         return restructure(NTT, x)(valuedfields)
     end
-  end; end
+  end
 end
 
+#> support for Orderedsets
 
-        
-#=
-    lower level assistance for specific restructureables
-=#
+# OrderedSet realization -> NamedTuple Type
+function restructure(::ValNT, @nospecialize x::OrderedSet{T}) where {T}
+    namedfields = field_names(x)
+    tupletypedfields = field_tupletypes(x)
+    return NamedTuple{namedfields, tupletypedfields}
+end
     
-# support for LittleDicts, extended to other OrderedCollections
-isfrozen(@nospecialize x::LittleDict{K,V, <:Tuple, <:Tuple}) where {K,V} = true
-isfrozen(@nospecialize x::LittleDict{K,V, <:Vector, <:Vector) where {K,V} = false
-isfrozen(@nospecialize x::AbstractDict) = false
-isfrozen(@nospecialize x::OrderedSet)  = true
-# OrderedCollections exports `frozen = freeze(::LittleDict)`
-unfreeze(@nospecialize x::LittleDict{K,V, <:Tuple, <:Tuple) where {K,V} =
-    LittleDict(keys(x), values(x))
+# OrderedSet realization -> NamedTuple realization
+function restructure(::Type{NamedTuple}, @nospecialize x::OrderedSet{T}) where {T}
+    valuedfields = field_values(x)
+    return restructure(NTT, x)(valuedfields)
+end
