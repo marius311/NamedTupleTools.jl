@@ -6,13 +6,6 @@ export # familiar field operations, expanded applicability      (avoids piracy)
        field_values,                 # none NamedTupleTypes, all NamedTuples
        # data structure interconversions, args follow `convert` (avoids piracy)
        restructure,                  # restructure(::Type{Target}, x::Source)
-#=
-
-       restructure(::Type{Struct}, x::NamedTuple) 
-       restructure(::Type{NamedTuple}, x) = restructure_(Val(isstructtype(x)), NamedTuple, x)
-       restructure_(::Val{true}, ::Type{NamedTuple}, x)
-       restructure_(::Val{false}, ::Type{NamedTuple}, x) = throw
-=#
        # editing: include, exclude,
        reposition_fields, reposition_field,
        remove_from,
