@@ -59,7 +59,7 @@ test_odict = LittleDict(Dict(test_ldict)) # unfrozen
 Test_ODict = typeof(test_odict)
 
 #=
-    Tst_<Type> and tst_<type> = Tst_<Type>( _ )
+    TestASet_<Type> and testaset_<type> = TestASet_<Type>( _ )
 
     test field names that are Int indexed (Symbol(::Int) named)
          field values that are of the same concrete type (here, Char)
@@ -67,34 +67,35 @@ Test_ODict = typeof(test_odict)
     fields - names: `Symbol.((1, 2, 3))`, values: `('b', 'a', 'c')`
 =#
 
-const Tst_field_count = 3;
-const Tst_field_names = Symbol.((1,2,3));
-const Tst_field_types = (Char, Char, Char);
-const Tst_field_tupletypes = Tuple{Char, Char, Char};
 
-const tst_field_count = Tst_field_count;
-const tst_field_names = Tst_field_names;
-const tst_field_types = Tst_field_types;
-const tst_field_tupletypes = Tst_field_tupletypes;
-const tst_field_values = ('b', 'a', 'c');
+const TestASet_field_count = 3;
+const TestASet_field_names = Symbol.((1,2,3));
+const TestASet_field_types = (Char, Char, Char);
+const TestASet_field_tupletypes = Tuple{Char, Char, Char};
 
-Tst_NamedTuple = NamedTuple{Tst_field_names, Tst_field_tupletypes};
-tst_namedtuple = Tst_NamedTuple(tst_field_values);
+const testaset_field_count = TestASet_field_count;
+const testaset_field_names = TestASet_field_names;
+const testaset_field_types = TestASet_field_types;
+const testaset_field_tupletypes = TestASet_field_tupletypes;
+const testaset_field_values = ('b', 'a', 'c');
 
-struct Tst_Struct
+TestASet_NamedTuple = NamedTuple{TestASet_field_names, TestASet_field_tupletypes};
+testaset_namedtuple = TestASet_NamedTuple(testaset_field_values);
+
+struct TestASet_Struct
     var"1"::Char
     var"2"::Char
     var"3"::Char
 end;
-tst_struct = Tst_Struct(tst_field_values...);
+testaset_struct = TestASet_Struct(testaset_field_values...);
 
-tst_ldict_frozen = LittleDict(tst_field_names, tst_field_values);
-Tst_LDict_frozen = typeof(tst_ldict_frozen);
-tst_ldict_unfrozen = LittleDict(tst_ldict_frozen);
-Tst_LDict_unfrozen = typeof(tst_ldict_unfrozen);
+testaset_ldict_frozen = LittleDict(testaset_field_names, testaset_field_values);
+TestASet_LDict_frozen = typeof(testaset_ldict_frozen);
+testaset_ldict_unfrozen = LittleDict(testaset_ldict_frozen);
+TestASet_LDict_unfrozen = typeof(testaset_ldict_unfrozen);
 
-tst_oset  =  OrderedSet{Char}(['b','a','c'])
-Tst_OSet  = typeof(tst_oset)
+testaset_oset  =  OrderedSet{Char}(['b','a','c'])
+TestASet_OAset  = typeof(testaset_oset)
 
 # end types and their realizations for testing
 
