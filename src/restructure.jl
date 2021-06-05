@@ -10,6 +10,7 @@
     These constants must be defined before they appear in other source code.
 =#
 
+const SymbolicIndices = Symbol.(Tuple(1:FastFieldsMax))
 
 #=
     specific restructurings
