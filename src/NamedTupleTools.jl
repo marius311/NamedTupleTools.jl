@@ -1,20 +1,24 @@
 module NamedTupleTools
 
 export NTT,                            # dispatch on a NamedTuple Type
-       # familiar field operations, expanded applicability      (avoids piracy)
-       field_count, field_names,       # all  NamedTupleTypes, all NamedTuples
-       field_types, field_tupletypes,  # some NamedTupleTypes, all NamedTuples
-       field_values,                   # none NamedTupleTypes, all NamedTuples
-       # data structure interconversions, args follow `convert` (avoids piracy)
-       restructure,                    # restructure(::Type{Target}, x::Source)
-       # editing: include, exclude,
-       reposition_fields, reposition_field,
-       remove_from,
-       prepend_fields,  prepend_field,
-       postpend_fields, postpend_field,
+    namedtuple,                        # harmonius multifaceted tooling
+    # largest fieldcounts supporting each of 3 levels of additional performance 
+    FastestFieldsMax, FasterFieldsMax,  FastFieldsMaxm 
+    # familiar field operations, expanded applicability      (avoids piracy)
+    field_count, field_names,          # all  NamedTupleTypes, all NamedTuples
+    field_types, field_tupletypes,     # some NamedTupleTypes, all NamedTuples
+    field_values,                      # none NamedTupleTypes, all NamedTuples
+    # data structure interconversions, args follow `convert` (avoids piracy)
+    restructure,                       # restructure(::Type{Target}, x::Source)
+    # incorporate fields not already present by name
+    prepend, postpend,                 # add as first [last] field
+    # remove field[s] by name, by index
+    delete,
+    # reposition a field within target type
+    reposition,
+    # substitute one field for another within target type
+    substitute # substitute(TargetType, old_field_names, new_fields)
 
-
-namedtuple
 
 # Julia could define Struct
 if !isdefined(Base, :Struct)
@@ -25,6 +29,10 @@ end
 export Struct
 
 using OrderedCollections: OrderedSet, LittleDict, OrderedDict, freeze
+
+const FastestFieldsMax = 16
+const FasterFieldsMax  = 31
+const FastFieldsMax    = 64
 
 # dispatch on NamedTuple Types using dispatchable const `Val{T}() where T<:Type`
 const ValNT = Val{NamedTuple}
