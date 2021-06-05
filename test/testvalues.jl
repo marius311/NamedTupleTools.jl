@@ -63,6 +63,13 @@ const tst_field_values = ('b', 'a', 'c');
 Tst_NamedTuple = NamedTuple{Tst_field_names, Tst_field_tupletypes};
 tst_namedtuple = Tst_NamedTuple(tst_field_values);
 
+struct Tst_Struct
+    var"1"::Char
+    var"2"::Char
+    var"3"::Char
+end;
+tst_struct = Tst_Struct(tst_field_values...);
+
 tst_ldict_frozen = LittleDict(tst_field_names, tst_field_values);
 Tst_LDict_frozen = typeof(tst_ldict_frozen);
 tst_ldict_unfrozen = LittleDict(tst_ldict_frozen);
@@ -70,13 +77,6 @@ Tst_LDict_unfrozen = typeof(tst_ldict_unfrozen);
 
 tst_oset  =  OrderedSet{Char}(['b','a','c'])
 Tst_OSet  = typeof(tst_oset)
-
-struct Tst_Struct
-    Symbol(1)::Char
-    Symbol(2)::Char
-    Symbol(3)::Char
-end;
-tst_struct = Tst_Struct(tst_field_values...);
 
 # end types and their realizations for testing
 
