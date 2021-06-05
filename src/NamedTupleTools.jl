@@ -31,7 +31,7 @@ export Struct
 using OrderedCollections: OrderedSet, LittleDict, OrderedDict, freeze
 
 const FastestFieldsMax = 16
-const FasterFieldsMax  = 31
+const FasterFieldsMax  = 32
 const FastFieldsMax    = 64
 
 # dispatch on NamedTuple Types using dispatchable const `Val{T}() where T<:Type`
