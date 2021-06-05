@@ -40,6 +40,44 @@ Test_LDict = typeof(test_ldict);
 test_odict = LittleDict(Dict(test_ldict)) # unfrozen
 Test_ODict = typeof(test_odict)
 
+#=
+    Tst_<Type> and tst_<type> = Tst_<Type>( _ )
+
+    test field names that are Int indexed (Symbol(::Int) named)
+         field values that are of the same concrete type (here, Char)
+
+    fields - names: `Symbol.((1,2,3))`, values: `('b','a','c')`
+=#
+
+const Tst_field_count = 3;
+const Tst_field_names = Symbol.((1,2,3));
+const Tst_field_types = (Char, Char, Char);
+const Tst_field_tupletypes = Tuple{Char, Char, Char};
+
+const tst_field_count = Tst_field_count;
+const tst_field_names = Tst_field_names;
+const tst_field_types = Tst_field_types;
+const tst_field_tupletypes = Tst_field_tupletypes;
+const tst_field_values = ('b', 'a', 'c');
+
+Tst_NamedTuple = NamedTuple{Tst_field_names, Tst_field_tupletypes};
+tst_namedtuple = Tst_NamedTuple(tst_field_values);
+
+tst_ldict_frozen = LittleDict(tst_field_names, tst_field_values);
+Tst_LDict_frozen = typeof(tst_ldict_frozen);
+tst_ldict_unfrozen = LittleDict(tst_ldict_frozen);
+Tst_LDict_unfrozen = typeof(tst_ldict_unfrozen);
+
+tst_oset  =  OrderedSet{Char}(['b','a','c'])
+Tst_OSet  = typeof(tst_oset)
+
+struct Tst_Struct
+    Symbol(1)::Char
+    Symbol(2)::Char
+    Symbol(3)::Char
+end;
+tst_struct = Tst_Struct(tst_field_values...);
+
 # end types and their realizations for testing
 
 violin_s = (instrument = "violin", madeby = "Stradivari");
