@@ -10,23 +10,41 @@
 
 using OrderedCollections: LittleDict, freeze
 
-nt0 = (;); ntt0 = typeof(nt0);
-nt1 = (; a=1); ntt1 = typeof(nt1);
-nt2 = (a=1, b='2'); ntt2 = typeof(nt2);
-nt3 = (a=1, b='2', c="three"); ntt3 = typeof(nt3);
+# special case types and their realizations for testing
 
-# types and their realizations for testing
-
-empty_tuple = ()
-Empty_Tuple = typeof(empty_tuple)
-test_tuple = (1, '2', "three")
-Test_Tuple = typeof(test_tuple)
-
-test_nt = (one = 1, two = '2', three = "three")
-Test_NT = typeof(test_nt)
+empty_tuple = ();
+Empty_Tuple = typeof(empty_tuple);
 
 struct Test_Singleton end;
 const test_singleton = Test_Singleton();
+
+# types and their realizations for testing
+
+#=
+    Test_<Type> and test_<type> = Test_<Type>( _ )
+
+    test field names that are conventional Symbols
+         field values that are of different concrete types
+
+    fields - names: `(:one, :two, :three)`, values: `(1, '2', "three")`
+=#
+
+const Test_field_count = 3;
+const Test_field_names = (:one, :two, :three);
+const Test_field_types = (Int, Char, String);
+const Test_field_tupletypes = Tuple{Int, Char, String};
+
+const test_field_count = Test_field_count;
+const test_field_names = Test_field_names;
+const test_field_types = Test_field_types;
+const test_field_tupletypes = Test_field_tupletypes;
+const test_field_values = (1, '2', "three");
+
+test_tuple = test_field_values;
+Test_Tuple = typeof(test_tuple)
+
+Test_NT = NamedTuple{Test_field_names, Test_field_tupletypes};
+test_mt = Test_NT(test_field_values);
 
 struct Test_Struct
     one::Int
@@ -46,7 +64,7 @@ Test_ODict = typeof(test_odict)
     test field names that are Int indexed (Symbol(::Int) named)
          field values that are of the same concrete type (here, Char)
 
-    fields - names: `Symbol.((1,2,3))`, values: `('b','a','c')`
+    fields - names: `Symbol.((1, 2, 3))`, values: `('b', 'a', 'c')`
 =#
 
 const Tst_field_count = 3;
@@ -95,6 +113,11 @@ filter(Stradivari, all_strings)
 ((instrument = "violin", madeby = "Stradivari"), (instrument = "viola", madeby = "Stradivari"))
 
 =#
+
+nt0 = (;); ntt0 = typeof(nt0);
+nt1 = (; a=1); ntt1 = typeof(nt1);
+nt2 = (a=1, b='2'); ntt2 = typeof(nt2);
+nt3 = (a=1, b='2', c="three"); ntt3 = typeof(nt3);
 
 # ('a', 'b', .. 'z')
 chr_az = Tuple(map(x->Char(x), collect(Int('a'):Int('z'))));
