@@ -50,6 +50,10 @@ prototype(x::Vararg{String}) = prototype(Symbol.(x))
 prototype(x::AbstractVector{String}) = prototype(Tuple(x))
 
 prototype(x::Symbol, y::DataType) = NamedTuple{(x,), Tuple{y}}
+prototype(x::Symbol, y::Tuple{DataType}) = NamedTuple{(x,), Tuple{y[1]}}
+prototype(x::Tuple{Symbol}, y::DataType) = NamedTuple{x, Tuple{y}}
+prototype(x::Tuple{Symbol}, y::Tuple{DataType}) = NamedTuple{x, Tuple{y[1]}}
+
 prototype(x::Pair{Symbol,DataType}) = prototype(first(x), last(x))
 prototype(x::Tuple{Symbol,DataType}) = prototype(first(x), last(x))
 
