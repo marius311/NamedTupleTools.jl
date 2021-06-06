@@ -119,3 +119,4 @@ field_tupletypes(x::Type{T}) where {T} =
 field_tupletypes(x::Union{LittleDict,OrderedDict}) = Tuple{typeof.(values(x))...}
 # ordered sets
 field_tupletypes(x::OrderedSet{T}) where {T} = NTuple{length(x), T}
+
