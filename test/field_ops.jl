@@ -41,16 +41,16 @@ end
   @test field_types(ntt3, (:a, :c)) == (Int64, String)
 end
 
-@testset "field_typestuple( NTT+NT )" begin
-  @test field_typestuple(ntt0) == field_typestuple(nt0) == Tuple{}
-  @test field_typestuple(ntt1) == field_typestuple(nt1) == Tuple{Int64}
-  @test field_typestuple(ntt2) == field_typestuple(nt2) == Tuple{Int64, Char}
-  @test field_typestuple(ntt3) == field_typestuple(nt3) == Tuple{Int64, Char, String}
+@testset "field_tupletypes( NTT+NT )" begin
+  @test field_tupletypes(ntt0) == field_tupletypes(nt0) == Tuple{}
+  @test field_tupletypes(ntt1) == field_tupletypes(nt1) == Tuple{Int64}
+  @test field_tupletypes(ntt2) == field_tupletypes(nt2) == Tuple{Int64, Char}
+  @test field_tupletypes(ntt3) == field_tupletypes(nt3) == Tuple{Int64, Char, String}
 
-  @test field_typestuple(ntt2, 2) == field_typestuple(nt2, (2,)) == Tuple{Char}
+  @test field_tupletypes(ntt2, 2) == field_tupletypes(nt2, (2,)) == Tuple{Char}
   @test fie1ypestuple(ntt3, (1, 3)) == Tuple{Int64, String}
-  @test field_typestuple(ntt2, :b) == field_types(nt2, (:b,)) == Tuple{Char}
-  @test field_typestuple(ntt3, (:a, :c)) == Tuple{Int64, String}
+  @test field_tupletypes(ntt2, :b) == field_types(nt2, (:b,)) == Tuple{Char}
+  @test field_tupletypes(ntt3, (:a, :c)) == Tuple{Int64, String}
 end
 
 @testset "field_values( NT )" begin
