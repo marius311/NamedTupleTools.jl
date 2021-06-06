@@ -44,7 +44,10 @@ test_tuple = test_field_values;
 Test_Tuple = typeof(test_tuple)
 
 Test_NT = NamedTuple{Test_field_names, Test_field_tupletypes};
-test_mt = Test_NT(test_field_values);
+test_nt = Test_NT(test_field_values);
+
+Test_NTT = NamedTuple{Test_field_names, Test_field_tupletypes};
+Test_NTP = NamedTuple{Test_field_names};
 
 struct Test_Struct
     one::Int
