@@ -17,6 +17,10 @@ speicifying types work with any length-matched tuple of values.
 | NTP  | NamedTuple Prototype | NamedTuple{N}             |
 """ prototype
 
+# prototype as a constructor from <empty>
+
+prototype() = NamedTuple{(), Tuple{}}
+
 # prototype as a constructor from wholes
 
 prototype(x::NamedTuple{N,T}; types::Bool=false) where {N,T} =
