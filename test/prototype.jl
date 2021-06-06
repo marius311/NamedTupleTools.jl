@@ -18,14 +18,24 @@ speicifying types work with any length-matched tuple of values.
 
 =#
 
-@testset "prototype(NTP)" begin
+@testset "prototype(_)" begin
   @test prototype(Test_NTP) == Test_NTP
-  @test prototype(Test_NTT) == Test_NTT
-  @test prototype(Test_NT)  == Test_NT
-  @test prototype(test_nt)  == Test_NTT
-  @test prototype(test_NTT; types=false) == Test_NTP
-  @test prototype(test_nt; types=false)  == Test_NTP
-  @test prototype(test_NTP; types=false) == Test_NTP
+  @test prototype(Test_NTT) == Test_NTP
+  @test prototype(Test_NT)  == Test_NTP
+  @test prototype(test_nt)  == Test_NTP
 end
+
+@testset "prototype(_; types=false)" begin
+  @test prototype(Test_NTT; types=false) == Test_NTP
+  @test prototype(Test_NT; types=false)  == Test_NTP
+  @test prototype(test_nt; types=false)  == Test_NTP
+end
+
+@testset "prototype(_; types=true)" begin
+  @test prototype(Test_NTT; types=true) == Test_NTT
+  @test prototype(Test_NT; types=true)  == Test_NTT
+  @test prototype(test_nt; types=true)  == Test_NTT
+end
+
 
   
