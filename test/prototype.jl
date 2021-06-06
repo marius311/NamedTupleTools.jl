@@ -55,16 +55,21 @@ end
 
 @testset "prototypes from symbols and types" begin
   @test prototype(:a, Int) == NamedTuple{(:a,), Tuple{Int}}
+  @test prototype((:a,), (Int,)) == NamedTuple{(:a,), Tuple{Int}}
+  @test prototype([:a], [Int]) == NamedTuple{(:a,), Tuple{Int}}
+    
+  @test prototype((:a, :b), (Int, String)) == NamedTuple{(:a, :b), Tuple{Int, String}}
+  @test prototype([:a, :b], [Int, String]) == NamedTuple{(:a, :b), Tuple{Int, String}}
+end
+
+@testset "prototypes from symbols and types, mixed" begin
   @test prototype(:a, (Int,)) == NamedTuple{(:a,), Tuple{Int}}
   @test prototype((:a,), Int) == NamedTuple{(:a,), Tuple{Int}}
 
-  @test prototype((:a,), (Int,)) == NamedTuple{(:a,), Tuple{Int}}
-  @test prototype((:a, :b), (Int, String)) == NamedTuple{(:a, :b), Tuple{Int, String}}
   @test prototype([:a, :b], (Int, String)) == NamedTuple{(:a, :b), Tuple{Int, String}}
 
   @test prototype((:a,), [Int,]) == NamedTuple{(:a,), Tuple{Int}}
   @test prototype((:a, :b), [Int, String]) == NamedTuple{(:a, :b), Tuple{Int, String}}
-  @test prototype([:a, :b], [Int, String]) == NamedTuple{(:a, :b), Tuple{Int, String}}
 end
 
 # test prototype construction from parts with strings
