@@ -33,7 +33,7 @@ prototype(x::NamedTuple{N,T}, types::NTuple{N,Type}) where {N,T} =
 prototype(x::Type{NamedTuple{N,T}}, types::NTuple{N,Type}) where {N,T} =
     NamedTuple{N, Tuple{types...}}
 
-# `prototype` as a constructor from parts
+# `prototype` as a constructor from parts with symbols
 
 prototype(x::Symbol) = NamedTuple{(x,)}
 prototype(x::NTuple{N,Symbol}) where {N} = NamedTuple{x}
@@ -54,6 +54,8 @@ prototype(x::NTuple{N,Symbol}, y::NTuple{N,Type}) where {N} = NamedTuple{x, Tupl
 prototype(x::NTuple{N,Symbol}) where {N} = NamedTuple{x}
 prototype(x::Vararg{Symbol}) = NamedTuple{x}
 prototype(x::AbstractVector{Symbol}) = prototype(Tuple(x))
+
+# `prototype` as a constructor from parts with strungs
 
 prototype(x::String) = prototype(Symbol(x))
 prototype(x::NTuple{N,String}) where {N} = prototype(Symbol.(x))
