@@ -16,10 +16,12 @@ In this case `getindicies` follows `getindex`, returning a `NamedTuple`.
 In this case `getindicies` extends `getindex`, returning a `NamedTuple`.
 """
 
-@nospecialize getindices(@nospecialize x, @nospecialize idx::Union{Int32, Int64, Symbol}) = getindex(x, idx)
 getindices(@nospecialize x, @nospecialize idx::Integer) = getindex(x, idx)
-getindices(@nospecialize x, @nospecialize idxs::NTuple{L,T}) where {L, T<:Integer} = Tuple(map(i->getindex(x, i), idxs))
 getindices(@nospecialize x, @nospecialize idxs::NTuple{L,Symbol}) where {L} = getindex(x, idxs)
+getindices(@nospecialize x, @nospecialize idx::Union{Int32, Int64, Symbol}) = getindex(x, idx)
+
+getindices(@nospecialize x, @nospecialize idxs::NTuple{L,T}) where {L, T<:Integer} =
+    Tuple(map(i->getindex(x, i), idxs))
 
         
 #=
