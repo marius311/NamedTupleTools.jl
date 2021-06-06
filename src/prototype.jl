@@ -1,21 +1,20 @@
 """
-    prototype(::Type{NamedTuple{N}})
-    prototype(::Type{NamedTuple{N,T}}; types::Bool=false)
-    prototype(::NamedTuple{N,T}; types::Bool=false)
+    prototype(NT | NTT; types=false)
+    prototype(NT | NTT | NTP [, NTuple{nfields, Type} ])
 
-generate a prototypic NamedTuple `schema` from the given arg[s]
-
-|      | kind                 | construct                 |
-|:-----|:---------------------|:--------------------------|
-| NTP  | NamedTuple Prototype | NamedTuple{N}             |
-| NTT  | NamedTuple Type      | NamedTuple{N,T}           |
-| NT   | NamedTuple           | NamedTuple{N,T}(<values>) |
+Constructs prototypic NamedTuple `schema`.
 
 |      | kind                 | construct                 |
 |:-----|:---------------------|:--------------------------|
 | NT   | NamedTuple           | NamedTuple{N,T}(<values>) |
 | NTT  | NamedTuple Type      | NamedTuple{N,T}           |
 | NTP  | NamedTuple Prototype | NamedTuple{N}             |
+
+NamedTuple prototypes are valid NamedTuple constructors.
+
+Prototypes that specify a type for each field expect
+a type-matched tuple of values. Prototypes that omit
+speicifying types work with any length-matched tuple of values.
 
 """ prototype
 
