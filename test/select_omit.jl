@@ -13,7 +13,7 @@
   @test select(nt, :one, :two)  == (; one = nt.one, two = nt.two)
   @test select(nt, nt_names...) == nt
   @test select(nt, reverse(nt_names)...)  == (; three = nt.three, two = nt.two, one = nt.one)
-en
+end
 
 @testset "omit" begin
   nt = test_nt
