@@ -2,19 +2,19 @@
     prototype(NT | NTT; types=false)
     prototype(NT | NTT | NTP [, NTuple{nfields, Type} ])
 
-Constructs prototypic NamedTuple `schema`.
+Construct prototypic NamedTuple `schema`.
+
+NamedTuple prototypes are valid constructors.
+
+Prototypes that specify a type for each field expect
+a type-matched tuple of values. Prototypes that omit
+speicifying types work with any length-matched tuple of values.
 
 |      | kind                 | construct                 |
 |:-----|:---------------------|:--------------------------|
 | NT   | NamedTuple           | NamedTuple{N,T}(<values>) |
 | NTT  | NamedTuple Type      | NamedTuple{N,T}           |
 | NTP  | NamedTuple Prototype | NamedTuple{N}             |
-
-NamedTuple prototypes are valid NamedTuple constructors.
-
-Prototypes that specify a type for each field expect
-a type-matched tuple of values. Prototypes that omit
-speicifying types work with any length-matched tuple of values.
 
 """ prototype
 
