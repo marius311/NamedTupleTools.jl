@@ -11,7 +11,7 @@ export NTT,                            # dispatch on a NamedTuple Type
     # support a canonical internal ordering for NamedTuples and their types
     #    lexicographic over field names `sort(nt::NamedTuple)`
     #    lexicographic over field names `sort(ntt::Type{NamedTuple})`
-    #    issame(nt1, nt2) <--> sort(nt1) == sort(nt2)
+    #    issame(nt1, nt2) <--> sort(nt1) == sort
     issame,
     # data structure interconversions, args follow `convert` (avoids piracy)
     restructure,                       # restructure(::Type{Target}, x::Source)
