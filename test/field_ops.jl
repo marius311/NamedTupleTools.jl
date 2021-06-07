@@ -88,8 +88,8 @@ end
   @test field_count(Test_Struct) == field_count(test_struct) == 3
 end
 @testset "field_count( LT+OT )" begin
-  @test field_count(test_ldict) == 3
-  @test field_count(test_odict) == 3
+  @test field_count(test_ldict) == test_field_count
+  @test field_count(test_odict) == test_field_count
 end
 @testset "field_count( LTT )" begin
   @test field_count(Test_LDict) == 3
