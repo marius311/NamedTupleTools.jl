@@ -103,9 +103,6 @@ end
   @test field_names(test_ldict) == test_field_names
   @test field_names(test_odict) == test_field_names
 end
-@testset "field_names( LTT )" begin
-  @test field_names(Test_LDict) == test_field_names
-end
 
 @testset "field_types( TTT+TT )" begin
   @test field_types(Empty_Tuple) == field_types(empty_tuple) == ()
