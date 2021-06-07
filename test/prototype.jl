@@ -57,7 +57,7 @@ end
   @test prototype(:a, Int) == NamedTuple{(:a,), Tuple{Int}}
   @test prototype((:a,), (Int,)) == NamedTuple{(:a,), Tuple{Int}}
   @test prototype([:a], [Int]) == NamedTuple{(:a,), Tuple{Int}}
-    
+
   @test prototype((:a, :b), (Int, String)) == NamedTuple{(:a, :b), Tuple{Int, String}}
   @test prototype([:a, :b], [Int, String]) == NamedTuple{(:a, :b), Tuple{Int, String}}
 end
@@ -97,6 +97,6 @@ end
   @test prototype(("a", "b"), [Int, String]) == NamedTuple{(:a, :b), Tuple{Int, String}}
   @test prototype(["a", "b"], [Int, String]) == NamedTuple{(:a, :b), Tuple{Int, String}}
 end
-          
 
-  
+
+
