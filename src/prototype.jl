@@ -76,7 +76,7 @@ prototype(x::AbstractVector{String}) = prototype(Tuple(x))
 
 prototype(x::String, y::DataType) = prototype(Symbol(x), y)
 prototype(x::String, y::Tuple{DataType}) = prototype(Symbol(x), y)
-prototype(x::Tuple{String}, y::DataType) = prototype(Symbol(first(x), y)
+prototype(x::Tuple{String}, y::DataType) = prototype(Symbol(first(x)), y)
 
 prototype(x::Pair{String,DataType}) = prototype(first(x), last(x))
 prototype(x::Tuple{String,DataType}) = prototype(first(x), last(x))

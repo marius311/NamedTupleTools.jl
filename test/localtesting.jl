@@ -31,4 +31,4 @@ end
 @fromtest("field_ops")
 @fromtest("select_omit")
 
-#@fromtest("prototype")
+@fromtest("prototype")
