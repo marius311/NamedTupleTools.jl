@@ -12,8 +12,8 @@ ntt(x::Symbol, y::Type) = NamedTuple{(x,), Tuple{y}}
 ntt(x::Pair{Symbol,Type}) = ntt(first(x), last(x))
 ntt(x::Tuple{Symbol,Type}) = ntt(first(x), last(x))
 
-ntt(x::NTuple{N,Symbol}, y::NTuple{N,Type}) = NamedTuple{x, Tuple{y...})
-    
+ntt(x::NTuple{N,Symbol}, y::NTuple{N,Type}) where {N} = NamedTuple{x, Tuple{y...}}
+
 ntt(x::NTuple{N,Symbol}) where {N} = NamedTuple{x}
 ntt(x::Vararg{Symbol}) = NamedTuple{x}
 ntt(x::AbstractVector{Symbol}) = ntt(Tuple(x))
@@ -27,8 +27,8 @@ ntt(x::String, y::Type) = ntt(Symbol(x), y)
 ntt(x::Pair{String,Type}) = ntt(first(x), last(x))
 ntt(x::Tuple{String,Type}) = ntt(first(x), last(x))
 
-ntt(x::NTuple{N,String}, y::NTuple{N,Type}) = ntt{Symbol.(x), y)
-          
+ntt(x::NTuple{N,String}, y::NTuple{N,Type}) where N = ntt{Symbol.(x), y)
+
 
 @test ntt() == NamedTuple{(), Tuple{}}
 @test ntt(:a) == NamedTuple{(:a,)}
