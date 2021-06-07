@@ -27,7 +27,7 @@ ntt(x::String, y::Type) = ntt(Symbol(x), y)
 ntt(x::Pair{String,Type}) = ntt(first(x), last(x))
 ntt(x::Tuple{String,Type}) = ntt(first(x), last(x))
 
-ntt(x::NTuple{N,String}, y::NTuple{N,Type}) where N = ntt{Symbol.(x), y)
+ntt(x::NTuple{N,String}, y::NTuple{N,Type}) where N = ntt(Symbol.(x), y)
 
 
 @test ntt() == NamedTuple{(), Tuple{}}

@@ -39,11 +39,11 @@ In this case `getindicies` follows `getindex`, returning a `NamedTuple`.
 In this case `getindicies` extends `getindex`, returning a `NamedTuple`.
 """
 
-@nospecialize getindices(x, idx::Integer) = getindex(x, idx)
-@nospecialize getindices(x, idxs::NTuple{L,Symbol}) where {L} = getindex(x, idxs)
-@nospecialize getindices(x, idx::Union{Int32, Int64, Symbol}) = getindex(x, idx)
+getindices(x, idx::Integer) = getindex(x, idx)
+getindices(x, idxs::NTuple{L,Symbol}) where {L} = getindex(x, idxs)
+getindices(x, idx::Union{Int32, Int64, Symbol}) = getindex(x, idx)
 
-@nospecialize getindices(x, idxs::NTuple{L,T}) where {L, T<:Integer} =
+getindices(x, idxs::NTuple{L,T}) where {L, T<:Integer} =
     Tuple(map(i->getindex(x, i), idxs))
 
 #=
@@ -51,10 +51,10 @@ In this case `getindicies` extends `getindex`, returning a `NamedTuple`.
 =#
 
 # support for LittleDicts, extended to other OrderedCollections
-isfrozen(@nospecialize x::LittleDict{K,V, <:Tuple, <:Tuple}) where {K,V} = true
-isfrozen(@nospecialize x::LittleDict{K,V, <:Vector, <:Vector) where {K,V} = false
+isfrozen(@nospecialize x::LittleDict{K,V,T1,T2}) where {K,V,T1<:Tuple,T2<:Tuple} = true
+    isfrozen(@nospecialize x::LittleDict{K,V,T1,T2}) where {K,V,T1<:Vector,T2<:Vector} = false
 isfrozen(@nospecialize x::AbstractDict) = false
 isfrozen(@nospecialize x::OrderedSet)  = true
 # OrderedCollections exports `frozen = freeze(::LittleDict)`
-unfreeze(@nospecialize x::LittleDict{K,V, <:Tuple, <:Tuple) where {K,V} =
+unfreeze(@nospecialize x::LittleDict{K,V,T1,T2}) where {K,V,T1<:Tuple,T2<:Tuple} =
     LittleDict(keys(x), values(x))

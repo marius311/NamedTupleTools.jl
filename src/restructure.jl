@@ -19,7 +19,7 @@ const SymbolicIndices = Symbol.(Tuple(1:FastFieldsMax))
 #> support for struct types and struct realizations
 
 # struct Type -> NamedTuple Type
-restructure(::Type{NamedTuple}, @nospecialize x::Type{T}) where {T} = 
+restructure(::Type{NamedTuple}, @nospecialize x::Type{T}) where {T} =
     restructure_(Val(isstructtype(x)), NamedTuple, x)
 restructure_(::Val{false}, ::Type{NamedTuple}, @nospecialize x::Type{T}) where {T} =
     throw(ErrorException("Restructuring to a NamedTuple Type is not supported for $(T)."))
@@ -42,7 +42,7 @@ restructure(::Type{NamedTuple}, @nospecialize x::T) where {T} =
     restructure_(Val(isstructtype(T)), NamedTuple, x)
 restructure_(::Val{false}, ::Type{NamedTuple}, @nospecialize x::T) where {T} =
     throw(ErrorException("Restructuring to a NamedTuple is not supported for $(typeof(x))."))
-function restructure_(::Val{true}, ::Type{NamedTuple}, x:::T) where {T} =
+function restructure_(::Val{true}, ::Type{NamedTuple}, x:::T) where {T}
     valuedfields = field_values(x)
     return restructure(NTT, x)(valuedfields)
 end
@@ -73,7 +73,7 @@ function restructure(::ValNT, @nospecialize x::OrderedSet{T}) where {T}
     tupletypedfields = field_tupletypes(x)
     return NamedTuple{namedfields, tupletypedfields}
 end
-    
+
 # OrderedSet realization -> NamedTuple realization
 function restructure(::Type{NamedTuple}, @nospecialize x::OrderedSet{T}) where {T}
     valuedfields = field_values(x)
