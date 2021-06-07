@@ -15,12 +15,10 @@ end
 
 const ≅ = issame
 
-import sort
-function sort(x::NamedTuple{N,T}) where {N,T}
+function canonical(x::NamedTuple{N,T}) where {N,T}
     names = Tuple(sort([N...]))
     return NamedTuple{names}(x)
 end
-export sort
 
 
 """
@@ -41,11 +39,11 @@ In this case `getindicies` follows `getindex`, returning a `NamedTuple`.
 In this case `getindicies` extends `getindex`, returning a `NamedTuple`.
 """
 
-getindices(@nospecialize x, @nospecialize idx::Integer) = getindex(x, idx)
-getindices(@nospecialize x, @nospecialize idxs::NTuple{L,Symbol}) where {L} = getindex(x, idxs)
-getindices(@nospecialize x, @nospecialize idx::Union{Int32, Int64, Symbol}) = getindex(x, idx)
+@nospecialize getindices(x, idx::Integer) = getindex(x, idx)
+@nospecialize getindices(x, idxs::NTuple{L,Symbol}) where {L} = getindex(x, idxs)
+@nospecialize getindices(x, idx::Union{Int32, Int64, Symbol}) = getindex(x, idx)
 
-getindices(@nospecialize x, @nospecialize idxs::NTuple{L,T}) where {L, T<:Integer} =
+@nospecialize getindices(x, idxs::NTuple{L,T}) where {L, T<:Integer} =
     Tuple(map(i->getindex(x, i), idxs))
 
 #=
