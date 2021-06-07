@@ -52,7 +52,8 @@ findindex, occurs_in, not_occurs_in
 @fromtest("field_ops")
 @fromtest("select_omit")
 @fromtest("prototype")
-@fromtest("namedtuple")
+
+# @fromtest("namedtuple")
 
 # proceed
 
