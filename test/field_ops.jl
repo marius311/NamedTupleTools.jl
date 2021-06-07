@@ -56,10 +56,12 @@ end
   @test field_values(nt2) == (1, '2')
   @test field_values(nt3) == (1, '2', "three")
 
-  @test field_values(ntt2, 2) == field_values(nt2, (2,)) == ('2',)
-  @test field_values(ntt3, (1, 3)) == (1, "three")
-  @test field_values(ntt2, :b) == field_values(nt2, (:b,)) == ('2',)
-  @test field_values(ntt3, (:a, :c)) == (1, "three")
+  @test field_values(nt2, 2) == '2'
+  @test field_values(nt2, (2,)) == ('2',)
+  @test field_values(nt3, (1, 3)) == (1, "three")
+  @test field_values(nt2, :b) == '2'
+  @test field_values(nt2, (:b,)) == ('2',)
+  @test field_values(nt3, (:a, :c)) == (1, "three")
 end
 
 #=
