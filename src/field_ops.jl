@@ -96,8 +96,10 @@ field_count(x::Tuple) = length(x)
 field_count(x::Type{T}) where {T} = fieldcount(x)
 field_count(x::T) where {T} = fieldcount(T)
 # ordered dicts
-field_count(x::Type{<:LittleDict})  = isfrozen(x) ? length(x.parameters[3].parameters) : missing
-field_count(x::OrdDict) = length(x)
+field_count(x::Type{<:LittleDict}) = isfrozen(x) ?
+    length(x.parameters[3].parameters) :
+    throw(ErrorException("field_count(::Type{LittleDict} requires a frozen LittleDict type."))
+field_count(x::OrderedDict) = length(x)
 # ordered sets
 field_count(@nospecialize x::OrderedSet{T}) where {T} = length(x)
 
@@ -108,7 +110,8 @@ field_names(x::Tuple) = ()
 field_names(x::Type{T}) where {T} = fieldnames(T)
 field_names(x::T) where {T} = fieldnames(T)
 # ordered dicts
-field_names(x::OrdDict) = Tuple(keys(x))
+field_names(x::LittleDict) = Tuple(keys(x))
+field_names(x::OrderedDict) = Tuple(keys(x))
 # ordered sets
 field_names(@nospecialize x::OrderedSet{T}) where {T} = Tuple(Symbol.(keys(x)))
 
@@ -128,7 +131,8 @@ field_types(x::Tuple) = typeof.(x)
 field_types(x::Type{T}) where {T} = fieldtypes(T)
 field_types(x::T) where {T} = fieldtypes(T)
 # ordered dicts -- ONLY USE WITH VERY SMALL DICTIONARIES
-field_types(x::OrdDict) = Tuple(typeof.(values(x)))
+field_types(x::LittleDict) = Tuple(typeof.(values(x)))
+field_types(x::OrderedDict) = Tuple(typeof.(values(x)))
 # ordered sets
 field_types(@nospecialize x::OrderedSet{T}) where {T} = Tuple(x.dict.keys)
 field_types(x::OrderedSet{T}) where {T} = Tuple(fill(T, length(x)))
