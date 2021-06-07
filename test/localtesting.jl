@@ -23,12 +23,36 @@ macro fromtest(fname)
     end; end
 end
 
-@fromtest("testvalues")
-@fromsrc("field_ops")
-@fromsrc("prototype")
-@fromsrc("select_omit")
+# gather names to ignore
+oldnames = names(Main);
 
+# bring in source files
+@fromsrc("field_ops")
+@fromsrc("select_omit")
+@fromsrc("prototype")
+
+#=
+
+#    introduces and exports
+field_count,
+field_names, field_types, field_tupletypes,
+field_values,
+
+select, omit,
+
+prototype, namedtuple
+
+#   defines assits for internal logic of filtering
+findindex, occurs_in, not_occurs_in
+
+=#
+
+# run testsets
+@fromtest("testvalues")
 @fromtest("field_ops")
 @fromtest("select_omit")
-
 @fromtest("prototype")
+@fromtest("namedtuple")
+
+# proceed
+
