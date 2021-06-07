@@ -104,17 +104,30 @@ end
   @test field_names(test_odict) == test_field_names
 end
 
-#= >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 @testset "field_types( TTT+TT )" begin
-  @test field_types(Empty_Tuple) == field_types(empty_tuple) == ()
-  @test field_types(Test_Tuple) == field_types(test_tuple) == test_field_types
+  @test field_types(Empty_Tuple) == ()
+  @test field_types(empty_tuple) == ()
 
-  @test field_types(Test_Tuple, 2) == field_types(test_tuple, (2,)) == (Char,)
+  @test field_types(Test_Tuple) == test_field_types
+  @test field_types(test_tuple) == test_field_types
+end
+
+#= >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+@testset "field_types( TTT+TT, idxs )" begin
+  @test field_types(Test_Tuple, 2) == Char
+  @test field_types(test_tuple, 2) == Char
+  @test field_types(Test_Tuple, (2,)) == (Char,)
+  @test field_types(test_tuple, (2,)) == (Char,)
+
   @test field_types(Test_Tuple, (1, 3)) == (Int64, String)
-  @test field_types(Test_Tuple, :b) == field_types(test_tuple, (:b,)) == (Char,)
+  @test field_types(Test_Tuple, :b) == Char
+  @test field_types(test_tuple, (:b,)) == (Char,)
   @test field_types(Test_Tuple, (:a, :c)) == (Int64, String)
 end
+
+
 @testset "field_types( STT+ST )" begin
   @test field_types(Test_Singleton) == field_types(test_singleton) == ()
   @test field_types(Test_Struct) == field_types(test_struct) ==test_field_types

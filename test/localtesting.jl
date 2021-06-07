@@ -29,5 +29,6 @@ end
 @fromsrc("select_omit")
 
 @fromtest("field_ops")
+@fromtest("select_omit")
+
 #@fromtest("prototype")
-#@fromtest("select_omit")
