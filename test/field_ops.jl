@@ -46,7 +46,7 @@ end
   @test field_tupletypes(ntt1) == field_tupletypes(nt1) == Tuple{Int64}
   @test field_tupletypes(ntt2) == field_tupletypes(nt2) == Tuple{Int64, Char}
   @test field_tupletypes(ntt3) == field_tupletypes(nt3) == Tuple{Int64, Char, String}
-  @test field_tupletypes(ntt2, (:b,)) == field_types(nt2, (:b,)) == Tuple{Char}
+  @test field_tupletypes(ntt2, (:b,)) == field_tupletypes(nt2, (:b,)) == Tuple{Char}
   @test field_tupletypes(ntt3, (:a, :c)) == Tuple{Int64, String}
 end
 
