@@ -46,12 +46,6 @@ end
   @test field_tupletypes(ntt1) == field_tupletypes(nt1) == Tuple{Int64}
   @test field_tupletypes(ntt2) == field_tupletypes(nt2) == Tuple{Int64, Char}
   @test field_tupletypes(ntt3) == field_tupletypes(nt3) == Tuple{Int64, Char, String}
-
-  @test field_tupletypes(ntt2, 2) == field_tupletypes(nt2, 2) == Tuple{Char}
-  @test field_tupletypes(ntt2, (2,)) == field_tupletypes(nt2, (2,)) == Tuple{Char}
-  @test field_tupletypes(ntt3, (1, 3)) == Tuple{Int64, String}
-
-  @test field_tupletypes(ntt2, :b) == field_types(nt2, :b) == Tuple{Char}
   @test field_tupletypes(ntt2, (:b,)) == field_types(nt2, (:b,)) == Tuple{Char}
   @test field_tupletypes(ntt3, (:a, :c)) == Tuple{Int64, String}
 end
@@ -176,7 +170,12 @@ end
 
   @test field_typestuple(test_ldict, 2) == field_typestuple(test_ldict, (2,)) == Tuple{Char}
   @test field_typestuple(test_ldict, (1, 3)) == Tuple{Int64, String}
-  @test field_typestuple(test_ldict, :b) == field_typestuple(test_ldict, (:b,)) == Tuple{Char}
+  @test field_typestuple(test_ldict, :b) == field_typestuple(test_ldict, (
+  @test field_tupletypes(ntt2, 2) == field_tupletypes(nt2, 2) == Tuple{Char}
+  @test field_tupletypes(ntt2, (2,)) == field_tupletypes(nt2, (2,)) == Tuple{Char}
+  @test field_tupletypes(ntt3, (1, 3)) == Tuple{Int64, String}
+
+  @test f:b,)) == Tuple{Char}
   @test field_typestuple(test_ldict, (:a, :c)) == Tuple{Int64, String}
 
   @test field_typestuple(test_odict, 2) == field_typestuple(test_odict, (2,)) == Tuple{Char}
