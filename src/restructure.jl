@@ -10,6 +10,9 @@
     These constants must be defined before they appear in other source code.
 =#
 
+if !isdefined(Main, :FastFieldsMax)
+    const FastFieldsMax = 31
+end
 const SymbolicIndices = Symbol.(Tuple(1:FastFieldsMax))
 
 #=
@@ -65,7 +68,7 @@ for T in (:LittleDict, :OrderedDict)
   end
 end
 
-#> support for Orderedsets
+#> support for OrderedSets
 
 # OrderedSet realization -> NamedTuple Type
 function restructure(::ValNT, @nospecialize x::OrderedSet{T}) where {T}
