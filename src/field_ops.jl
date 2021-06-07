@@ -3,6 +3,12 @@
     The rest of this file supports Tuples, structs, LittleDicts and their realizations
 =#
 
+# map field name (a Symbol) to field index(an Int)
+findindex(x::Symbol, syms::NTuple{N2,Symbol}) where {N1,N2} =
+    findfirst(isequal(x), syms)
+findindex(xs::NTuple{N1,Symbol}, syms::NTuple{N2,Symbol}) where {N1,N2} =
+    findfirst.(isequal.(xs), Ref(syms))
+
 # field tally
 field_count(ntt::Type{NamedTuple{N,T}}) where {N,T} = nfields(N)
 field_count(nt::NamedTuple{N,T}) where {N,T} = nfields(N)
@@ -25,6 +31,12 @@ field_values(nt::NamedTuple{N,T}) where {N,T} = values(nt)
 field_values(nt::NamedTuple{N,T}, idx::Integer) where {N,T} = getfield(nt, idx)
 # (field, indices) multiselected field_items
 field_values(nt::NamedTuple{N,T}, idxs::NTuple{L,Integer}) where {N,T,L} = getfield.(Ref(nt), idxs)
+# (field, symbol) selected field_item
+field_values(ntt::Type{NamedTuple{N,T}}, idx::Symbol) where {N,T} = field_values(ntt, findindex(idx, N))
+field_values(nt::NamedTuple{N,T}, idx::Symbol) where {N,T} = field_values(nt, findindex(idx, N))
+# (field, symbols) multiselected field_items
+field_values(ntt::Type{NamedTuple{N,T}}, idxs::NTuple{L,Symbol}) where {N,T,L} = field_values(ntt, findindex(idxs, N))
+field_values(nt::NamedTuple{N,T}, idxs::NTuple{L,Symbol}) where {N,T,L} = field_values(nt, findindex(idxs, N))
 
 # obtain the Type[s] that must be instantiated as fields
 field_types(ntt::Type{NamedTuple{N,T}}) where {N,T} = Tuple(ntt.parameters[2].parameters)
@@ -35,6 +47,12 @@ field_types(nt::NamedTuple{N,T}, idx::Integer) where {N,T} = (T.parameters)[idx]
 # (field, indices) multiselected field_items
 field_types(ntt::Type{NamedTuple{N,T}}, idxs::NTuple{L,Integer}) where {N,T,L} = getindex.(Ref(T.parameters), idxs)
 field_types(nt::NamedTuple{N,T}, idxs::NTuple{L,Integer}) where {N,T,L} = getindex.(Ref(T.parameters), idxs)
+# (field, symbol) selected field_item
+field_types(ntt::Type{NamedTuple{N,T}}, idx::Symbol) where {N,T} = field_types(ntt, findindex(idx, N))
+field_types(nt::NamedTuple{N,T}, idx::Symbol) where {N,T} = field_types(nt, findindex(idx, N))
+# (field, symbols) multiselected field_items
+field_types(ntt::Type{NamedTuple{N,T}}, idxs::NTuple{L,Symbol}) where {N,T,L} = field_types(ntt, findindex(idxs, N))
+field_types(nt::NamedTuple{N,T}, idxs::NTuple{L,Symbol}) where {N,T,L} = field_types(nt, findindex(idxs, N))
 
 # obtain Tuple{ Type[s] } that must be instantiated as fields
 field_tupletypes(ntt::Type{NamedTuple{N,T}}) where {N,T} = T
@@ -45,6 +63,12 @@ field_tupletypes(nt::NamedTuple{N,T}, idx::Integer) where {N,T} = Tuple{ (T.para
 # (field, indices) multiselected field_items
 field_tupletypes(ntt::Type{NamedTuple{N,T}}, idxs::NTuple{L,Integer}) where {N,T,L} = Tuple{ getindex.(Ref(T.parameters), idxs)... }
 field_tupletypes(nt::NamedTuple{N,T}, idxs::NTuple{L,Integer}) where {N,T,L} = Tuple{ getindex.(Ref(T.parameters), idxs)... }
+# (field, symbol) selected field_item
+field_tupletypes(ntt::Type{NamedTuple{N,T}}, idx::Symbol) where {N,T} = field_tupletypes(ntt, findindex(idx, N))
+field_tupletypes(nt::NamedTuple{N,T}, idx::Symbol) where {N,T} = field_tupletypes(nt, findindex(idx, N))
+# (field, symbols) multiselected field_items
+field_tupletypes(ntt::Type{NamedTuple{N,T}}, idxs::NTuple{L,Symbol}) where {N,T,L} = field_tupletypes(ntt, findindex(idxs, N))
+field_tupletypes(nt::NamedTuple{N,T}, idxs::NTuple{L,Symbol}) where {N,T,L} = field_tupletypes(nt, findindex(idxs, N))
 
 #=
    field_ops support for
@@ -113,7 +137,7 @@ field_types(x::OrderedSet{T}) where {T} = Tuple(fill(T, length(x)))
 field_tupletypes(x::Type{Tuple}) = x
 field_tupletypes(x::Tuple) = typeof(x)
 # structs
-field_tupletypes(x::Type{T}) where {T} = 
+field_tupletypes(x::Type{T}) where {T} =
     isstructtype(T) ? field_types(x) : throw(ErrorException("Expected a struct realization, got $(x)."))
 # ordered dicts -- ONLY USE WITH VERY SMALL DICTIONARIES
 field_tupletypes(x::Union{LittleDict,OrderedDict}) = Tuple{typeof.(values(x))...}
