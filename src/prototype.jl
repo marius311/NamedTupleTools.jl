@@ -85,8 +85,8 @@ prototype(x::NTuple{N,String}, y::NTuple{N,DataType}) where {N} = prototype(Symb
 prototype(x::NTuple{N,String}, y::NTuple{N,DataType}) where {N} = prototype(Symbol.(x), y)
 prototype(x::NTuple{N,String}, y::AbstractVector{DataType}) where {N} = prototype(Symbol.(x), y)
 
-prototype(x::AbstractVector{String}, y::AbstractVector{DataType}) = NamedTuple{Tuple(x), Tuple{y...}}
-prototype(x::AbstractVector{String}, y::NTuple{N, DataType}) where {N} = NamedTuple{Tuple(x), Tuple{y...}}
+prototype(x::AbstractVector{String}, y::AbstractVector{DataType}) = prototype(Symbol.(x), y)
+prototype(x::AbstractVector{String}, y::NTuple{N, DataType}) where {N} = prototype(Symbol.(x), y) [NamedTuple{Tuple(x), Tuple{y...}}
 
 prototype(x::AbstractVector{Symbol}, y::AbstractVector{DataType}) = prototype(Tuple(x), Tuple(y))
 

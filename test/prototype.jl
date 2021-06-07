@@ -98,5 +98,3 @@ end
   @test prototype(["a", "b"], [Int, String]) == NamedTuple{(:a, :b), Tuple{Int, String}}
 end
 
-
-
