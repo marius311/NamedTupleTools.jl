@@ -54,9 +54,9 @@ struct Test_Struct
     two::Char
     three::String
 end;
-test_struct = Test_Struct(1, '2', "three");
+test_struct = Test_Struct(test_field_values...);
 
-test_ldict = LittleDict((:a, :two, :datatype), (1, '2', "three"));
+test_ldict = LittleDict(test_field_names, test_field_values);
 Test_LDict = typeof(test_ldict);
 test_odict = LittleDict(Dict(test_ldict)) # unfrozen
 Test_ODict = typeof(test_odict)
