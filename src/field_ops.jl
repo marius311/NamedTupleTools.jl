@@ -99,6 +99,8 @@ field_count(x::T) where {T} = fieldcount(T)
 field_count(x::Type{<:LittleDict}) = isfrozen(x) ?
     length(x.parameters[3].parameters) :
     throw(ErrorException("field_count(::Type{LittleDict} requires a frozen LittleDict type."))
+
+field_count(x::LittleDict) = length(x)
 field_count(x::OrderedDict) = length(x)
 # ordered sets
 field_count(@nospecialize x::OrderedSet{T}) where {T} = length(x)
