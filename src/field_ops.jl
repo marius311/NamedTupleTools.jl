@@ -4,7 +4,7 @@
 =#
 
 # map field name (a Symbol) to field index(an Int)
-findindex(x::Symbol, syms::NTuple{N2,Symbol}) where {N1,N2} =
+findindex(x::Symbol, syms::NTuple{N,Symbol}) where {N} =
     findfirst(isequal(x), syms)
 findindex(xs::NTuple{N1,Symbol}, syms::NTuple{N2,Symbol}) where {N1,N2} =
     findfirst.(isequal.(xs), Ref(syms))
