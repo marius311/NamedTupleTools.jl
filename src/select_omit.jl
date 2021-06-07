@@ -18,7 +18,7 @@ function select(nt::NamedTuple{N,T}, keepnames::Tuple{Vararg{Symbol}}) where {N,
     usenames = selectnames(nt, keepnames)
     return NamedTuple{usenames}(nt)
 end
-    
+
 @inline select(nt::NamedTuple{N,T}, keepnames::Vararg{Symbol}) where {N,T} = select(nt, keepnames)
 
 @inline not_occurs_in(needles, hay) = filter(straw -> !(straw in needles), hay)

@@ -64,7 +64,7 @@ prototype(x::NTuple{N,Symbol}) where {N} = NamedTuple{x}
 prototype(x::Vararg{Symbol}) = NamedTuple{x}
 prototype(x::AbstractVector{Symbol}) = prototype(Tuple(x))
 
-# `prototype` as a constructor from parts with strungs
+# `prototype` as a constructor from parts with strings
 
 prototype(x::String) = prototype(Symbol(x))
 prototype(x::NTuple{N,String}) where {N} = prototype(Symbol.(x))
@@ -76,9 +76,13 @@ prototype(x::Pair{String,Type}) = prototype(first(x), last(x))
 prototype(x::Tuple{String,Type}) = prototype(first(x), last(x))
 
 prototype(x::NTuple{N,String}, y::NTuple{N,DataType}) where {N} = prototype(Symbol.(x), y)
-prototype(x::AbstractVector{String}, y::AbstractVector{DataType}) = NamedTuple{Tuple(x), Tuple{y...}}
-
 prototype(x::NTuple{N,String}, y::NTuple{N,DataType}) where {N} = prototype(Symbol.(x), y)
+prototype(x::NTuple{N,String}, y::AbstractVector{DataType}) where {N} = prototype(Symbol.(x), y)
+
 prototype(x::AbstractVector{String}, y::AbstractVector{DataType}) = NamedTuple{Tuple(x), Tuple{y...}}
+prototype(x::AbstractVector{String}, y::NTuple{N, DataType}) where {N} = NamedTuple{Tuple(x), Tuple{y...}}
+
+prototype(x::AbstractVector{Symbol}, y::AbstractVector{DataType}) = NamedTuple{Tuple(x), Tuple(y)}
+
 prototype(x::AbstractVector{String}, y::NTuple{N,DataType}) where {N} = NamedTuple{Symbol.(x), Tuple{y...})
 prototype(x::NTuple{N,String}, y::AbstractVector{DataType}) where {N} = NamedTuple{Symbol.(x), Tuple{y...}}
