@@ -18,8 +18,32 @@ speicifying types work with any length-matched tuple of values.
 """ prototype
 
 # prototype as a constructor from <empty>
-
 prototype() = NamedTuple{(), Tuple{}}
+
+# prototype as a constructor from untyped names
+prototype(names::NTuple{N,Symbol}) where {N} = NamedTuple{names, T} where {T<:Tuple}
+prototype(names::Vararg{Symbol,N}) where {N} = prototype(names)
+
+# prototype as a constructor from names and types
+
+prototype(names::NTuple{N,Symbol}, types::NTuple{N,DataType}) where {N} =
+    NamedTuple{names, Tuple{types...}
+
+prototype(names::NTuple{N,Symbol}, types::Type{<:Tuple}) where {N} =
+    NamedTuple{names, types}
+
+# construct prototypes from Vectors rather than Tuples
+
+prototype(names::AbstractVector{Symbol})  =
+    prototype(Tuple(names))
+
+prototype(names::AbstractVector{Symbol}, types::AbstractVector{DataType})  =
+    prototype(Tuple(names), Tuple(types))
+prototype(names::AbstractVector{Symbol}, types::NTuple{N,DataType}) where {N}  =
+    prototype(Tuple(names), types)
+prototype(names::NTuple{N,Symbol}, types::AbstractVector{DataType}) where {N} =
+    prototype(names, Tuple(types))
+
 
 # prototype as a constructor from wholes
 
@@ -79,10 +103,10 @@ prototype(x::NTuple{N,String}, y::NTuple{N,DataType}) where {N} = prototype(Symb
 prototype(x::NTuple{N,String}, y::NTuple{N,DataType}) where {N} = prototype(Symbol.(x), y)
 prototype(x::NTuple{N,String}, y::AbstractVector{DataType}) where {N} = prototype(Symbol.(x), y)
 
-prototype(x::AbstractVector{String}, y::AbstractVector{DataType}) = NamedTuple{Tuple(x), Tuple{y...}}
+prototype(x::AbstractVector{String}, y::AbstractVector{DataType}) = prototype(Tuple(x), NamedTuple{Tuple(x), Tuple{y...}}
 prototype(x::AbstractVector{String}, y::NTuple{N, DataType}) where {N} = NamedTuple{Tuple(x), Tuple{y...}}
 
-prototype(x::AbstractVector{Symbol}, y::AbstractVector{DataType}) = NamedTuple{Tuple(x), Tuple(y)}
+prototype(x::AbstractVector{Symbol}, y::AbstractVector{DataType}) = NamedTuple{Tuple(x), Tuple{y...)}
 
 prototype(x::AbstractVector{String}, y::NTuple{N,DataType}) where {N} = NamedTuple{Symbol.(x), Tuple{y...}}
 prototype(x::NTuple{N,String}, y::AbstractVector{DataType}) where {N} = NamedTuple{Symbol.(x), Tuple{y...}}
