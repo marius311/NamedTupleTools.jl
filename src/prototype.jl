@@ -1,4 +1,7 @@
 """
+    prototype( (names...) | names...)
+    prototype( (names...), (types...) )
+
     prototype(NT | NTT; types=false)
     prototype(NT | NTT | NTP [, NTuple{nfields, Type} ])
 
@@ -17,26 +20,26 @@ speicifying types work with any length-matched tuple of values.
 | NTP  | NamedTuple Prototype | NamedTuple{N}             |
 """ prototype
 
+# ⨖ construct prototypes from Tuples
+
 # prototype as a constructor from <empty>
 prototype() = NamedTuple{(), Tuple{}}
 
 # prototype as a constructor from untyped names
-prototype(names::NTuple{N,Symbol}) where {N} = NamedTuple{names, T} where {T<:Tuple}
-prototype(names::Vararg{Symbol,N}) where {N} = prototype(names)
+prototype(names::NTuple{N,Symbol}) where {N} =
+    NamedTuple{names, T} where {T<:Tuple}
+prototype(names::Vararg{Symbol,N}) where {N} =
+    prototype(names)
 
 # prototype as a constructor from names and types
-
-prototype(names::NTuple{N,Symbol}, types::NTuple{N,DataType}) where {N} =
-    NamedTuple{names, Tuple{types...}
-
 prototype(names::NTuple{N,Symbol}, types::Type{<:Tuple}) where {N} =
     NamedTuple{names, types}
+prototype(names::NTuple{N,Symbol}, types::NTuple{N,DataType}) where {N} =
+    prototype(names, Tuple{types...})
 
-# construct prototypes from Vectors rather than Tuples
-
+# allow Vectors of Symbols and Vectors of Types
 prototype(names::AbstractVector{Symbol})  =
     prototype(Tuple(names))
-
 prototype(names::AbstractVector{Symbol}, types::AbstractVector{DataType})  =
     prototype(Tuple(names), Tuple(types))
 prototype(names::AbstractVector{Symbol}, types::NTuple{N,DataType}) where {N}  =
@@ -44,6 +47,28 @@ prototype(names::AbstractVector{Symbol}, types::NTuple{N,DataType}) where {N}  =
 prototype(names::NTuple{N,Symbol}, types::AbstractVector{DataType}) where {N} =
     prototype(names, Tuple(types))
 
+# allow names given as Strings
+prototype(names::Vararg{<:AbstractString,N}) where {N} =
+    prototype(Symbol.(names))
+prototype(names::NTuple{N,<:AbstractString}) where {N} =
+    prototype(Symbol.(names))
+prototype(names::NTuple{N,<:AbstractString}, types::Type{<:Tuple}) where {N} =
+    prototype(Symbol.(names), types)
+prototype(names::NTuple{N,<:AbstractString}, types::NTuple{N,DataType}) where {N} =
+    prototype(Symbol.(names), types)
+
+prototype(names::AbstractVector{<:AbstractString})  =
+    prototype(Symbol.(names))
+prototype(names::AbstractVector{<:AbstractString}, types::AbstractVector{DataType})  =
+    prototype(Symbol.(names), types)
+prototype(names::AbstractVector{<:AbstractString}, types::NTuple{N,DataType}) where {N}  =
+    prototype(Symbol.(names), types)
+prototype(names::NTuple{N,<:AbstractString}, types::AbstractVector{DataType}) where {N} =
+    prototype(Symbol.(names), types)
+
+#=
+#=
+=#
 
 # prototype as a constructor from wholes
 
@@ -110,3 +135,5 @@ prototype(x::AbstractVector{Symbol}, y::AbstractVector{DataType}) = NamedTuple{T
 
 prototype(x::AbstractVector{String}, y::NTuple{N,DataType}) where {N} = NamedTuple{Symbol.(x), Tuple{y...}}
 prototype(x::NTuple{N,String}, y::AbstractVector{DataType}) where {N} = NamedTuple{Symbol.(x), Tuple{y...}}
+
+=#
