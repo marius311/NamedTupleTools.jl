@@ -37,7 +37,7 @@ prototype(names::NTuple{N,Symbol}, types::Type{<:Tuple}) where {N} =
 prototype(names::NTuple{N,Symbol}, types::NTuple{N,DataType}) where {N} =
     prototype(names, Tuple{types...})
 
-# allow Vectors of Symbols and Vectors of Types
+# allow vectors
 prototype(names::AbstractVector{Symbol})  =
     prototype(Tuple(names))
 prototype(names::AbstractVector{Symbol}, types::AbstractVector{DataType})  =
