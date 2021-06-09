@@ -20,6 +20,9 @@ speicifying types work with any length-matched tuple of values.
 | NTP  | NamedTuple Prototype | NamedTuple{N}             |
 """ prototype
 
+# idempotency
+prototype(@nospecialize ntt::Type{<:NamedTuple}) = ntt
+
 # ⨖ construct prototypes from Tuples
 
 # prototype as a constructor from <empty>
@@ -67,7 +70,7 @@ prototype(names::NTuple{N,<:AbstractString}, types::AbstractVector{DataType}) wh
     prototype(Symbol.(names), types)
 
 #=
-#=
+   prototypes from NamedTuples
 =#
 
 # prototype as a constructor from wholes
