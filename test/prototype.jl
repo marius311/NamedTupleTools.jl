@@ -69,11 +69,11 @@ end
 @testset "prototype from 1 name and type" begin
   @test prototype(Test1_field_name[1], Test1_field_type[1]) == NamedTuple{Test1_field_name, Test1_field_tupletype}
   @test prototype(Test1_field_name, Test1_field_type[1]) == NamedTuple{Test1_field_name, Test1_field_tupletype}
-  @test prototype([Test1_field_name[1]], Test1_field_type[1])  == NamedTuple{Test1_field_name, Test1_field_tupletype}
+  # @test prototype([Test1_field_name[1]], Test1_field_type[1])  == NamedTuple{Test1_field_name, Test1_field_tupletype}
   @test prototype(Test1_field_name[1], Test1_field_type) == NamedTuple{Test1_field_name, Test1_field_tupletype}
   @test prototype(Test1_field_name, Test1_field_type) == NamedTuple{Test1_field_name, Test1_field_tupletype}
   @test prototype([Test1_field_name[1]], Test1_field_type)  == NamedTuple{Test1_field_name, Test1_field_tupletype}
-  @test prototype(Test1_field_name[1], [Test1_field_type[1]]) == NamedTuple{Test1_field_name, Test1_field_tupletype}
+  # @test prototype(Test1_field_name[1], [Test1_field_type[1]]) == NamedTuple{Test1_field_name, Test1_field_tupletype}
   @test prototype(Test1_field_name, [Test1_field_type[1]]) == NamedTuple{Test1_field_name, Test1_field_tupletype}
   @test prototype([Test1_field_name[1]], [Test1_field_type[1]])  == NamedTuple{Test1_field_name, Test1_field_tupletype}
 end
