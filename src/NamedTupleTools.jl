@@ -1,6 +1,7 @@
 module NamedTupleTools
 
 export NTT,                            # dispatch on a NamedTuple Type
+    prototype,                         # forming NamedTuple Types
     namedtuple,                        # harmonius multifaceted tooling
     # largest fieldcounts supporting each of 3 levels of additional performance
     FastestFieldsMax, FasterFieldsMax,  FastFieldsMax,
