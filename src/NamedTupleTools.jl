@@ -46,7 +46,7 @@ const NTT = ValNT()
 include("prototype.jl")
 include("field_ops.jl")
 
-include("restructure.jl")
+include("select_omit.jl")
 
 include("support.jl")
 
