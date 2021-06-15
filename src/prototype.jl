@@ -20,18 +20,32 @@ speicifying types work with any length-matched tuple of values.
 | NTP  | NamedTuple Prototype | NamedTuple{N}             |
 """ prototype
 
-# idempotency
-prototype(@nospecialize x::Type{<:NamedTuple}) = x
 
 # prototype as a constructor from <empty>
 prototype() = NamedTuple{(), Tuple{}}
 
-# prototype as a constructor from names
-prototype(names::NTuple{N,Symbol}) where {N} = NamedTuple{names, T} where {T<:Tuple}
-prototype(names::Vararg{Symbol,N}) where {N} = prototype(names)
+# idempotency
+prototype(@nospecialize x::Type{<:NamedTuple}) = x
+
+# prototype as a constructor from 1+ names
+prototype(@nospecialize names::NTuple{N,Symbol}) where {N} = NamedTuple{names, T} where {T<:Tuple}
+prototype(@nospecialize names::Vararg{Symbol,N}) where {N} = prototype(names)
+prototype(@nospecialize names::AbstractVector{Symbol}) = prototype(Tuple(names))
+
+# prototype as constructor from 1 name and 1 type
+prototype(name::Symbol, type::Type) = NamedTuple{(name,), Tuple{type}}
+prototype(name::Symbol, type::Tuple{<:Type}) = NamedTuple{(name,), Tuple{first(type)}}
+prototype(name::Tuple{Symbol}, type::Type) = NamedTuple{name, Tuple{type}}
+prototype(name::Tuple{Symbol}, type::Tuple{<:Type}) = NamedTuple{name, Tuple{first(type)}}
+    
+# prototype as constructor from 2+ names and types
+prototype(names::NTuple{N,Symbol}, types::NTuple{N,Type}) where {N} = NamedTuple{names, Tuple{types...}}
+prototype(names::AbstractVector{Symbol}, types::AbstractVector{<:Type}) = prototype(Tuple(names), Tuple(types))
+
 
 # prototype as a constructor from name and type
 prototype(name::Symbol, type::Type) = NamedTuple{(name,), Tuple{type}}
+prototype(name::Symbol, type::NTuple{1,Type}}) = NamedTuple{(name,), Tuple{type}}
 prototype(name::Symbol, type::Type{NTuple{1,T}}) where T = NamedTuple{(name,), Tuple{T}}
 prototype(name::NTuple{1,Symbol}, type::Type) = NamedTuple{name, Tuple{type}}
 prototype(name::NTuple{1,Symbol}, type::Type{NTuple{1,T}}) where T = NamedTuple{name, Tuple{T}}
