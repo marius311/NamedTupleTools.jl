@@ -20,7 +20,15 @@ speicifying types work with any length-matched tuple of values.
 | NTP  | NamedTuple Prototype | NamedTuple{N}             |
 """ prototype
 
-
+# prototype as constructor from NamedTuple
+function prototype(nt::NamedTuple{N,T}) where {N,T}
+    @nospecialize nt
+    NamedTuple{N,T}
+end
+function protoname(nt::NamedTuple{N,T}) where {N,T}
+    @nospecialize nt
+    NamedTuple{N}
+end
 
 # prototype as a constructor from <empty>
 prototype() = NamedTuple{(), Tuple{}}
@@ -78,3 +86,6 @@ function prototype(names::AbstractVector{Symbol}, types::NTuple{N,Type}) where {
     @nospecialize names, types
     prototype(Tuple(names), types)
 end
+
+                                            
+    
