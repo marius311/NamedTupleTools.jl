@@ -47,10 +47,6 @@ prototype(names::AbstractVector{Symbol}, types::NTuple{N,Type}) where {N} = prot
   @test prototype() == NamedTuple{(), Tuple{}}
 end
 
-@testset "prototype(NamedTuple{_,Tuple{_}})" begin
-  @test prototype(NamedTuple) == NamedTuple{(), Tuple{}}
-end
-
 @testset "prototype idempotentcy" begin
   @test prototype(Test_NTP) == Test_NTP
   @test prototype(Test_NTT) == Test_NTT
