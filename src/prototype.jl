@@ -21,18 +21,26 @@ speicifying types work with any length-matched tuple of values.
 """ prototype
 
 # idempotency
-prototype(@nospecialize ntt::Type{<:NamedTuple}) = ntt
-
-# ⨖ construct prototypes from Tuples
+prototype(@nospecialize x::Type{<:NamedTuple}) = x
 
 # prototype as a constructor from <empty>
 prototype() = NamedTuple{(), Tuple{}}
 
-# prototype as a constructor from untyped names
-prototype(names::NTuple{N,Symbol}) where {N} =
-    NamedTuple{names, T} where {T<:Tuple}
-prototype(names::Vararg{Symbol,N}) where {N} =
-    prototype(names)
+# prototype as a constructor from names
+prototype(names::NTuple{N,Symbol}) where {N} = NamedTuple{names, T} where {T<:Tuple}
+prototype(names::Vararg{Symbol,N}) where {N} = prototype(names)
+
+# prototype as a constructor from name and type
+prototype(name::Symbol, type::Type) = NamedTuple{(name,), Tuple{type}}
+prototype(name::Symbol, type::Type{NTuple{1,T}}) where T = NamedTuple{(name,), Tuple{T}}
+prototype(name::NTuple{1,Symbol}, type::Type) = NamedTuple{name, Tuple{type}}
+prototype(name::NTuple{1,Symbol}, type::Type{NTuple{1,T}}) where T = NamedTuple{name, Tuple{T}}
+
+# prototype as a constructor from names and types
+
+
+# ⨖ construct prototypes from Tuples
+
 
 # prototype as a constructor from names and types
 prototype(names::Symbol, types::Type) = NamedTuple{(names,), Tuple{types}}
