@@ -8,7 +8,7 @@
     struct         TestStruct     test_struct
 =#
 
-using OrderedCollections: LittleDict, freeze
+using OrderedCollections: OrderedSet, OrderedDict, LittleDict, freeze
 
 # special case types and their realizations for testing
 
