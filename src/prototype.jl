@@ -50,7 +50,7 @@ function prototype(name::Symbol, type::Type)
 end
 function prototype(name::Symbol, type::Tuple{<:Type})
     @nospecialize name, type
-    NamedTuple{(name,), Tuple{type}}
+    NamedTuple{(name,), Tuple{type...}}
 end
 function prototype(name::Tuple{Symbol}, type::Type)
     @nospecialize name, type
@@ -58,7 +58,7 @@ function prototype(name::Tuple{Symbol}, type::Type)
 end    
 function prototype(name::Tuple{Symbol}, type::Tuple{<:Type})
     @nospecialize name, type
-    NamedTuple{name, Tuple{type}}
+    NamedTuple{name, Tuple{type...}}
 end
 
 # prototype as constructor from 2+ names and types
