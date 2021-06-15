@@ -20,6 +20,66 @@ speicifying types work with any length-matched tuple of values.
 | NTP  | NamedTuple Prototype | NamedTuple{N}             |
 """ prototype
 
+
+
+# prototype as a constructor from <empty>
+prototype() = NamedTuple{(), Tuple{}}
+
+# idempotency
+prototype(x::Type{<:NamedTuple}) = x
+
+# prototype as a constructor from 1+ names
+function prototype(names::NTuple{N,Symbol}) where {N}
+    @nospecialize names
+    NamedTuple{names, T} where {T<:Tuple}
+end    
+function prototype(names::Vararg{Symbol,N}) where {N}
+    @nospecialize names
+    prototype(names)
+end    
+function prototype(names::AbstractVector{Symbol})
+    @nospecialize names
+    prototype(Tuple(names))
+end    
+
+
+# prototype as constructor from 1 name and 1 type
+function prototype(name::Symbol, type::Type)
+    @nospecialize name, type
+    NamedTuple{(name,), Tuple{type}}
+end
+function prototype(name::Symbol, type::Tuple{<:Type})
+    @nospecialize name, type
+    NamedTuple{(name,), Tuple{type}}
+end
+function prototype(name::Tuple{Symbol}, type::Type)
+    @nospecialize name, type
+    NamedTuple{name, Tuple{type}}
+end    
+function prototype(name::Tuple{Symbol}, type::Tuple{<:Type})
+    @nospecialize name, type
+    NamedTuple{name, Tuple{type}}
+end
+
+# prototype as constructor from 2+ names and types
+function prototype(names::NTuple{N,Symbol}, types::NTuple{N,Type}) where {N}
+    @nospecialize names, types
+    NamedTuple{names, Tuple{types...}}
+end
+function prototype(names::AbstractVector{Symbol}, types::AbstractVector{<:Type})
+    @nospecialize names, types
+    prototype(Tuple(names), Tuple(types))
+end
+function prototype(names::NTuple{N,Symbol}, types::AbstractVector{<:Type}) where {N}
+    @nospecialize names, types
+    prototype(names, Tuple(types))
+end
+function prototype(names::AbstractVector{Symbol}, types::NTuple{N,Type}) where {N}
+    @nospecialize names, types
+    prototype(Tuple(names), types)
+end
+
+#=
 # prototype as a constructor from <empty>
 prototype() = NamedTuple{(), Tuple{}}
 
@@ -42,12 +102,13 @@ prototype(x::Type{<:NamedTuple}) = x
 @nospecialize prototype(names::AbstractVector{Symbol}, types::AbstractVector{<:Type}) = prototype(Tuple(names), Tuple(types))
 @nospecialize prototype(names::NTuple{N,Symbol}, types::AbstractVector{<:Type}) where {N} = prototype(names, Tuple(types))
 @nospecialize prototype(names::AbstractVector{Symbol}, types::NTuple{N,Type}) where {N} = prototype(Tuple(names), types)
-
+=$
 #=
 # prototype as a constructor from name and type
 prototype(name::Symbol, type::Type) = NamedTuple{(name,), Tuple{type}}
 prototype(name::Symbol, type::NTuple{1,Type}}) = NamedTuple{(name,), Tuple{type}}
-prototype(name::Symbol, type::Type{NTuple{1,T}}) where T = NamedTuple{(name,), Tuple{T}}
+
+        #=prototype(name::Symbol, type::Type{NTuple{1,T}}) where T = NamedTuple{(name,), Tuple{T}}
 prototype(name::NTuple{1,Symbol}, type::Type) = NamedTuple{name, Tuple{type}}
 prototype(name::NTuple{1,Symbol}, type::Type{NTuple{1,T}}) where T = NamedTuple{name, Tuple{T}}
 
@@ -70,7 +131,7 @@ prototype(names::NTuple{N,Symbol}, types::NTuple{N,DataType}) where {N} =
 
 # allow vectors
 prototype(names::AbstractVector{Symbol})  =
-    prototype(Tuple(names))
+    protot=$ype(Tuple(names))
 prototype(names::AbstractVector{Symbol}, types::AbstractVector{DataType})  =
     prototype(Tuple(names), Tuple(types))
 prototype(names::AbstractVector{Symbol}, types::NTuple{N,DataType}) where {N}  =
