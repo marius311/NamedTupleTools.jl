@@ -54,22 +54,23 @@ end
 end
 
 @testset "prototypes from symbols and types" begin
-  @test prototype(:a, Int) == NamedTuple{(:a,), Tuple{Int}}
-  @test prototype((:a,), (Int,)) == NamedTuple{(:a,), Tuple{Int}}
-  @test prototype([:a], [Int]) == NamedTuple{(:a,), Tuple{Int}}
+  @test prototype(:a, Int64) == NamedTuple{(:a,), Tuple{Int64}}
+  @test prototype((:a,), (Int64,)) == NamedTuple{(:a,), Tuple{Int64}}
+  @test prototype([:a], [Int64]) == NamedTuple{(:a,), Tuple{Int64}}
 
-  @test prototype((:a, :b), (Int, String)) == NamedTuple{(:a, :b), Tuple{Int, String}}
-  @test prototype([:a, :b], [Int, String]) == NamedTuple{(:a, :b), Tuple{Int, String}}
+    
+  @test prototype((:a, :b), (Int64, String)) == NamedTuple{(:a, :b), Tuple{Int64, String}}
+  @test prototype([:a, :b], [Int64, String]) == NamedTuple{(:a, :b), Tuple{Int64, String}}
 end
 
 @testset "prototypes from symbols and types, mixed" begin
-  @test prototype(:a, (Int,)) == NamedTuple{(:a,), Tuple{Int}}
-  @test prototype((:a,), Int) == NamedTuple{(:a,), Tuple{Int}}
+  @test prototype(:a, (Int64,)) == NamedTuple{(:a,), Tuple{Int64}}
+  @test prototype((:a,), Int64) == NamedTuple{(:a,), Tuple{Int64}}
 
-  @test prototype([:a, :b], (Int, String)) == NamedTuple{(:a, :b), Tuple{Int, String}}
+  @test prototype([:a, :b], (Int64, String)) == NamedTuple{(:a, :b), Tuple{Int64, String}}
 
-  @test prototype((:a,), [Int,]) == NamedTuple{(:a,), Tuple{Int}}
-  @test prototype((:a, :b), [Int, String]) == NamedTuple{(:a, :b), Tuple{Int, String}}
+  @test prototype((:a,), [Int64,]) == NamedTuple{(:a,), Tuple{Int64}}
+  @test prototype((:a, :b), [Int64, String]) == NamedTuple{(:a, :b), Tuple{Int64, String}}
 end
 
 # test prototype construction from parts with strings
@@ -85,18 +86,16 @@ end
 # test prototype construction from parts with strings and types
 
 @testset "prototypes from strings and types" begin
-  @test prototype("a", Int) == NamedTuple{(:a,), Tuple{Int}}
-  @test prototype("a", (Int,)) == NamedTuple{(:a,), Tuple{Int}}
-  @test prototype(("a",), Int) == NamedTuple{(:a,), Tuple{Int}}
+  @test prototype("a", Int64) == NamedTuple{(:a,), Tuple{Int64}}
+  @test prototype("a", (Int64,)) == NamedTuple{(:a,), Tuple{Int64}}
+  @test prototype(("a",), Int64) == NamedTuple{(:a,), Tuple{Int64}}
 
-  @test prototype(("a",), (Int,)) == NamedTuple{(:a,), Tuple{Int}}
-  @test prototype(("a", "b"), (Int, String)) == NamedTuple{(:a, :b), Tuple{Int, String}}
-  @test prototype(["a", "b"], (Int, String)) == NamedTuple{(:a, :b), Tuple{Int, String}}
+  @test prototype(("a",), (Int64,)) == NamedTuple{(:a,), Tuple{Int64}}
+  @test prototype(("a", "b"), (Int64, String)) == NamedTuple{(:a, :b), Tuple{Int64, String}}
+  @test prototype(["a", "b"], (Int64, String)) == NamedTuple{(:a, :b), Tuple{Int64, String}}
 
-  @test prototype(("a",), [Int,]) == NamedTuple{(:a,), Tuple{Int}}
-  @test prototype(("a", "b"), [Int, String]) == NamedTuple{(:a, :b), Tuple{Int, String}}
-  @test prototype(["a", "b"], [Int, String]) == NamedTuple{(:a, :b), Tuple{Int, String}}
+  @test prototype(("a",), [Int64,]) == NamedTuple{(:a,), Tuple{Int64}}
+  @test prototype(("a", "b"), [Int64, String]) == NamedTuple{(:a, :b), Tuple{Int64, String}}
+  @test prototype(["a", "b"], [Int64, String]) == NamedTuple{(:a, :b), Tuple{Int64, String}}
 end
-
-
 
