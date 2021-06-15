@@ -1,5 +1,5 @@
 using NamedTupleTools
-using OrderedCollections: OrdereeSet, OrderedDict, LittleDict, freeze
+using OrderedCollections: OrderedSet, OrderedDict, LittleDict, freeze
 using Test
 
 #=
