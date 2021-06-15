@@ -48,16 +48,16 @@ prototype(names::AbstractVector{Symbol}, types::NTuple{N,Type}) where {N} = prot
 end
 
 @testset "prototype idempotentcy" begin
-  @test prototype(Test1_NTP) == Test1_NT
+  @test prototype(Test1_NTP) == Test1_NTP
   @test prototype(Test1_NTT) == Test1_NTT
   @test prototype(Test_NTP) == Test_NTP
   @test prototype(Test_NTT) == Test_NTT
 end
 
 @testset "prototype from 1 name" begin
-  @test prototype(Test1_field_names[1]) == NamedTuple{Test1_field_name, Tuple{T}} where {T}
-  @test prototype(Test1_field_names) == NamedTuple{Test1_field_name, Tuple{T}} where {T}
-  @test prototype([Test1_field_names[1]]) == NamedTuple{Test1_field_name, Tuple{T}} where {T}
+  @test prototype(Test1_field_name[1]) == NamedTuple{Test1_field_name, Tuple{T}} where {T}
+  @test prototype(Test1_field_name) == NamedTuple{Test1_field_name, Tuple{T}} where {T}
+  @test prototype([Test1_field_name[1]]) == NamedTuple{Test1_field_name, Tuple{T}} where {T}
 end
 
 @testset "prototype from 2+ name" begin
