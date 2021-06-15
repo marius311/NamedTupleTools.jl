@@ -10,3 +10,5 @@ include("testvalues.jl")
 
 include("field_ops.jl")
 include("prototype.jl")
+
+include("support.jl")
