@@ -31,7 +31,7 @@ prototype(x::Type{<:NamedTuple}) = x
 # prototype as a constructor from 1+ names
 function prototype(names::NTuple{N,Symbol}) where {N}
     @nospecialize names
-    NamedTuple{names, T} where {T<:Tuple}
+    NamedTuple{names, Tuple{T}} where {T}
 end    
 function prototype(names::Vararg{Symbol,N}) where {N}
     @nospecialize names
