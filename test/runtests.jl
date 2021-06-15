@@ -8,7 +8,5 @@ using Test
 =#
 include("testvalues.jl")
 
-include("prototype.jl")
 include("field_ops.jl")
-include("select_omit.jl")
-
+include("prototype.jl")
