@@ -92,6 +92,7 @@ prototype(x::Type{NamedTuple{N,T}}, types::NTuple{N,DataType}) where {N,T} =
 # `prototype` as a constructor from parts with symbols
 
 prototype(x::Symbol) = NamedTuple{(x,)}
+#=
 prototype(x::NTuple{N,Symbol}) where {N} = NamedTuple{x}
 prototype(x::Vararg{Symbol}) = NamedTuple{x}
 prototype(x::AbstractVector{Symbol}) = prototype(Tuple(x))
