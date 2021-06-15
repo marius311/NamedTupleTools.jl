@@ -21,57 +21,65 @@ const test_singleton = Test_Singleton();
 #=
     Single item
 =#
-
 const Test1_field_count = 1;
-const Test1_field_names = (:one, );
-const Test1_field_types = (Int64,);
-const Test1_field_tupletypes = Tuple{Int64};
+const Test1_field_name = (:one, );
+const Test1_field_type = (Int64,);
+const Test1_field_tupletype = Tuple{Int64};
 
 const test1_field_count = Test1_field_count;
-const test1_field_names = Test1_field_names;
-const test1_field_types = Test1_field_types;
-const test1_field_tupletypes = Test1_field_tupletypes;
-const test1_field_values = (1, );
+const test1_field_name = Test1_field_name;
+const test1_field_type = Test1_field_type;
+const test1_field_tupletype = Test1_field_tupletype;
+const test1_field_value = (1, );
 
-test1_tuple = test1_field_values;
+test1_tuple = test1_field_value;
 Test1_Tuple = typeof(test1_tuple)
 
-Test1_NT = NamedTuple{Test1_field_names, Test1_field_tupletypes};
-test1_nt = Test1_NT(test1_field_values);
+Test1_NT = NamedTuple{Test1_field_name, Test1_field_tupletype};
+test1_nt = Test1_NT(test1_field_value);
 
-Test1_NTT = NamedTuple{Test1_field_names, Test1_field_tupletypes};
-Test1_NTP = NamedTuple{Test1_field_names};
+Test1_NTT = NamedTuple{Test1_field_name, Test1_field_tupletype};
+Test1_NTP = NamedTuple{Test1_field_name};
 
 struct Test1_Struct
     one::Int64
 end;
-test1_struct = Test1_Struct(test1_field_values...);
+test1_struct = Test1_Struct(test1_field_value...);
 
-test1_ldict = LittleDict(test1_field_names, test1_field_values);
+test1_ldict = LittleDict(test1_field_name, test1_field_value);
 Test1_LDict = typeof(test1_ldict);
 test1_odict = LittleDict(test1_ldict); # unfrozen
 Test1_ODict = typeof(test1_odict);
 
+#=
+    Test1ASet_<Type> and test1aset_<type> = Test1ASet_<Type>( _ )
+
+    test1 field names that are Int indexed (Symbol(::Int) named)
+         field values that are of the same concrete type (here, Char)
+
+    fields - names: `Symbol.((1, 2, 3))`, values: `('b', 'a', 'c')`
+=#
+
 const Test1ASet_field_count = 1;
-const Test1ASet_field_names = Symbol.((1,));
-const Test1ASet_field_types = (Char, );
-const Test1ASet_field_tupletypes = Tuple{Char};
+const Test1ASet_field_name = Symbol.((1,));
+const Test1ASet_field_type = (Char, );
+const Test1ASet_field_tupletype = Tuple{Char};
 
 const test1aset_field_count = Test1ASet_field_count;
-const test1aset_field_names = Test1ASet_field_names;
-const test1aset_field_types = Test1ASet_field_types;
-const test1aset_field_tupletypes = Test1ASet_field_tupletypes;
-const test1aset_field_values = ('b',);
+const test1aset_field_name = Test1ASet_field_name;
+const test1aset_field_type = Test1ASet_field_type;
+const test1aset_field_tupletype = Test1ASet_field_tupletype;
+const test1aset_field_value = ('b',);
 
-Test1ASet_NamedTuple = NamedTuple{Test1ASet_field_names, Test1ASet_field_tupletypes};
-test1aset_namedtuple = Test1ASet_NamedTuple(test1aset_field_values);
+Test1ASet_NamedTuple = NamedTuple{Test1ASet_field_name, Test1ASet_field_tupletype};
+test1aset_namedtuple = Test1ASet_NamedTuple(test1aset_field_value);
 
 struct Test1ASet_Struct
     var"1"::Char
 end;
-test1aset_struct = Test1ASet_Struct(test1aset_field_values...);
+test1aset_struct = Test1ASet_Struct(test1aset_field_value...);
 
-test1aset_ldict_frozen = LittleDict(test1aset_field_names, test1aset_field_values);
+test1aset_ldict_frozen = LittleDict(test1aset_field_name, test1aset_field_value);
 Test1ASet_LDict_frozen = typeof(test1aset_ldict_frozen);
 test1aset_ldict_unfrozen = LittleDict(test1aset_ldict_frozen);
 Test1ASet_LDict_unfrozen = typeof(test1aset_ldict_unfrozen);
