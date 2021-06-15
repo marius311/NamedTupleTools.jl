@@ -41,7 +41,7 @@ prototype(name::Tuple{Symbol}, type::Tuple{<:Type}) = NamedTuple{name, Tuple{fir
 # prototype as constructor from 2+ names and types
 prototype(names::NTuple{N,Symbol}, types::NTuple{N,Type}) where {N} = NamedTuple{names, Tuple{types...}}
 prototype(names::AbstractVector{Symbol}, types::AbstractVector{<:Type}) = prototype(Tuple(names), Tuple(types))
-prototype(names::NTuple{N,Symbol}, types::AbstractVector{<:Type}) where {N} = prototype(names, Tuple(types)}
+prototype(names::NTuple{N,Symbol}, types::AbstractVector{<:Type}) where {N} = prototype(names, Tuple(types))
 prototype(names::AbstractVector{Symbol}, types::NTuple{N,Type}) where {N} = prototype(Tuple(names), types)
 
 #=
