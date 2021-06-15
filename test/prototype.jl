@@ -78,7 +78,14 @@ end
   @test prototype([Test1_field_name[1]], [Test1_field_type[1]])  == NamedTuple{Test1_field_name, Test1_field_tupletype}}
 end
 
+@testset "prototype from 3 names and types" begin
+  @test prototype(Test_field_names, Test_field_types) == NamedTuple{Test_field_names, Test_field_tupletypes}}
+  @test prototype(Test_field_names, [Test_field_types...]) == NamedTuple{Test_field_names, Test_field_tupletypes}}
+  @test prototype([Test_field_names...], Test_field_types)  == NamedTuple{Test_field_names, Test_field_tupletypes}}
+  @test prototype([Test_field_names...], [Test_field_types...])  == NamedTuple{Test_field_names, Test_field_tupletypes}}
+end
 
+#=
 # test prototype construction from wholes
 
 @testset "prototype(_)" begin
@@ -165,3 +172,4 @@ end
   @test prototype(["a", "b"], [Int64, String]) == NamedTuple{(:a, :b), Tuple{Int64, String}}
 end
 
+=#
