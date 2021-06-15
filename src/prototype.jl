@@ -35,6 +35,7 @@ prototype(names::Vararg{Symbol,N}) where {N} =
     prototype(names)
 
 # prototype as a constructor from names and types
+prototype(names::Symbol, types::DataType) = NamedTuple{(names,), Tuple{types}}
 prototype(names::NTuple{N,Symbol}, types::Type{<:Tuple}) where {N} =
     NamedTuple{names, types}
 prototype(names::NTuple{N,Symbol}, types::NTuple{N,DataType}) where {N} =
