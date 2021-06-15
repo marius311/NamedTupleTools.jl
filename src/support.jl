@@ -1,19 +1,19 @@
 """
-    issame(nt1, nt2)
-    nt1 ≊ nt2
+    bijection(nt1, nt2)
+    nt1 ↔ nt2
 
 field order independent equality
-- issame((a=1, b=2), (b=2, a=1))
-- (a=1, b=2) ≅ (b=2, a=1)
-""" issame, ≅
+- bijection((a=1, b=2), (b=2, a=1))
+- (a=1, b=2) ↔ (b=2, a=1)
+""" bijection, ↔
 
-function issame(x::NamedTuple{N,T}, y::NamedTuple{N1,T1}) where {N,T,N1,T1}
+function bijection(x::NamedTuple{N,T}, y::NamedTuple{N1,T1}) where {N,T,N1,T1}
     length(N) === length(N1) &&
     foldl(&, foldl(.|, ((n .== N) for n=N1))) &&
     foldl(&, (getfield(x,k) === getfield(y,k) for k=N))
 end
 
-const ≅ = issame
+const ↔ = bijection
 
 function canonical(x::NamedTuple{N,T}) where {N,T}
     names = Tuple(sort([N...]))
