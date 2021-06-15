@@ -48,8 +48,13 @@ prototype(names::AbstractVector{Symbol}, types::NTuple{N,Type}) where {N} = prot
 end
 
 @testset "prototype idempotentcy" begin
+  @test prototype(Test1_NTP) == Test1_NTP
+  @test prototype(Test1_NTT) == Test1_NTT
   @test prototype(Test_NTP) == Test_NTP
   @test prototype(Test_NTT) == Test_NTT
+end
+
+@testset "prototype from 1 name" begin
 end
 
 # test prototype construction from wholes
