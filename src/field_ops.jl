@@ -110,7 +110,7 @@ field_names(x::T) where {T} = fieldnames(T)
 # ordered dicts
 field_names(x::OrdDict) = Tuple(keys(x))
 # ordered sets
-field_names(@nospecialize x::OrderedSet{T}) where {T} = Tuple(Symbol.(keys(x)))
+field_names(x::OrderedSet{T}) where {T} = Tuple(Symbol.(keys(x)))
 
 # tuples
 field_values(x::Tuple) = x
