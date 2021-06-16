@@ -1,21 +1,21 @@
 """
-    bijection(nt1, nt2)
+    isbijection(nt1, nt2)
     nt1 ↔ nt2
 
 - "↔" is entered in the REPL as \\:left_right_arrow:<tab>
 
 field order independent equality
-- bijection((a=1, b=2), (b=2, a=1))
+- isbijection((a=1, b=2), (b=2, a=1))
 - (a=1, b=2) ↔ (b=2, a=1)
-""" bijection, ↔
+""" isbijection, ↔
 
-function bijection(x::NamedTuple{N,T}, y::NamedTuple{N1,T1}) where {N,T,N1,T1}
+function isbijection(x::NamedTuple{N,T}, y::NamedTuple{N1,T1}) where {N,T,N1,T1}
     length(N) === length(N1) &&
     foldl(&, foldl(.|, ((n .== N) for n=N1))) &&
     foldl(&, (getfield(x,k) === getfield(y,k) for k=N))
 end
 
-const ↔ = bijection
+const ↔ = isbijection
 
 function canonical(x::NamedTuple{N,T}) where {N,T}
     names = Tuple(sort([N...]))
