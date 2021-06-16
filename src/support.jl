@@ -22,6 +22,18 @@ function canonical(x::NamedTuple{N,T}) where {N,T}
     return NamedTuple{names}(x)
 end
 
+function canonical(x::Type{NamedTuple{N}}) where {N}
+    namesperm = sortperm([N...])
+    names = N[namesperm]
+    return NamedTuple{names}
+end
+
+function canonical(x::Type{NamedTuple{N,T}}) where {N,T}
+    namesperm = sortperm([N...])
+    names = N[namesperm]
+    types = T.parameters[namesperm]
+    return NamedTuple{names, Tuple{types...}}
+end
 
 """
     getindices(x::NamedTuple, <indices>)
