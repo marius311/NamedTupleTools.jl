@@ -38,6 +38,14 @@ function prototype(nt::NamedTuple{N,T}, ::Val{false}) where {N,T}
     NamedTuple{N}
 end
 
+function prototype(ntt::Type{NamedTuple{N,T}}, ::Val{true}) where {N,T}
+    @nospecialize ntt
+    NamedTuple{N,T}
+end    
+function prototype(ntt::Type{NamedTuple{N,T}}, ::Val{false}) where {N,T}
+    @nospecialize ntt
+    NamedTuple{N}
+end
 
 
 # prototype as a constructor from <empty>
