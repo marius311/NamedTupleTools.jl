@@ -3,7 +3,7 @@
 ### prototype(_)
 
 - `prototype` constructs NamedTuple Types from field names (symbols) or field names and field types.
-- `prototype` converts a NamedTuple into a NamedTuple Type (in its simplest form, like _typeof_).
+- `prototype` converts a NamedTuple into a NamedTuple Type (in its simplest form, like _typeof(_)_).
 
 ----
 
