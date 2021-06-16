@@ -2,7 +2,7 @@
     bijection(nt1, nt2)
     nt1 ↔ nt2
 
-- "↔" is entered in the REPL as \:left_right_arrow:<tab>
+- "↔" is entered in the REPL as \\:left_right_arrow:<tab>
 
 field order independent equality
 - bijection((a=1, b=2), (b=2, a=1))
