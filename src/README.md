@@ -76,7 +76,7 @@ These functions work with the corresponding types, typeof(_).
 
 ### canonical, isbijection ( __↔__ )
 
-It is helpful to have a field order independant notion of equivalence for NTTs and NTs.
+It is helpful to have a notion of equivalence for NTTs and NTs that is independent of field ordering.
 
 We want to know when two NamedTupleTypes have the same field names, regardless of their order, and matching field names associate with matching field types.
 For NamedTuples, we want to know when they match as NamedTupleTypes and matching field names associate with matching field values.
