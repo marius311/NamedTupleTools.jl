@@ -1,5 +1,4 @@
-## NamedTupleTools 
-### version 2
+## NamedTupleTools (_version 2_)
 
 #### field operations
 
