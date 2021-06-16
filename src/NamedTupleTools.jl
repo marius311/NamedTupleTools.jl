@@ -8,7 +8,6 @@ export NTT,                            # dispatch on a NamedTuple Type
     #    lexicographic over field names `sort(ntt::Type{NamedTuple})`
     canonical,
     #    isbijection(nt1, nt2) <--> sort(nt1) == sort
-    # data structure interconversions, args follow `convert` (avoids piracy)
     isbijection, ↔,
     # largest fieldcounts supporting each of 3 levels of additional performance
     FastestFieldsMax, FasterFieldsMax,  FastFieldsMax,
