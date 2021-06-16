@@ -65,7 +65,7 @@ getindices(x, idxs::NTuple{L,T}) where {L, T<:Integer} =
 
 # support for LittleDicts, extended to other OrderedCollections
 isfrozen(@nospecialize x::LittleDict{K,V,T1,T2}) where {K,V,T1<:Tuple,T2<:Tuple} = true
-    isfrozen(@nospecialize x::LittleDict{K,V,T1,T2}) where {K,V,T1<:Vector,T2<:Vector} = false
+isfrozen(@nospecialize x::LittleDict{K,V,T1,T2}) where {K,V,T1<:Vector,T2<:Vector} = false
 isfrozen(@nospecialize x::AbstractDict) = false
 isfrozen(@nospecialize x::OrderedSet)  = true
 # OrderedCollections exports `frozen = freeze(::LittleDict)`
