@@ -1,8 +1,7 @@
 module NamedTupleTools
 
-export NTT,                             # dispatch on a NamedTuple Type
+export namedtuple,                      # harmonious multifaceted tooling
     prototype, WithTypes, WithoutTypes, # forming NamedTuple Types
-    namedtuple,                         # harmonious multifaceted tooling
     # support a canonical internal ordering for NamedTuples and their types
     #    lexicographic over field names `sort(nt::NamedTuple)`
     #    lexicographic over field names `sort(ntt::Type{NamedTuple})`
