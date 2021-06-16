@@ -23,8 +23,7 @@ function canonical(x::NamedTuple{N,T}) where {N,T}
 end
 
 function canonical(x::Type{NamedTuple{N}}) where {N}
-    namesperm = sortperm([N...])
-    names = N[namesperm]
+    names = Tuple(sort([N...]))
     return NamedTuple{names}
 end
 
