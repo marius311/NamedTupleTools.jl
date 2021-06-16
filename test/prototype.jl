@@ -30,15 +30,13 @@ end
 end
 
 @testset "prototypes from NamedTuples" begin
-  @test prototype(test1_ntp) == Test1_NTP
-  @test prototype(test1_ntt) == Test1_NTT
-  @test prototype(test_ntp) == Test_NTP
-  @test prototype(test_ntt) == Test_NTT
+  @test prototype(test1_nt) == Test1_NTT
+  @test prototype(test_nt) == Test_NTT
 end
 
 @testset "name only prototypes from NamedTuples" begin
-  @test prototype(test1_ntt, WithoutTypes) == Test1_NTP
-  @test prototype(test_ntt, WithoutTypes) == Test_NTP
+  @test prototype(test1_nt, WithoutTypes) == Test1_NTP
+  @test prototype(test_nt, WithoutTypes) == Test_NTP
 end
 
 @testset "prototype from 1 name" begin
