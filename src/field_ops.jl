@@ -32,8 +32,8 @@ field_values(nt::NamedTuple{N,T}, idx::Integer) where {N,T} = getfield(nt, idx)
 # (field, indices) multiselected field_items
 field_values(nt::NamedTuple{N,T}, idxs::NTuple{L,Integer}) where {N,T,L} = getfield.(Ref(nt), idxs)
 # (field, symbol) selected field_item
-field_values(ntt::Type{NamedTuple{N,T}}, idx::Symbol) where {N,T} = field_values(ntt, findindex(idx, N))
-field_values(nt::NamedTuple{N,T}, idx::Symbol) where {N,T} = field_values(nt, findindex(idx, N))
+# field_values(ntt::Type{NamedTuple{N,T}}, idx::Symbol) where {N,T} = field_values(ntt, findindex(idx, N))
+# field_values(nt::NamedTuple{N,T}, idx::Symbol) where {N,T} = field_values(nt, findindex(idx, N))
 # (field, symbols) multiselected field_items
 field_values(ntt::Type{NamedTuple{N,T}}, idxs::NTuple{L,Symbol}) where {N,T,L} = field_values(ntt, findindex(idxs, N))
 field_values(nt::NamedTuple{N,T}, idxs::NTuple{L,Symbol}) where {N,T,L} = field_values(nt, findindex(idxs, N))
@@ -48,8 +48,8 @@ field_types(nt::NamedTuple{N,T}, idx::Integer) where {N,T} = (T.parameters)[idx]
 field_types(ntt::Type{NamedTuple{N,T}}, idxs::NTuple{L,Integer}) where {N,T,L} = getindex.(Ref(T.parameters), idxs)
 field_types(nt::NamedTuple{N,T}, idxs::NTuple{L,Integer}) where {N,T,L} = getindex.(Ref(T.parameters), idxs)
 # (field, symbol) selected field_item
-field_types(ntt::Type{NamedTuple{N,T}}, idx::Symbol) where {N,T} = field_types(ntt, findindex(idx, N))
-field_types(nt::NamedTuple{N,T}, idx::Symbol) where {N,T} = field_types(nt, findindex(idx, N))
+# field_types(ntt::Type{NamedTuple{N,T}}, idx::Symbol) where {N,T} = field_types(ntt, findindex(idx, N))
+# field_types(nt::NamedTuple{N,T}, idx::Symbol) where {N,T} = field_types(nt, findindex(idx, N))
 # (field, symbols) multiselected field_items
 field_types(ntt::Type{NamedTuple{N,T}}, idxs::NTuple{L,Symbol}) where {N,T,L} = field_types(ntt, findindex(idxs, N))
 field_types(nt::NamedTuple{N,T}, idxs::NTuple{L,Symbol}) where {N,T,L} = field_types(nt, findindex(idxs, N))
@@ -64,8 +64,8 @@ field_tupletypes(nt::NamedTuple{N,T}, idx::Integer) where {N,T} = Tuple{ (T.para
 field_tupletypes(ntt::Type{NamedTuple{N,T}}, idxs::NTuple{L,Integer}) where {N,T,L} = Tuple{ getindex.(Ref(T.parameters), idxs)... }
 field_tupletypes(nt::NamedTuple{N,T}, idxs::NTuple{L,Integer}) where {N,T,L} = Tuple{ getindex.(Ref(T.parameters), idxs)... }
 # (field, symbol) selected field_item
-field_tupletypes(ntt::Type{NamedTuple{N,T}}, idx::Symbol) where {N,T} = field_tupletypes(ntt, findindex(idx, N))
-field_tupletypes(nt::NamedTuple{N,T}, idx::Symbol) where {N,T} = field_tupletypes(nt, findindex(idx, N))
+# field_tupletypes(ntt::Type{NamedTuple{N,T}}, idx::Symbol) where {N,T} = field_tupletypes(ntt, findindex(idx, N))
+# field_tupletypes(nt::NamedTuple{N,T}, idx::Symbol) where {N,T} = field_tupletypes(nt, findindex(idx, N))
 # (field, symbols) multiselected field_items
 field_tupletypes(ntt::Type{NamedTuple{N,T}}, idxs::NTuple{L,Symbol}) where {N,T,L} = field_tupletypes(ntt, findindex(idxs, N))
 field_tupletypes(nt::NamedTuple{N,T}, idxs::NTuple{L,Symbol}) where {N,T,L} = field_tupletypes(nt, findindex(idxs, N))
@@ -90,7 +90,7 @@ isfrozen(x::Type{LittleDict{Symbol, Any, Vector{Symbol}, Vector{Any}}}) = false
 isfrozen(x::Type{<:OrderedDict}) = false
 
 # tuples
-field_count(x::Type{Tuple}) = length(x)
+field_count(x::Type{<:Tuple}) = length(x.parameters)
 field_count(x::Tuple) = length(x)
 # structs
 field_count(x::Type{T}) where {T} = fieldcount(x)
