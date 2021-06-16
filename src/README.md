@@ -76,6 +76,14 @@ These functions work with the corresponding types, typeof(_).
 
 ### canonical, isbijection ( __↔__ )
 
+We want to know when two NamedTupleTypes have the same field names, regardless of their order, and matching field names associate with matching field types.
+For NamedTuples, we want to know when they match as NamedTupleTypes and matching field names associate with matching field values.
+This sameness holds where they are identical as given and where they become identical under a permutation of the field order for one of them.
+
+A canonical form `canonical` for NTTs and for NTs is introduced that sorts fields over their names.
+Where two canonical forms are identical, their source forms are a bijection.
+The multidispatched predicate `isbijection(ntt1, ntt2), isbijection(nt1, nt2)` provides this information.  
+There is an infix symbol for it, __↔__.
 
 ----
 
