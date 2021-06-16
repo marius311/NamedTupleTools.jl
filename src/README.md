@@ -1,26 +1,35 @@
-## NamedTupleTools, v"2" (the repository) / src / 
+## NamedTupleTools v"2"
 
-### NamedTupleTools (the module)
-- exports
-   - organized by covering intention
-   - field_{count, name, type, value}
-   - namedtuple
+### exports
 
-- includes
+#### field operations
 
-### field_ops
+Our field operations are named similarly to Julia's, we interpose an underscore
+to avoid type piracy and eschew function privateering. 
+
+These functions work with NamedTuples, structs, LittleDicts, OrderedSets.
+
 - field_count
+- field_names
+- field_types
+- field_values
+
+
+These functions work with the corresponding types, typeof(_). 
+
+- field_count
+- field_names
+- field_types
+
+
+
+
 - field_{name, type, value}
     - all fields
     - field indicated by index or by name
     - fields selected by indices or by names
 
 
-/ parts_composed.jl
-
-
-/ parts_decomposed.jl
-
-
 ### support
+- 
 - getindicies
