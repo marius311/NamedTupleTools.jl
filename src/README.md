@@ -72,6 +72,12 @@ These functions work with the corresponding types, typeof(_).
 - field_names
 - field_types
 
+----
+
+### canonical, isbijection ( __↔__ )
+
+
+----
 
 
 
