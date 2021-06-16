@@ -1,6 +1,5 @@
-## NamedTupleTools v"2"
-
-### exports
+## NamedTupleTools 
+### version 2
 
 #### field operations
 
