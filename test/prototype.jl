@@ -39,6 +39,11 @@ end
   @test prototype(test_nt, WithoutTypes) == Test_NTP
 end
 
+@testset "name with type (default) prototypes from NamedTuples" begin
+  @test prototype(test1_nt, WithTypes) == Test1_NTT
+  @test prototype(test_nt, WithTypes) == Test_NTT
+end
+
 @testset "prototype from 1 name" begin
   @test prototype(Test1_field_name[1]) == NamedTuple{Test1_field_name, Tuple{T}} where {T}
   @test prototype(Test1_field_name) == NamedTuple{Test1_field_name, Tuple{T}} where {T}
