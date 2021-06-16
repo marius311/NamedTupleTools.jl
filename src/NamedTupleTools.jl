@@ -26,12 +26,12 @@ export namedtuple,                      # harmonious multifaceted tooling
 
 
 # Julia could define Struct
-if !isdefined(Base, :Struct)
+try
     abstract type Struct end
-else
-    import Struct
+catch
+    nothing
 end
-export Struct
+
 
 using OrderedCollections: OrderedSet, LittleDict, OrderedDict, freeze
 
