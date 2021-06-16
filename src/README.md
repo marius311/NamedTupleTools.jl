@@ -85,6 +85,24 @@ Where two canonical forms are identical, their source forms are a bijection.
 The multidispatched predicate `isbijection(ntt1, ntt2), isbijection(nt1, nt2)` provides this information.  
 There is an infix symbol for it, __↔__.
 
+```
+nt1 = (a = 1, b = 2)
+nt2 = (b = 2, a = 1)
+canonical(nt1) == nt1
+canonical(nt2) == nt1
+isbijection(nt1, nt2) === true
+
+ntt1 = typeof(nt1)
+ntt2 = typeof(nt2)
+isbijection(ntt1, ntt2) === true
+
+nt3 = (b = 2, a = 3)
+nt2 ↔ nt3 === false
+
+ntt3 = typeof(nt3)
+ntt2 ↔ ntt3 === true
+```
+
 ----
 
 
