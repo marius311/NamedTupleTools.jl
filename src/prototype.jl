@@ -25,10 +25,20 @@ function prototype(nt::NamedTuple{N,T}) where {N,T}
     @nospecialize nt
     NamedTuple{N,T}
 end
-function protoname(nt::NamedTuple{N,T}) where {N,T}
+
+const WithTypes = Val{true}()
+const WithoutTypes = Val{false}()
+
+function prototype(nt::NamedTuple{N,T}, ::Val{true}) where {N,T}
+    @nospecialize nt
+    NamedTuple{N,T}
+end    
+function prototype(nt::NamedTuple{N,T}, ::Val{false}) where {N,T}
     @nospecialize nt
     NamedTuple{N}
 end
+
+
 
 # prototype as a constructor from <empty>
 prototype() = NamedTuple{(), Tuple{}}
