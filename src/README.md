@@ -1,6 +1,13 @@
 ## NamedTupleTools _(version 2)_
 
-#### field operations
+### prototype(_)
+
+- `prototype` constructs NamedTuple Types from field names (symbols) or field names and field types.
+- `prototype` converts a NamedTuple into a NamedTuple Type (in its simplest form, like _typeof_).
+
+----
+
+### field operations
 
 Our field operations are named similarly to Julia's, we interpose an underscore
 to avoid type piracy and eschew function privateering. 
