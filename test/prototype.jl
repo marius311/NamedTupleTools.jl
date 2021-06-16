@@ -20,13 +20,25 @@ speicifying types work with any length-matched tuple of values.
 
 @testset "prototype()" begin
   @test prototype() == NamedTuple{(), Tuple{}}
-end
+end 
 
 @testset "prototype idempotentcy" begin
   @test prototype(Test1_NTP) == Test1_NTP
   @test prototype(Test1_NTT) == Test1_NTT
   @test prototype(Test_NTP) == Test_NTP
   @test prototype(Test_NTT) == Test_NTT
+end
+
+@testset "prototypes from NamedTuples" begin
+  @test prototype(test1_ntp) == Test1_NTP
+  @test prototype(test1_ntt) == Test1_NTT
+  @test prototype(test_ntp) == Test_NTP
+  @test prototype(test_ntt) == Test_NTT
+end
+
+@testset "name only prototypes from NamedTuples" begin
+  @test prototype(test1_ntt, WithoutTypes) == Test1_NTP
+  @test prototype(test_ntt, WithoutTypes) == Test_NTP
 end
 
 @testset "prototype from 1 name" begin
