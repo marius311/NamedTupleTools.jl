@@ -20,53 +20,45 @@ speicifying types work with any length-matched tuple of values.
 | NTP  | NamedTuple Prototype | NamedTuple{N}             |
 """ prototype
 
-# prototype as constructor from NamedTuple
-function prototype(nt::NamedTuple{N,T}) where {N,T}
-    @nospecialize nt
-    NamedTuple{N,T}
-end
-
-const WithTypes = Val{true}()
-const WithoutTypes = Val{false}()
-
-function prototype(nt::NamedTuple{N,T}, ::Val{true}) where {N,T}
-    @nospecialize nt
-    NamedTuple{N,T}
-end    
-function prototype(nt::NamedTuple{N,T}, ::Val{false}) where {N,T}
-    @nospecialize nt
-    NamedTuple{N}
-end
-
-function prototype(ntt::Type{NamedTuple{N,T}}, ::Val{true}) where {N,T}
-    @nospecialize ntt
-    NamedTuple{N,T}
-end    
-function prototype(ntt::Type{NamedTuple{N,T}}, ::Val{false}) where {N,T}
-    @nospecialize ntt
-    NamedTuple{N}
-end
-
-
 # prototype as a constructor from <empty>
 prototype() = NamedTuple{(), Tuple{}}
 
-# idempotency
-prototype(x::Type{<:NamedTuple}) = x
+# prototype as constructor from NamedTuple
+
+#=
+function prototype(ntt::Type{NamedTuple})
+    @nospecialize ntt
+    ntt
+end
+function prototype(nt::NamedTuple)
+    @nospecialize nt
+    typeof(nt)
+end
+=#
+
+function prototype(ntt::Type{NamedTuple{N,T}}; types::Bool=true) where {N,T}
+    @nospecialize ntt
+    types ? ntt : NamedTuple{N}
+end
+prototype(nt::NamedTuple{N,T}; types::Bool=true) where {N,T}
+    @nospecialize nt
+    types ? typeof(nt) : NamedTuple{N}
+end
+
 
 # prototype as a constructor from 1+ names
 function prototype(names::NTuple{N,Symbol}) where {N}
     @nospecialize names
     NamedTuple{names, Tuple{T}} where {T}
-end    
+end
 function prototype(names::Vararg{Symbol,N}) where {N}
     @nospecialize names
     prototype(names)
-end    
+end
 function prototype(names::AbstractVector{Symbol})
     @nospecialize names
     prototype(Tuple(names))
-end    
+end
 
 
 # prototype as constructor from 1 name and 1 type
@@ -81,7 +73,7 @@ end
 function prototype(name::Tuple{Symbol}, type::Type)
     @nospecialize name, type
     NamedTuple{name, Tuple{type}}
-end    
+end
 function prototype(name::Tuple{Symbol}, type::Tuple{<:Type})
     @nospecialize name, type
     NamedTuple{name, Tuple{type...}}
@@ -104,6 +96,3 @@ function prototype(names::AbstractVector{Symbol}, types::NTuple{N,Type}) where {
     @nospecialize names, types
     prototype(Tuple(names), types)
 end
-
-                                            
-    

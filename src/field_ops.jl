@@ -29,6 +29,7 @@ field_count(nt::NamedTuple{N,T}) where {N,T} = nfields(N)
 # field selected field_items
 
 # obtain the Symbol[s] that name fields
+# fieldnames(ntt) == fieldnames(typeof(nt)) == keys(nt)
 field_names(ntt::Type{NamedTuple{N,T}}) where {N,T} = ntt.parameters[1]
 field_names(nt::NamedTuple{N,T}) where {N,T} = N
 # (field, index) selected field_item

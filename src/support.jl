@@ -84,6 +84,25 @@ getindices(x, idx::Union{Int32, Int64, Symbol}) = getindex(x, idx)
 getindices(x, idxs::NTuple{L,T}) where {L, T<:Integer} =
     Tuple(map(i->getindex(x, i), idxs))
 
+
+    """
+    findindex(::Symbol, ::Union{Tuple, NamedTuple})
+    findindex(::NTuple{N,Symbol}, ::Union{Tuple, NamedTuple})
+
+returns the index/indices (1, 2,..) where the symbol is found or else, `nothing`
+""" findindex
+
+# map field (a Symbol) to a Tuple field index(an Int, or `nothing`)
+@inline findindex(x::Symbol, syms::NTuple{N2,Symbol}) where {N1,N2} =
+    findfirst(isequal(x), syms)
+@inline findindex(xs::NTuple{N1,Symbol}, syms::NTuple{N2,Symbol}) where {N1,N2} =
+    findfirst.(isequal.(xs), Ref(syms))
+# map field name (a Symbol) to a NamedTuple field index (an Int, or `nothing`)
+findindex(x::Symbol, nt::NamedTuple{N,T}) where {N,T} = 
+    findindex(x, N)
+findindex(xs::NTuple{M, Symbol}, nt::NamedTuple{N,T}) where {M,N,T} =
+    findindex(xs, N)
+
 #=
     lower level assistance for specific restructureables
 =#
