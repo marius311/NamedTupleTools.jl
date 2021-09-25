@@ -22,6 +22,7 @@ findindex(xs::NTuple{M, Symbol}, nt::NamedTuple{N,T}) where {M,N,T} =
     findindex(xs, N)
 
 # field tally
+# fieldcount(ntt) == length(nt)
 field_count(ntt::Type{NamedTuple{N,T}}) where {N,T} = nfields(N)
 field_count(nt::NamedTuple{N,T}) where {N,T} = nfields(N)
 

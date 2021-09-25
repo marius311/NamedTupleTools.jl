@@ -35,6 +35,31 @@ function canonical(x::Type{NamedTuple{N,T}}) where {N,T}
 end
 
 """
+    unsafe_align(nt1, nt2)
+
+    - nt1 and nt2 must use the same fieldnames
+    - the order of the fieldnames may differ in each
+reorders nt2 to match the order of the keys in nt1
+
+from ericphanson discourse Reordering NamedTuples
+""" unsafe_align
+
+unsafe_align(nt1::NamedTuple, nt2::NamedTuple) =
+    NamedTuple{keys(nt1)}(nt2)
+
+"""
+    align(nt1, nt2)
+
+reorders nt2 using the order of the keys in nt1
+- only keys that are common to nt1 and nt2 are used
+
+idea from ericphanson discourse Reordering NamedTuples
+""" align
+
+align(nt1::NamedTuple, nt2::NamedTuple) =
+    NamedTuple{Tuple(intersect(keys(nt1), keys(nt2)))}(nt2)
+
+"""
     getindices(x::NamedTuple, <indices>)
 
 `getindices` extends and is compatible with `Base.getindex` for `NamedTuples`.

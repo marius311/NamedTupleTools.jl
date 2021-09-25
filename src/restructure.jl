@@ -47,6 +47,13 @@ function restructure_(::Val{true}, ::Type{NamedTuple}, x:::T) where {T}
     return restructure(NTT, x)(valuedfields)
 end
 
+# NamedTuple realization -> struct realiztion
+# from baggepinnen discource How do I best convert a nested named tuple..
+function nt2struct(nt::NamedTuple{names, types}, ::Type{T}) where {names, types, T}
+    fs = ntuple(i->getfield(nt, names[i]), fieldcount(T))
+    T(fs...)
+end
+
 #> support for LittleDicts, OrderedDicts
 
 for T in (:LittleDict, :OrderedDict)

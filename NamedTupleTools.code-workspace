@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"julia.environmentPath": "c:\\Users\\jas\\Documents\\GitHub\\NamedTupleTools\\NamedTupleTools.jl",
+		"workbench.colorCustomizations": {
+			"editorInfo.foreground": "#00000000"
+		}
+	}
+}
