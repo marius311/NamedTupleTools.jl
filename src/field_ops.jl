@@ -3,11 +3,16 @@
     The rest of this file supports Tuples, structs, LittleDicts and their realizations
 =#
 
-# map field name (a Symbol) to field index(an Int)
-findindex(x::Symbol, syms::NTuple{N2,Symbol}) where {N1,N2} =
+# map field (a Symbol) to a Tuple field index(an Int, or `nothing`)
+@inline findindex(x::Symbol, syms::NTuple{N2,Symbol}) where {N1,N2} =
     findfirst(isequal(x), syms)
-findindex(xs::NTuple{N1,Symbol}, syms::NTuple{N2,Symbol}) where {N1,N2} =
+@inline findindex(xs::NTuple{N1,Symbol}, syms::NTuple{N2,Symbol}) where {N1,N2} =
     findfirst.(isequal.(xs), Ref(syms))
+# map field name (a Symbol) to an NamedTuple field index (an Int, or `nothing`)
+findindex(x::Symbol, nt::NamedTuple{N,T}) where {N,T} = 
+    findindex(x, N)
+findindex(xs::NTuple{M, Symbol}, nt::NamedTuple{N,T}) where {M,N,T} =
+    findindex(xs, N)
 
 # field tally
 field_count(ntt::Type{NamedTuple{N,T}}) where {N,T} = nfields(N)
