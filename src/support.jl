@@ -9,25 +9,40 @@ field order independent equality
 - (a=1, b=2) ↔ (b=2, a=1)
 """ isbijection, ↔
 
+function isbijection(x::NamedTuple, y::NamedTuple)
+    length(x) === length(y) &&
+    NamedTuple{keys(x)}(y) === x
+end
+
+const ↔ = isbijection
+#=
 function isbijection(x::NamedTuple{N,T}, y::NamedTuple{N1,T1}) where {N,T,N1,T1}
     length(N) === length(N1) &&
     foldl(&, foldl(.|, ((n .== N) for n=N1))) &&
     foldl(&, (getfield(x,k) === getfield(y,k) for k=N))
 end
+=#
 
-const ↔ = isbijection
+"""
+    canoncialize(::NamedTuple)
+    canoncialize(::Type{NamedTuple})
 
-function canonical(x::NamedTuple{N,T}) where {N,T}
+Put the fields into a canonical order
+by sorting over the field names.
+
+""" canonicalize
+
+function canonicalize(x::NamedTuple{N,T}) where {N,T}
     names = Tuple(sort([N...]))
     return NamedTuple{names}(x)
 end
 
-function canonical(x::Type{NamedTuple{N}}) where {N}
+function canonicalize(x::Type{NamedTuple{N}}) where {N}
     names = Tuple(sort([N...]))
     return NamedTuple{names}
 end
 
-function canonical(x::Type{NamedTuple{N,T}}) where {N,T}
+function canonicalize(x::Type{NamedTuple{N,T}}) where {N,T}
     namesperm = sortperm([N...])
     names = N[namesperm]
     types = T.parameters[namesperm]
