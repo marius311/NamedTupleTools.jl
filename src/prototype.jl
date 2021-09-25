@@ -1,9 +1,9 @@
 """
     prototype( (names...) | names...)
-    prototype( (names...), (types...) )
+    prototype( (names) | [names], (types) | [types] )
+    - names, types may be given as a tuple or a vector
 
-    prototype(NT | NTT; types=false)
-    prototype(NT | NTT | NTP [, NTuple{nfields, Type} ])
+    prototype(NT | NTT | NTP)
 
 Construct prototypic NamedTuple `schema`.
 
@@ -20,12 +20,10 @@ speicifying types work with any length-matched tuple of values.
 | NTP  | NamedTuple Prototype | NamedTuple{N}             |
 """ prototype
 
-# prototype as a constructor from <empty>
+# constructor from <empty>
 prototype() = NamedTuple{(), Tuple{}}
 
-# prototype as constructor from NamedTuple
-
-#=
+# constructor from NamedTuple and Type{NamedTuple}
 function prototype(ntt::Type{NamedTuple})
     @nospecialize ntt
     ntt
@@ -34,24 +32,13 @@ function prototype(nt::NamedTuple)
     @nospecialize nt
     typeof(nt)
 end
-=#
 
-function prototype(ntt::Type{NamedTuple{N,T}}; types::Bool=true) where {N,T}
-    @nospecialize ntt
-    types ? ntt : NamedTuple{N}
-end
-prototype(nt::NamedTuple{N,T}; types::Bool=true) where {N,T}
-    @nospecialize nt
-    types ? typeof(nt) : NamedTuple{N}
-end
-
-
-# prototype as a constructor from 1+ names
+# constructor from Symbols
 function prototype(names::NTuple{N,Symbol}) where {N}
     @nospecialize names
-    NamedTuple{names, Tuple{T}} where {T}
+    NamedTuple{names, T} where {T<:Tuple}
 end
-function prototype(names::Vararg{Symbol,N}) where {N}
+function prototype(names::Vararg{Symbol})
     @nospecialize names
     prototype(names)
 end
@@ -60,8 +47,7 @@ function prototype(names::AbstractVector{Symbol})
     prototype(Tuple(names))
 end
 
-
-# prototype as constructor from 1 name and 1 type
+# constructor from 1 name and 1 type
 function prototype(name::Symbol, type::Type)
     @nospecialize name, type
     NamedTuple{(name,), Tuple{type}}
@@ -70,16 +56,8 @@ function prototype(name::Symbol, type::Tuple{<:Type})
     @nospecialize name, type
     NamedTuple{(name,), Tuple{type...}}
 end
-function prototype(name::Tuple{Symbol}, type::Type)
-    @nospecialize name, type
-    NamedTuple{name, Tuple{type}}
-end
-function prototype(name::Tuple{Symbol}, type::Tuple{<:Type})
-    @nospecialize name, type
-    NamedTuple{name, Tuple{type...}}
-end
 
-# prototype as constructor from 2+ names and types
+# prototype as constructor from N names and N types
 function prototype(names::NTuple{N,Symbol}, types::NTuple{N,Type}) where {N}
     @nospecialize names, types
     NamedTuple{names, Tuple{types...}}
