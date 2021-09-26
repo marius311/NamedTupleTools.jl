@@ -6,6 +6,9 @@ gen_isnotin(x::SymTuple) = (∉)(x)
 gen_isin(x::SymTuple, y::SymTuple) = gen_isin( (x..., y...) )
 gen_isnotin(x::SymTuple, y::SymTuple) = gen_isnotin( (x..., y...) )
 
+tupleunique(x::Tuple{Vararg{T}}) where {T} = Tuple(unique(x))
+
+
 """
     uniquejoin
 
@@ -14,11 +17,14 @@ def:
 """ uniquejoin
 
 function uniquejoin(x, y)
+    isdisjoint(x, y) && return (x..., y...)
     isnotin_x = gen_isnotin(x)
 
     ys = y[[map(isnotin_x, y)...]]
     return (x..., ys...)
 end
+# Base.union(x::Tuple{Vararg{Symbol}}, y::Tuple{Vararg{Symbol}}) = uniquejoin(x,y)
+
 
 """
     uniquemeet
@@ -27,15 +33,17 @@ def:
 - intersect
 """ uniquemeet
 
-function uniquemeet(syms1::Tuple{Vararg{Symbol}}, syms2::Tuple{Vararg{Symbol}})
+function uniquemeet(x::Tuple{Vararg{Symbol}}, y::Tuple{Vararg{Symbol}})
+    isdisjoint(x, y) && return ()
     result = Symbol[]
-    for s in syms1
-       if s in syms2
+    for s in x
+       if s in y
            push!(result, s)
        end
    end
    Tuple(result)
 end
+
 
 """
     relativediff
