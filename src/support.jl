@@ -22,6 +22,27 @@ function relativediff(x::SymTuple, y::SymTuple)
     return xs
 end
 
+function tupleintersection(x::SymTuple, y::SymTuple)
+    isin_y = gen_isin(y)
+
+    xs = x[[map(isin_y, x)...]]
+    return xs
+end
+
+
+# fast, nonallocating tuplejoin by jameson
+@inline tuplejoin(x) = x
+@inline tuplejoin(x, y) = (x..., y...)
+@inline tuplejoin(x, y, z...) = (x..., tuplejoin(y, z...)...)
+
+
+function tupleunion(x, y)
+    isnotin_x = gen_isnotin(x)
+
+    ys = y[[map(isnotin_x, y)...]]
+    return (x..., ys...)
+end
+
 #=
 
 julia> sabc = (sa,sb,sc)
