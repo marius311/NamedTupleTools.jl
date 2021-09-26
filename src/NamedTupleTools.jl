@@ -43,13 +43,14 @@ const FastFieldsMax    = 64
 const ValNT = Val{NamedTuple}
 const NTT = ValNT()
 
+include("support.jl")
+
 include("field_ops.jl")
 include("prototype.jl")
 
 
 include("select_omit.jl")
 
-include("support.jl")
 
 
 end  # NamedTupleTools
