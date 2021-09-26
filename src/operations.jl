@@ -50,7 +50,7 @@ filter(s->!in(s,syms), allsyms)
 # from Jakob Nybo Nissen
 _setdiff(t1::Tuple, t2::Tuple) = filter(∉(t2), t1)
 # from Jakob Nybo Nissen
-function tuplediff(a::Tuple{Vararg{Symbol}}, b::Tuple{Vararg{Symbol}})
+function tuplediff(a::SymTuple, b::SymTuple)
     ntuple(length(a) - length(b)) do i
         n = 0
         for (j, ia) in pairs(a)
@@ -60,7 +60,7 @@ function tuplediff(a::Tuple{Vararg{Symbol}}, b::Tuple{Vararg{Symbol}})
     end
 end
 
-function tuplediff(a::Tuple{Vararg{Symbol}}, b::Tuple{Vararg{Symbol}})
+function tuplediff(a::SymTuple, b::SymTuple)
     ntuple(length(a) - length(b)) do i
         n = 0
         for (j, ia) in pairs(a)

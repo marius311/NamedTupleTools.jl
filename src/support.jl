@@ -1,4 +1,4 @@
-const SymTuple = Tuple{Vararg{Symbol}}
+
 
 gen_isin(x::SymTuple) = (∈)(x)
 gen_isnotin(x::SymTuple) = (∉)(x)
@@ -23,7 +23,7 @@ function uniquejoin(x, y)
     ys = y[[map(isnotin_x, y)...]]
     return (x..., ys...)
 end
-# Base.union(x::Tuple{Vararg{Symbol}}, y::Tuple{Vararg{Symbol}}) = uniquejoin(x,y)
+# Base.union(x::SymTuple, y::SymTuple) = uniquejoin(x,y)
 
 
 """
@@ -33,7 +33,7 @@ def:
 - intersect
 """ uniquemeet
 
-function uniquemeet(x::Tuple{Vararg{Symbol}}, y::Tuple{Vararg{Symbol}})
+function uniquemeet(x::SymTuple, y::SymTuple)
     isdisjoint(x, y) && return ()
     result = Symbol[]
     for s in x
@@ -120,7 +120,7 @@ julia>
 
 
 #=
-function tupleintersect(a::Tuple{Vararg{Symbol}}, b::Tuple{Vararg{Symbol}})
+function tupleintersect(a::SymTuple, b::SymTuple)
     ntuple(min(length(a),length(b))) do i
         n = 0
         for (j, ia) in pairs(a)
@@ -196,7 +196,7 @@ yields a tuple of symbols from `all` that are not in `without`
 from Jakob Nybo Nissen
 """ tuplediff
 
-function tuplediff(all::Tuple{Vararg{Symbol}}, without::Tuple{Vararg{Symbol}})
+function tuplediff(all::SymTuple, without::SymTuple)
     ntuple(length(all) - length(without)) do i
         n = 0
         for (j, ia) in pairs(all)

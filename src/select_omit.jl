@@ -9,12 +9,12 @@
     end
 end
 
-@inline function selectnames(nt::NamedTuple{N,T}, keepnames::Tuple{Vararg{Symbol}}) where {N,T}
+@inline function selectnames(nt::NamedTuple{N,T}, keepnames::SymTuple) where {N,T}
     ntnames = keys(nt)
     return filter(!isnothing, map(sym->occurs_in(sym, ntnames), keepnames))
 end
 
-function select(nt::NamedTuple{N,T}, keepnames::Tuple{Vararg{Symbol}}) where {N,T}
+function select(nt::NamedTuple{N,T}, keepnames::SymTuple) where {N,T}
     usenames = selectnames(nt, keepnames)
     return NamedTuple{usenames}(nt)
 end
@@ -23,7 +23,7 @@ end
 
 @inline not_occurs_in(needles, hay) = filter(straw -> !(straw in needles), hay)
 
-function omit(nt::NamedTuple{N,T}, omitnames::Tuple{Vararg{Symbol}}) where {N,T}
+function omit(nt::NamedTuple{N,T}, omitnames::SymTuple) where {N,T}
     keepnames = not_occurs_in(omitnames, N)
     NamedTuple{keepnames}(nt)
 end

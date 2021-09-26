@@ -43,6 +43,8 @@ const FastFieldsMax    = 64
 const ValNT = Val{NamedTuple}
 const NTT = ValNT()
 
+const SymTuple = Tuple{Vararg{Symbol}}
+
 include("support.jl")
 
 include("field_ops.jl")

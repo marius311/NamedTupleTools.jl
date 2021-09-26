@@ -42,7 +42,7 @@ restructure(::Type{NamedTuple}, @nospecialize x::T) where {T} =
     restructure_(Val(isstructtype(T)), NamedTuple, x)
 restructure_(::Val{false}, ::Type{NamedTuple}, @nospecialize x::T) where {T} =
     throw(ErrorException("Restructuring to a NamedTuple is not supported for $(typeof(x))."))
-function restructure_(::Val{true}, ::Type{NamedTuple}, x:::T) where {T}
+function restructure_(::Val{true}, ::Type{NamedTuple}, x::T) where {T}
     valuedfields = field_values(x)
     return restructure(NTT, x)(valuedfields)
 end
