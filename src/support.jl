@@ -6,14 +6,43 @@ gen_isnotin(x::SymTuple) = (∉)(x)
 gen_isin(x::SymTuple, y::SymTuple) = gen_isin( (x..., y...) )
 gen_isnotin(x::SymTuple, y::SymTuple) = gen_isnotin( (x..., y...) )
 
-function symmetricdiff(x::SymTuple, y::SymTuple)
-    isnotin_x = gen_isnotin(x)
-    ianotin_y = gen_isnotin(y)
+"""
+    uniquejoin
 
-    xs = x[[map(isnotin_y, x)...]]
+def:
+- union
+""" uniquejoin
+
+function uniquejoin(x, y)
+    isnotin_x = gen_isnotin(x)
+
     ys = y[[map(isnotin_x, y)...]]
-    return (xs..., ys...)
+    return (x..., ys...)
 end
+
+"""
+    uniquemeet
+
+def:
+- intersect
+""" uniquemeet
+
+function uniquemeet(syms1::Tuple{Vararg{Symbol}}, syms2::Tuple{Vararg{Symbol}})
+    result = Symbol[]
+    for s in syms1
+       if s in syms2
+           push!(result, s)
+       end
+   end
+   Tuple(result)
+end
+
+"""
+    relativediff
+
+def:
+- setdiff
+""" relativediff
 
 function relativediff(x::SymTuple, y::SymTuple)
     isnotin_y = gen_isnotin(y)
@@ -22,26 +51,36 @@ function relativediff(x::SymTuple, y::SymTuple)
     return xs
 end
 
-function tupleintersection(x::SymTuple, y::SymTuple)
-    isin_y = gen_isin(y)
+"""
+    symmetricdiff
 
-    xs = x[[map(isin_y, x)...]]
-    return xs
+def:
+- symmdiff
+- union without intersection
+""" symmetricdiff
+
+function symmetricdiff(x::SymTuple, y::SymTuple)
+    isnotin_x = gen_isnotin(x)
+    isnotin_y = gen_isnotin(y)
+
+    xs = x[[map(isnotin_y, x)...]]
+    ys = y[[map(isnotin_x, y)...]]
+    return (xs..., ys...)
 end
 
+
+"""
+    tuplejoin
+
+def:
+concatenation
+""" tuplejoin
 
 # fast, nonallocating tuplejoin by jameson
 @inline tuplejoin(x) = x
 @inline tuplejoin(x, y) = (x..., y...)
 @inline tuplejoin(x, y, z...) = (x..., tuplejoin(y, z...)...)
 
-
-function tupleunion(x, y)
-    isnotin_x = gen_isnotin(x)
-
-    ys = y[[map(isnotin_x, y)...]]
-    return (x..., ys...)
-end
 
 #=
 
@@ -63,39 +102,7 @@ julia> map(ti->map(x->iszero(xor(ti,x)), idsabc), idtabc)
 julia> 
 =#
 
-"""
-    tupleintersect
 
-""" tupleintersect
-
-function tupleintersect(syms1::NTuple{N1,Symbol}, syms2::NTuple{N2,Symbol}) where {N1, N2}
-    idxs = filter(!isnothing, findindex(syms1, syms2))
-    getindex.(Ref(syms2), idxs)
-end
-
-function tupleintersect(syms1::Tuple{Vararg{Symbol}}, syms2::Tuple{Vararg{Symbol}})
-    N = min(length(syms1), length(syms2))
-    result = Vector{Union{Symbol,Nothing}}(nothing, N)
-    i = 1
-    for s in syms1
-        if s in syms2
-            result[i] = s
-            i += 1
-        end
-    end
-    Tuple(filter(!isnothing, result))
-end
-
-
-function tupleintersect(syms1::NTuple{N1,Symbol}, syms2::NTuple{N2,Symbol}) where {N1, N2}
-     result = Symbol[]
-     for s in syms1
-        if s in syms2
-            push!(result, s)
-        end
-    end
-    Tuple(result)
-end
 
 
 
@@ -128,40 +135,6 @@ maps `unique` and preserves input data type with the result
 @inline uniquely(x::SymTuple) = Tuple(unique(x))
 uniquely(x::SymTuple, y::SymTuple) = (uniquely(x), uniquely(y))
 uniquely(x::SymTuple, ys::Vararg{SymTuple}) = (uniquely(x), uniquely.(ys))
-
-"""
-    orderedunion(x, y)
-
-The elements of x followed by the elements of y that are not shared with x.
-
-- x, y must have no repeated entries
-
-""" orderedunion
-
-function unsafe_orderedunion(x::SymTuple, y::SymTuple)
-    @nospecialize x y
-    Tuple(union(x, relativecomplement(y, x)))
-end
-
-orderedunion(x::SymTuple, y::SymTuple) =
-    unsafe_orderedunion(uniquely(x), uniquely(y))
-
-"""
-    sortedunion(x, y)
-
-like `sort(orderedunion(x, y))`
-
-- x, y must have no repeated entries
-
-""" sortedunion
-
-function unsafe_sortedunion(x::SymTuple, y::SymTuple)
-    @nospecialize x y
-    Tuple(sort(union(x, y)))
-end
-
-sortedunion(x::SymTuple, y::SymTuple) =
-    unsafe_sortedunion(uniquely(x), uniquely(y))
 
 """
     relativecomplement(within, without)
